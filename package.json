@@ -13,6 +13,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "@vueuse/core": "^11.1.0",
     "leaflet": "^1.9.4",
     "pinia": "^2.2.4",
