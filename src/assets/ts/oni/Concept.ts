@@ -30,6 +30,19 @@ export interface Image extends Media {
 
 type DescriptorFilter = (d: Descriptor) => boolean;
 
+export function accumulateNamesFromConcepts(concepts: Concept[]): string[] {
+  const names = concepts.reduce(
+    (acc, concept) => accumulateNamesFromConcept(concept, acc),
+    []
+  );
+  return [...new Set(names)].sort();
+}
+
+export function accumulateNamesFromConcept(concept: Concept, names: string[]) {
+  names.push(concept.name);
+  names.push(...(concept.alternateNames || []));
+  return names;
+}
 /** ****************************************************************************
  * When provided with a list of concept objects from the VARS oni, sorts them
  * by name and removes any objects that have duplicate names.
@@ -134,6 +147,11 @@ export class ConceptExt {
 
   constructor(concept: Concept) {
     this.concept = concept;
+  }
+
+  names(): string[] {
+    const allNames = accumulateNamesFromConcept(this.concept, []);
+    return [...new Set(allNames)].sort();
   }
 
   author(): string {

@@ -24,7 +24,7 @@ const cancel = () => {
 
 <template>
   <div id="configurationView">
-    <h1>Configuration View</h1>
+    <h1>Configuration</h1>
     <v-text-field
       id="url-field"
       label="URL"

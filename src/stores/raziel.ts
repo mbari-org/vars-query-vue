@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { type Ref, ref, watch } from 'vue'
+import { computed, type Ref, ref, watch } from 'vue'
 import { RazielApi } from '@/assets/ts/raziel/api'
 import type { ServerConfig } from '@/assets/ts/raziel/ConfigParser'
 

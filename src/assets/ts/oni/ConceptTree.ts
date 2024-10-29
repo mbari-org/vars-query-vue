@@ -8,6 +8,21 @@ export interface TaxaNode extends Taxa {
   children?: TaxaNode[];
 }
 
+export function accumulateNamesFromTaxaNodes(nodes: TaxaNode[]): string[] {
+  const names = nodes.reduce((acc, node) => accumulateNamesFromTaxaNode(node, acc), []);
+  return [...new Set(names)].sort()
+}
+
+export function accumulateNamesFromTaxaNode(node: TaxaNode, names: string[] = []): string[] {
+  names.push(node.name);
+  names.push(...(node.alternateNames || []));
+  if (node.children) {
+    node.children.forEach((child) => accumulateNamesFromTaxaNode(child, names));
+  }
+  return names;
+}
+
+
 /** ****************************************************************************
  * Extract the last concept node in a branch
  * @param node The root or concept. Should have a `children` property
