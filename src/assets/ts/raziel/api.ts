@@ -1,4 +1,3 @@
-import type { ServerConfig } from '@/assets/ts/raziel/ConfigParser'
 
 export interface ServerConfig {
   name: string;

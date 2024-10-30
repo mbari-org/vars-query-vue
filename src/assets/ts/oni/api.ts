@@ -1,5 +1,5 @@
-import type { Taxa, TaxaNode } from "@/assets/ts/oni/ConceptTree";
-import type { Concept, Image } from "@/assets/ts/oni/Concept";
+import { accumulateNamesFromTaxaNodes, type Taxa, type TaxaNode } from '@/assets/ts/oni/ConceptTree'
+import { accumulateNamesFromConcepts, type Concept, ConceptExt, type Image } from '@/assets/ts/oni/Concept'
 import { distinctConcepts } from "@/assets/ts/oni/Concept";
 
 
@@ -10,26 +10,6 @@ export class OniApi {
   constructor(oniUrl: string) {
     this.url = oniUrl
   }
-
-  // endpoints = {
-  //   concepts: {
-  //     find: this.url + "/concept/find/", // {glob}
-  //     findByName: this.url + "/concept/", // {concept}
-  //     findParent: this.url + "/concept/parent/", //{concept}
-  //     listAll: this.url + "/concept",
-  //     listChildren: this.url + "/concept/children/" // {concept}
-  //   },
-  //   dsg: {
-  //     images: this.url + "/dsg/images/representative/" // {concept}
-  //   },
-  //   phylogeny: {
-  //     listAncestors: this.url + "/phylogeny/basic/", // {concept}
-  //     listDescendants: this.url + "/phylogeny/taxa/", // {concept}
-  //     down: this.url + "/phylogeny/down/", // {concept}
-  //     siblings: this.url + "/phylogeny/siblings/", // {concept}
-  //     up: this.url + "/phylogeny/up/", // {concept}
-  //   },
-  // };
 
 
   findTree(name: string): Promise<TaxaNode> {
@@ -125,6 +105,35 @@ export class OniApi {
         mode: 'cors'
       })
       .then(r => r.json())
+  }
+
+  accumulateNames(concept: string, extendTo: string = ""): Promise<Array<string>> {
+    switch (extendTo) {
+      case "parent":
+        return this.findByConceptName(concept).then((thisConcept) => {
+          return this.findParentByConceptName(concept).then((parent) => accumulateNamesFromConcepts([thisConcept, parent]))
+        })
+        // return this.findParentByConceptName(concept).then((parent) => new ConceptExt(parent).names())
+      case "children":
+        return this.findByConceptName(concept).then((thisConcept) => {
+          return this.listChildren(concept).then((children) => {
+            children.push(thisConcept)
+            return accumulateNamesFromConcepts(children)
+          })
+        })
+      case "siblings":
+        // TODO This is broken. Oni is returning nodes with blank names
+        return this.findByConceptName(concept).then((thisConcept) => {
+          return this.findSiblings(concept).then((siblings) => {
+            siblings.push(thisConcept)
+            return accumulateNamesFromConcepts(siblings)
+          })
+        })
+      case "descendants":
+        return this.listDescendants(concept).then((descendants) =>  accumulateNamesFromTaxaNodes(descendants))
+      default:
+        return this.findByConceptName(concept).then((concept) => new ConceptExt(concept).names())
+    }
   }
 
 

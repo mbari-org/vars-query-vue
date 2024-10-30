@@ -15,7 +15,6 @@ export const useOniStore = defineStore('oni', () => {
     const oniApi = new OniApi(url.value)
     oniApi.listAllConcepts().then(conceptNames => {
       concepts.value = conceptNames
-      sessionStorage.setItem(ONI_CONCEPTS_KEY, JSON.stringify(conceptNames))
     })
     return oniApi
   })
