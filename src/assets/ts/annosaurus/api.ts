@@ -103,12 +103,15 @@ export class AnnosaurusApi {
     }).then(r => r.json())
   }
 
-  runUsingQuery(q: Query): Promise<string> {
+  runUsingQuery(q: Query): Promise<string[]> {
     return fetch(`${this.url}/query/run`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(q),
-    }).then(r => r.text())
+    }).then(r => r.text()
+        .then(t => t.split('\n'))
+        .then(xs => xs.map(x => x.trim()))
+        .then(xs => xs.filter(x => x && x !== "" && x !== "null")))
   }
 
   countUsingQuery(q: Query): Promise<Count> {
@@ -142,4 +145,36 @@ export class AnnosaurusApi {
     return []
 
   }
+
+  listActivities(): Promise<string[]> {
+    return fetch(`${this.url}/observations/activities`, {
+      mode: 'cors',
+    }).then(r => r.json())
+  }
+
+    listGroups(): Promise<string[]> {
+        return fetch(`${this.url}/observations/groups`, {
+            mode: 'cors',
+        }).then(r => r.json())
+    }
+
+    listObservers(): Promise<string[]> {
+        const query: Query = {
+            select: ['observer'],
+            distinct: true,
+            orderby: ['observer']
+        }
+        return this.runUsingQuery(query)
+    }
+
+    listChiefScientists(): Promise<string[]> {
+        const query: Query = {
+            select: ['chief_scientist'],
+            distinct: true,
+            orderby: ['chief_scientist']
+        }
+        return this.runUsingQuery(query)
+    }
+
+
 }

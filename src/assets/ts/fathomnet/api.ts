@@ -1,4 +1,5 @@
 import type { Count, GeoImage } from "@/assets/ts/fathomnet/GeoImage";
+import type { Region } from '@/assets/ts/fathomnet/Region'
 
 const fathomnetUrl = "https://fathomnet.org/api";
 const fathomnetEndpoints = {
@@ -96,4 +97,11 @@ export function imageCount(conceptName: string): Promise<Count> {
     mode: "cors",
     body: JSON.stringify({ concept: conceptName, taxaProviderName: "mbari" }),
   }).then((r) => r.json());
+
+}
+
+export function listRegions(): Promise<Region[]> {
+    return fetch(fathomnetEndpoints.regions.all, {
+        mode: "cors",
+    }).then((r) => r.json());
 }

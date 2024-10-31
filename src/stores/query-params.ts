@@ -103,3 +103,77 @@ export const useCameraPlatformStore = defineStore('cameraPlatform', () => {
 
     return { cameraPlatforms, add, remove, reset }
 })
+
+export const useActivitiesStore = defineStore('activities', () => {
+    const activities = ref([] as Array<string>)
+
+    function reset() {
+        activities.value = []
+    }
+
+    function remove(index: number) {
+        activities.value.splice(index, 1)
+    }
+
+    function add(activity: string) {
+        activities.value.push(activity)
+    }
+
+    return { activities, add, remove, reset }
+})
+
+export const useGroupsStore = defineStore('groups', () => {
+    const groups = ref([] as Array<string>)
+
+    function reset() {
+        groups.value = []
+    }
+
+    function remove(index: number) {
+        groups.value.splice(index, 1)
+    }
+
+    function add(group: string) {
+        groups.value.push(group)
+    }
+
+    return { groups, add, remove, reset }
+})
+
+export const useObserversStore = defineStore('observers', () => {
+    const observers = ref([] as Array<string>)
+
+    function reset() {
+        observers.value = []
+    }
+
+    function remove(index: number) {
+        observers.value.splice(index, 1)
+    }
+
+    function add(observer: string) {
+        observers.value.push(observer)
+    }
+
+    return { observers, add, remove, reset }
+})
+
+export const useChiefScientistsStore = defineStore('chiefScientists', () => {
+    const chiefScientists = ref([] as Array<string>)
+
+    function reset() {
+        chiefScientists.value = []
+    }
+
+    function remove(index: number) {
+        chiefScientists.value.splice(index, 1)
+    }
+
+    function add(chiefScientist: string) {
+        chiefScientists.value.push(chiefScientist)
+    }
+
+    return { chiefScientists, add, remove, reset }
+})
+
+

@@ -7,6 +7,8 @@ import {
     useSelectedConceptsStore, useVideoSequenceNameStore
 } from '@/stores/query-params'
 import DiveConstraint from '@/components/query/DiveConstraint.vue'
+import FieldConstraints from '@/components/query/FieldConstraints.vue'
+import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
 
 const associationsStore = useAssociationsStore()
 const selectedConceptsStore = useSelectedConceptsStore()
@@ -32,12 +34,20 @@ function runQuery() {
         <concept-constraint></concept-constraint>
         <association-constraint></association-constraint>
         <dive-constraint></dive-constraint>
+        <field-constraints></field-constraints>
+        <space-constraint></space-constraint>
         <div>
-            <v-btn
-                icon="mdi-search-web"
-                size="x-large"
-                @click="runQuery"
-            ></v-btn>
+            <v-container>
+                <v-row justify="end">
+                    <v-col cols="2">
+                        <v-btn
+                            icon="mdi-search-web"
+                            size="x-large"
+                            @click="runQuery"
+                        ></v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
         </div>
     </div>
 </template>
