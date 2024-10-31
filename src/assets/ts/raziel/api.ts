@@ -33,7 +33,7 @@ export function normalizeUrl(url: string): string {
   return url;
 }
 
-export function extractUrlFromConfig(name: string, config: Array<ServerConfig>): string {
+export function extractUrlFromConfig(name: string, config: Array<ServerConfig> | undefined): string {
   if (!config) {
     return "http://localhost:8080";
   }

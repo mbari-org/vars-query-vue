@@ -9,8 +9,9 @@ export interface TaxaNode extends Taxa {
 }
 
 export function accumulateNamesFromTaxaNodes(nodes: TaxaNode[]): string[] {
-  const names = nodes.reduce((acc, node) => accumulateNamesFromTaxaNode(node, acc), []);
-  return [...new Set(names)].sort()
+    const acc = [] as string[];
+    nodes.forEach((node) => accumulateNamesFromTaxaNode(node, acc));
+    return [...new Set(acc)].sort()
 }
 
 export function accumulateNamesFromTaxaNode(node: TaxaNode, names: string[] = []): string[] {

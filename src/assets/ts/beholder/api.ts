@@ -1,9 +1,14 @@
-import { beholder as beholderUrl } from "@/assets/ts/ConfigParser";
 
-const endpoints = {
-    capture: beholderUrl + "/capture"
-}
 
-export function capture(url: string, elapseTimeMillis: number) {
+export class BeholderApi {
+    url: string
 
+    constructor(beholderUrl: string) {
+        this.url = beholderUrl
+    }
+
+
+    capture(url: string, elapseTimeMillis: number) {
+
+    }
 }

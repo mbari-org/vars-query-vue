@@ -13,7 +13,7 @@ export class OniApi {
 
 
   findTree(name: string): Promise<TaxaNode> {
-    return treeUp(name);
+    return this.treeUp(name);
   }
 
   findAllContaining(glob: string): Promise<Concept[]> {
@@ -91,7 +91,7 @@ export class OniApi {
       .then(r => r.json())
   }
 
-  treeDown(concept = rootName): Promise<TaxaNode> {
+  treeDown(concept: string): Promise<TaxaNode> {
     return fetch(this.url + "/phylogeny/down/" + encodeURIComponent(concept),
       {
         mode: 'cors',
@@ -99,7 +99,7 @@ export class OniApi {
       .then(r => r.json())
   }
 
-  treeUp(concept = rootName): Promise<TaxaNode> {
+  treeUp(concept: string): Promise<TaxaNode> {
     return fetch(this.url + "/phylogeny/up/" + encodeURIComponent(concept),
       {
         mode: 'cors'

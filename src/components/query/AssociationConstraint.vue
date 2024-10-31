@@ -6,9 +6,7 @@ const associationsStore = useAssociationsStore()
 
 
 function addAssociation(event: Event) {
-    console.log("addAssociation")
-    console.log(event)
-    const association = document.getElementById("associationTextField").getAttribute("value")
+    const association = document?.getElementById("associationTextField")?.getAttribute("value")
     if (association) {
         associationsStore.add(association)
     }
@@ -18,7 +16,7 @@ function addAssociation(event: Event) {
 
 <template>
     <div>
-        <h2>Association</h2>
+<!--        <h2>Association</h2>-->
         <v-container>
             <v-row>
                 <v-col cols="6">

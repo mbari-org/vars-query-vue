@@ -42,7 +42,7 @@ function addItem(event: Event) {
 
 <template>
     <div>
-        <h2>Deployment</h2>
+<!--        <h2>Deployment</h2>-->
         <v-container>
             <v-row>
                 <v-col cols="6">

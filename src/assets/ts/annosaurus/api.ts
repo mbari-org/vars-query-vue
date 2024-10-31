@@ -77,11 +77,14 @@ export class AnnosaurusApi {
     return this.executeQuery(
       `${this.url}/analysis/histogram/time?size=${size}`,
       q,
-    ).then(hist => {
+    ).then(response => {
+        const queryResponse = response as QueryResponse<TimeHistogram>
+        const hist = queryResponse.content
+
       // @ts-ignore
-      const mins = hist.bins_min.map(s => Date.parse(s))
+      const mins: Date[] = hist.bins_min.map(s => new Date(Date.parse(s)))
       // @ts-ignore
-      const maxs = hist.bins_max.map(s => Date.parse(s))
+      const maxs: Date[] = hist.bins_max.map(s => new Date(Date.parse(s)))
       // @ts-ignore
       // @ts-ignore
       return {
@@ -130,13 +133,12 @@ export class AnnosaurusApi {
       q.limit = pageSize
       q.offset = pageSize * i
       const xs = await this.runUsingQuery(q)
-      const newRows = xs.split('\n')
       if (i === 0) {
-        rows.push(...newRows)
+        rows.push(...xs)
       }
       else {
         // Drop the header row from subsequent pages
-        const [head, ...tail] = newRows
+        const [head, ...tail] = xs
         rows.push(...tail)
       }
     }

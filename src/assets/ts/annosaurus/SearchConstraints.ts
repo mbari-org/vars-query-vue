@@ -1,6 +1,6 @@
-import { newEmptyQueryConstraint, QueryConstraints } from "@/assets/ts/annosaurus/QueryConstraints";
+import { newEmptyQueryConstraint, type QueryConstraints } from "@/assets/ts/annosaurus/QueryConstraints";
 import  * as kbApi  from "@/assets/ts/oni/api";
-import { listDescendants } from "@/assets/ts/oni/api";
+import { useOniStore } from '@/stores/oni'
 
 export interface ConceptConstraints {
   concept?: string;
@@ -32,70 +32,32 @@ export function newEmptySearchConstraints(): SearchConstraints {
  *         searchConstraints
  */
 function searchConstraintToConceptNames(searchConstraint: SearchConstraints): Promise<string[]> {
-  if (searchConstraint.conceptConstraints !== undefined && searchConstraint.conceptConstraints.length > 0) {
-    const promises = searchConstraint.conceptConstraints.map(cc => {
-      if (cc.concept) {
-        const constraintPromises = [Promise.resolve([cc.concept])];
-        if (cc.extendToDescendant) {
-          /*
-            [
-              {
-                "name": "Nanomia",
-                "rank": "genus"
-              },
-              ...
-            ]
-           */
-          constraintPromises.push(listDescendants(cc.concept)
-            .then(taxa => taxa.map(t => t.name)))
-        }
-        if (cc.extendToParent) {
-          /*
-            {
-              "name": "Agalmatidae",
-              "alternateNames": [
-                "Agalmidae"
-              ],
-              ...
-            }
-          */
-          constraintPromises.push(kbApi.findParentByConceptName(cc.concept)
-            .then(taxaNode => {
-              const names = [taxaNode.name];
-              if (taxaNode.alternateNames && taxaNode.alternateNames.length > 0) {
-                names.push(taxaNode.alternateNames);
-              }
-              return names;
-            }))
-        }
-        if (cc.extendToSiblings) {
-          constraintPromises.push(kbApi.findSiblings(cc.concept)
-            .then(taxaNodes => {
-              const names: string[] = [];
-              taxaNodes.forEach(taxaNode => {
-                names.push(taxaNode.name)
-                if (taxaNode.alternateNames && taxaNode.alternateNames.length > 0) {
-                  names.push(taxaNode.alternateNames);
+    const api = useOniStore().api;
+    if (api && searchConstraint.conceptConstraints !== undefined && searchConstraint.conceptConstraints.length > 0) {
+
+        const constraintPromises: Array<Promise<string[]>> = []
+        for (const cc of searchConstraint.conceptConstraints) {
+            if (cc.concept) {
+                constraintPromises.push(api.accumulateNames(cc.concept));
+                if (cc.extendToParent) {
+                    constraintPromises.push(api.accumulateNames(cc.concept, "parent"));
                 }
-              })
-              return names
-            }))
+                if (cc.extendToDescendant) {
+                    constraintPromises.push(api.accumulateNames(cc.concept, "descendant"));
+                }
+                if (cc.extendToSiblings) {
+                    constraintPromises.push(api.accumulateNames(cc.concept, "siblings"));
+                }
+            }
         }
         return Promise.all(constraintPromises)
-          .then(xs => [cc.concept].concat(xs).flat()) // Concat/Flatten arrays
-          .then(xs => [...new Set(xs)]) // get unique values
-      }
-      else {
-        return Promise.resolve([]);
-      }
-    })
-    return Promise.all(promises)
-      .then(xs => [].concat(xs).flat()) // Concat/Flatten arrays
-      .then(xs => [...new Set(xs)]) // get unique values
-  }
-  else {
-    return Promise.resolve([]);
-  }
+            .then(xs => xs.flat()) // Concat/Flatten arrays
+            .then(xs => [...new Set(xs)]) // get unique values
+
+    }
+    else {
+        return Promise.resolve([])
+    }
 }
 
 export function searchConstraintToQueryConstraint(searchConstraint: SearchConstraints): Promise<QueryConstraints> {

@@ -12,8 +12,8 @@ const extendTo = ref(["", "parent", "children", "siblings", "descendants"])
 function addConcept(event: Event) {
     console.log("addConcept")
     console.log(event)
-    const concept = document.getElementById("conceptAutocomplete").getAttribute("value")
-    const extendTo = document.getElementById("extendToCombobox").getAttribute("value") || ""
+    const concept = document?.getElementById("conceptAutocomplete")?.getAttribute("value")
+    const extendTo = document?.getElementById("extendToCombobox")?.getAttribute("value") ?? ""
     if (concept) {
         selectedConceptsStore.add(concept, extendTo)
     }
@@ -22,7 +22,7 @@ function addConcept(event: Event) {
 
 <template>
     <div>
-        <h2>Concept</h2>
+<!--        <h2>Concept</h2>-->
         <v-container>
             <v-row>
                 <v-col cols="6">

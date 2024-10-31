@@ -26,7 +26,11 @@ const router = createRouter({
       path: '/query',
       name: 'query',
       component: () => import('../views/query/QueryView.vue'),
-    }
+    },
+      {
+          path: '/:catchAll(.*)',
+          redirect: '/query',
+      },
   ],
 })
 

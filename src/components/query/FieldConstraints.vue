@@ -13,10 +13,10 @@ const chiefScientistsStore = useChiefScientistsStore()
 
 <template>
     <div>
-        <h2>Additional Constraints</h2>
+<!--        <h2>Additional Constraints</h2>-->
         <v-container>
             <v-row>
-                <v-col cols="10">
+                <v-col cols="6">
                     <v-autocomplete
                         clearable
                         chips
@@ -26,7 +26,7 @@ const chiefScientistsStore = useChiefScientistsStore()
                         multiple
                     ></v-autocomplete>
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="6">
                     <v-autocomplete
                         clearable
                         chips
@@ -36,7 +36,7 @@ const chiefScientistsStore = useChiefScientistsStore()
                         multiple
                     ></v-autocomplete>
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="6">
                     <v-autocomplete
                         clearable
                         chips
@@ -46,7 +46,7 @@ const chiefScientistsStore = useChiefScientistsStore()
                         multiple
                     ></v-autocomplete>
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="6">
                     <v-autocomplete
                         clearable
                         chips
@@ -55,6 +55,19 @@ const chiefScientistsStore = useChiefScientistsStore()
                         :items=annosaurusStore.chiefScientists
                         multiple
                     ></v-autocomplete>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-checkbox label="Images only"><v-tooltip activator="parent" location="bottom">Only return annotations with a frame-grab</v-tooltip></v-checkbox>
+                </v-col>
+                <v-col>
+                    <v-checkbox label="Concurrent annotations">
+                        <v-tooltip activator="parent" location="bottom">Annotations on the same video frame as the ones returned by the search</v-tooltip>
+                    </v-checkbox>
+                </v-col>
+                <v-col>
+                    <v-checkbox label="Related associations"><v-tooltip activator="parent" location="bottom">All associations on the annotations returned in the search</v-tooltip></v-checkbox>
                 </v-col>
             </v-row>
         </v-container>

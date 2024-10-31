@@ -1,12 +1,32 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useOniStore } from '@/stores/oni'
+import type { Region } from '@/assets/ts/fathomnet/Region'
+import type { ColumnConstraint } from '@/assets/ts/annosaurus/Query'
 
 
 export interface SelectedConcept {
     concept: string
     extendTo: string
     conceptNames: Array<string>
+}
+
+export interface TimeBounds {
+    startTimestamp: Date | null
+    endTimestamp: Date | null
+}
+
+export function resetStores() {
+    useActivitiesStore().reset()
+    useAssociationsStore().reset()
+    useCameraPlatformStore().reset()
+    useChiefScientistsStore().reset()
+    useGroupsStore().reset()
+    useObserversStore().reset()
+    useRegionStore().reset()
+    useSelectedConceptsStore().reset()
+    useTimeStore().reset()
+    useVideoSequenceNameStore().reset()
 }
 
 export const useSelectedConceptsStore = defineStore('selectedConcepts', () => {
@@ -33,7 +53,24 @@ export const useSelectedConceptsStore = defineStore('selectedConcepts', () => {
         selectedConcepts.value.splice(index, 1)
     }
 
-    return { selectedConcepts, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+
+        if (selectedConcepts.value.length === 0) {
+            const names = [] as Array<string>
+            selectedConcepts.value.forEach((selectedConcept) => {
+                names.push(...selectedConcept.conceptNames)
+            })
+            // return distinct names
+            const distinctNames = Array.from(new Set(names))
+            return [{
+                column: 'concept',
+                in: distinctNames
+            }]
+        }
+        return []
+    }
+
+    return { selectedConcepts, add, remove, reset, buildColumnConstraints }
 })
 
 export const useAssociationsStore = defineStore('association', () => {
@@ -77,7 +114,21 @@ export const useVideoSequenceNameStore = defineStore('videoSequenceName', () => 
         videoSequenceNames.value.push(videoSequenceName)
     }
 
-    return { videoSequenceNames, add, remove, reset }
+    /**
+     * Build the column constraints for the query. This is used to filter the results based on the selected dive or
+     * video platform names. Note that only one or the other can be selected at a time.
+     */
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (videoSequenceNames.value.length > 0) {
+            return [{
+                column: 'video_sequence_name',
+                in: videoSequenceNames.value
+            }]
+        }
+        return []
+    }
+
+    return { videoSequenceNames, add, remove, reset, buildColumnConstraints }
 })
 
 /**
@@ -101,7 +152,17 @@ export const useCameraPlatformStore = defineStore('cameraPlatform', () => {
         cameraPlatforms.value.push(cameraPlatform)
     }
 
-    return { cameraPlatforms, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (cameraPlatforms.value.length > 0) {
+            return [{
+                column: 'camera_platform',
+                in: cameraPlatforms.value
+            }]
+        }
+        return []
+    }
+
+    return { cameraPlatforms, add, remove, reset, buildColumnConstraints }
 })
 
 export const useActivitiesStore = defineStore('activities', () => {
@@ -119,7 +180,17 @@ export const useActivitiesStore = defineStore('activities', () => {
         activities.value.push(activity)
     }
 
-    return { activities, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (activities.value.length > 0) {
+            return [{
+                column: 'activity',
+                in: activities.value
+            }]
+        }
+        return []
+    }
+
+    return { activities, add, remove, reset, buildColumnConstraints }
 })
 
 export const useGroupsStore = defineStore('groups', () => {
@@ -137,7 +208,17 @@ export const useGroupsStore = defineStore('groups', () => {
         groups.value.push(group)
     }
 
-    return { groups, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (groups.value.length > 0) {
+            return [{
+                column: 'group',
+                in: groups.value
+            }]
+        }
+        return []
+    }
+
+    return { groups, add, remove, reset, buildColumnConstraints }
 })
 
 export const useObserversStore = defineStore('observers', () => {
@@ -155,7 +236,17 @@ export const useObserversStore = defineStore('observers', () => {
         observers.value.push(observer)
     }
 
-    return { observers, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (observers.value.length > 0) {
+            return [{
+                column: 'observer',
+                in: observers.value
+            }]
+        }
+        return []
+    }
+
+    return { observers, add, remove, reset, buildColumnConstraints }
 })
 
 export const useChiefScientistsStore = defineStore('chiefScientists', () => {
@@ -173,7 +264,104 @@ export const useChiefScientistsStore = defineStore('chiefScientists', () => {
         chiefScientists.value.push(chiefScientist)
     }
 
-    return { chiefScientists, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (chiefScientists.value.length > 0) {
+            return [{
+                column: 'chief_scientist',
+                in: chiefScientists.value
+            }]
+        }
+        return []
+    }
+
+    return { chiefScientists, add, remove, reset, buildColumnConstraints }
+})
+
+export const useRegionStore = defineStore('region', () => {
+    const bounds = ref({ minLatitude: null, maxLatitude: null, minLongitude: null, maxLongitude: null, minDepth: null, maxDepth: null } as Region)
+
+    function reset() {
+        bounds.value = { minLatitude: null, maxLatitude: null, minLongitude: null, maxLongitude: null, minDepth: null, maxDepth: null }
+    }
+
+    function setBounds(region: Region) {
+        // copy the region object to avoid reactivity issues
+        bounds.value = { ...region }
+    }
+
+    function setMinDepth(minDepth: number) {
+        bounds.value.minDepth = minDepth
+    }
+
+    function setMaxDepth(maxDepth: number) {
+        bounds.value.maxDepth = maxDepth
+    }
+
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        const constraints = [] as Array<ColumnConstraint>
+        if (bounds.value.minLatitude !== null) {
+            constraints.push({ column: 'latitude', min: bounds.value.minLatitude })
+        }
+        if (bounds.value.maxLatitude !== null) {
+            constraints.push({ column: 'latitude', max: bounds.value.maxLatitude })
+        }
+        if (bounds.value.minLongitude !== null) {
+            constraints.push({ column: 'longitude', min: bounds.value.minLongitude })
+        }
+        if (bounds.value.maxLongitude !== null) {
+            constraints.push({ column: 'longitude', max: bounds.value.maxLongitude })
+        }
+        if (bounds.value.minDepth !== null) {
+            constraints.push({ column: 'depth', min: bounds.value.minDepth })
+        }
+        if (bounds.value.maxDepth !== null) {
+            constraints.push({ column: 'depth', max: bounds.value.maxDepth })
+        }
+        return constraints
+    }
+
+
+    return { bounds, setBounds, reset, setMinDepth, setMaxDepth, buildColumnConstraints }
+})
+
+export const useTimeStore = defineStore('time', () => {
+    const bounds = ref({
+        startTimestamp: null,
+        endTimestamp:  null
+    } as TimeBounds)
+
+    function reset() {
+        bounds.value = {
+            startTimestamp: null,
+            endTimestamp: null
+        }
+    }
+
+    function setStartTimestamp(startTimestamp: Date) {
+        bounds.value.startTimestamp = startTimestamp
+    }
+
+    function setEndTimestamp(endTimestamp: Date) {
+        bounds.value.endTimestamp = endTimestamp
+    }
+
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+
+        let startTimestamp = bounds.value.startTimestamp
+        let endTimestamp = bounds.value.endTimestamp
+        if (startTimestamp === null) {
+            startTimestamp = new Date("1900-01-01T00:00:00Z")
+        }
+        if (endTimestamp === null) {
+            endTimestamp = new Date(Date.now())
+        }
+        return [{
+            column: 'index_recorded_timestamp',
+            between: [startTimestamp.toISOString(), endTimestamp.toISOString()]
+        }]
+    }
+
+    return { bounds, setStartTimestamp, setEndTimestamp, reset, buildColumnConstraints }
 })
 
 
