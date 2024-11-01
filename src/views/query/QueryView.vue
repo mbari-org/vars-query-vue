@@ -6,6 +6,8 @@ import DiveConstraint from '@/components/query/DiveConstraint.vue'
 import FieldConstraints from '@/components/query/FieldConstraints.vue'
 import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
 import TimeConstraint from '@/components/query/TimeConstraint.vue'
+import { useAnnosaurusStore } from '@/stores/annosaurus'
+import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 
 function reset() {
     resetStores()
@@ -13,6 +15,9 @@ function reset() {
 
 function runQuery() {
     console.log('runQuery')
+    const annosaurusApi = useAnnosaurusStore().api
+    const queryRunner = new QueryRunner(annosaurusApi)
+    queryRunner.runQuery()
 }
 </script>
 

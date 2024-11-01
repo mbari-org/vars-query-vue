@@ -16,6 +16,33 @@ export interface TimeBounds {
     endTimestamp: Date | null
 }
 
+export function buildColumnConstraints(): Array<ColumnConstraint> {
+    const constraints = [] as Array<ColumnConstraint>
+    const selectedConcepts = useSelectedConceptsStore().buildColumnConstraints()
+    // const associations = useAssociationsStore().buildColumnConstraints()
+    const cameraPlatforms = useCameraPlatformStore().buildColumnConstraints()
+    const videoSequenceNames = useVideoSequenceNameStore().buildColumnConstraints()
+    const activities = useActivitiesStore().buildColumnConstraints()
+    const groups = useGroupsStore().buildColumnConstraints()
+    const observers = useObserversStore().buildColumnConstraints()
+    const chiefScientists = useChiefScientistsStore().buildColumnConstraints()
+    const region = useRegionStore().buildColumnConstraints()
+    const time = useTimeStore().buildColumnConstraints()
+
+    constraints.push(...selectedConcepts)
+    // constraints.push(...associations)
+    constraints.push(...cameraPlatforms)
+    constraints.push(...videoSequenceNames)
+    constraints.push(...activities)
+    constraints.push(...groups)
+    constraints.push(...observers)
+    constraints.push(...chiefScientists)
+    constraints.push(...region)
+    constraints.push(...time)
+
+    return constraints
+}
+
 export function resetStores() {
     useActivitiesStore().reset()
     useAssociationsStore().reset()
@@ -55,7 +82,7 @@ export const useSelectedConceptsStore = defineStore('selectedConcepts', () => {
 
     function buildColumnConstraints(): Array<ColumnConstraint> {
 
-        if (selectedConcepts.value.length === 0) {
+        if (selectedConcepts.value.length !== 0) {
             const names = [] as Array<string>
             selectedConcepts.value.forEach((selectedConcept) => {
                 names.push(...selectedConcept.conceptNames)
@@ -90,7 +117,30 @@ export const useAssociationsStore = defineStore('association', () => {
         associations.value.splice(index, 1)
     }
 
-    return { associations: associations, exactMatch, useAnd, add, remove, reset }
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+
+        if (associations.value.length > 0) {
+
+            if (exactMatch.value && useAnd.value) {
+                return [{
+                    column: 'associations',
+                    in: associations.value
+                }]
+            }
+            else {
+                return associations.value.map((association) => {
+                    return {
+                        column: 'associations',
+                        contains: association
+                    }
+                })
+            }
+
+        }
+        return []
+    }
+
+    return { associations: associations, exactMatch, useAnd, add, remove, reset, buildColumnConstraints }
 })
 
 /**
@@ -349,6 +399,9 @@ export const useTimeStore = defineStore('time', () => {
 
         let startTimestamp = bounds.value.startTimestamp
         let endTimestamp = bounds.value.endTimestamp
+        if (startTimestamp === null && endTimestamp === null) {
+            return []
+        }
         if (startTimestamp === null) {
             startTimestamp = new Date("1900-01-01T00:00:00Z")
         }

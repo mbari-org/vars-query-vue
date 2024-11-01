@@ -144,7 +144,7 @@ export class AnnosaurusApi {
     }
 
     // TODO assemble annotations from rows
-    return []
+    return rows
 
   }
 
