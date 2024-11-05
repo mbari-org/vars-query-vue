@@ -43,6 +43,10 @@ export function buildColumnConstraints(): Array<ColumnConstraint> {
     return constraints
 }
 
+export function buildSelect(): Array<string> {
+    return useSelectedColumnsStore().buildSelect()
+}
+
 export function resetStores() {
     useActivitiesStore().reset()
     useAssociationsStore().reset()
@@ -54,6 +58,7 @@ export function resetStores() {
     useSelectedConceptsStore().reset()
     useTimeStore().reset()
     useVideoSequenceNameStore().reset()
+    useSelectedColumnsStore().reset()
 }
 
 export const useSelectedConceptsStore = defineStore('selectedConcepts', () => {
@@ -261,7 +266,7 @@ export const useGroupsStore = defineStore('groups', () => {
     function buildColumnConstraints(): Array<ColumnConstraint> {
         if (groups.value.length > 0) {
             return [{
-                column: 'group',
+                column: 'observation_group',
                 in: groups.value
             }]
         }
@@ -415,6 +420,42 @@ export const useTimeStore = defineStore('time', () => {
     }
 
     return { bounds, setStartTimestamp, setEndTimestamp, reset, buildColumnConstraints }
+})
+
+export const useSelectedColumnsStore = defineStore('selectedColumns', () => {
+
+    const defaultColumns: string[] = [
+        "concept",
+        "depth_meters",
+        "image_url",
+        "imaged_moment_uuid",
+        "index_elapsed_time_millis",
+        "index_recorded_timestamp",
+        "latitude",
+        "longitude",
+        "observation_group",
+        "observation_uuid",
+        "observer",
+        "video_sequence_name",
+        "video_uri"
+    ]
+
+    const selectedColumns = ref(defaultColumns)
+
+
+    function reset() {
+        setColumns(defaultColumns)
+    }
+
+    function setColumns(columns: Array<string>) {
+        selectedColumns.value = columns
+    }
+
+    function buildSelect(): Array<string> {
+        return selectedColumns.value
+    }
+
+    return { selectableColumns: selectedColumns, setColumns, reset, buildSelect }
 })
 
 

@@ -27,6 +27,10 @@ export const useAnnosaurusStore = defineStore('annosaurus', () => {
         return api.value.listChiefScientists()
     })
 
-    return {url, api, activities, groups, observers, chiefScientists}
+    const selectableColumns = computedAsync(async () => {
+        return (await api.value.lisQueryColumns()).map((column) => column.columnName)
+    })
+
+    return {url, api, activities, groups, observers, chiefScientists, selectableColumns}
 
 })

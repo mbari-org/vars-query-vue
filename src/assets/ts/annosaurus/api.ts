@@ -13,6 +13,7 @@ import type {
   TimeHistogram,
 } from './QueryResponse'
 import type { Query } from '@/assets/ts/annosaurus/Query'
+import type { QueryColumns } from '@/assets/ts/annosaurus/QueryColumns'
 
 export class AnnosaurusApi {
 
@@ -125,7 +126,7 @@ export class AnnosaurusApi {
     }).then(r => r.json())
   }
 
-  async pageUsingQuery(q: Query, pageSize: number): Promise<Annotation[]> {
+  async pageUsingQuery(q: Query, pageSize: number): Promise<string[]> {
     const rows = [] as string[]
     const n = await this.countUsingQuery(q)
     const pages = Math.ceil(n.count / pageSize)
@@ -146,6 +147,12 @@ export class AnnosaurusApi {
     // TODO assemble annotations from rows
     return rows
 
+  }
+
+  lisQueryColumns(): Promise<QueryColumns[]> {
+    return fetch(`${this.url}/query/columns`, {
+      mode: 'cors',
+    }).then(r => r.json())
   }
 
   listActivities(): Promise<string[]> {

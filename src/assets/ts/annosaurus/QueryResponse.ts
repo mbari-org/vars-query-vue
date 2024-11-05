@@ -72,13 +72,13 @@ export interface ImageReference {
 export interface Annotation {
   uuid: string;
   concept: string;
-  observer: string;
-  observation_timestamp: string;
+  observer?: string;
+  observation_timestamp?: string;
   video_reference_uuid: string;
   imaged_moment_uuid: string;
   recorded_timestamp?: string;
-  timecode: string;
-  elapsed_time_millis: number;
+  timecode?: string;
+  elapsed_time_millis?: number;
   group?: string;
   activity?: string;
   ancillary_data?: AncillaryData;

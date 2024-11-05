@@ -8,6 +8,7 @@ import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
 import TimeConstraint from '@/components/query/TimeConstraint.vue'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
+import Selections from '@/components/query/Selections.vue'
 
 function reset() {
     resetStores()
@@ -61,6 +62,8 @@ function runQuery() {
         <time-constraint></time-constraint>
         <v-divider></v-divider>
         <field-constraints></field-constraints>
+        <v-divider></v-divider>
+        <selections></selections>
 
 <!--        <div>-->
 <!--            <v-container>-->
