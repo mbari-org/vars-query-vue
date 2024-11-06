@@ -149,7 +149,7 @@ export class AnnosaurusApi {
 
   }
 
-  lisQueryColumns(): Promise<QueryColumns[]> {
+  listQueryColumns(): Promise<QueryColumns[]> {
     return fetch(`${this.url}/query/columns`, {
       mode: 'cors',
     }).then(r => r.json())

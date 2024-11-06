@@ -51,7 +51,8 @@ export class QueryRunner {
         if (associationConstraints.length > 0) {
             if (!associationStore.useAnd) {
                 return associationConstraints.map(c => {
-                    const copy = structuredClone(query)
+                    // const copy = structuredClone(query)
+                    const copy = JSON.parse(JSON.stringify(query))
                     copy.where.push(c)
                     return copy
                 })

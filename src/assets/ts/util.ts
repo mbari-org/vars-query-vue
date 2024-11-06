@@ -18,3 +18,30 @@ export function tabDelimitedToObject(lines: string[]): Record<string, string | n
 
     return data;
 }
+
+
+export function groupBy<T, K>(array: T[], keyMapper: (item: T) => K): Map<K, T[]> {
+    const groupedMap = new Map<K, T[]>();
+
+    array.forEach(item => {
+        const key = keyMapper(item);
+        const group = groupedMap.get(key);
+
+        if (group) {
+            group.push(item);
+        } else {
+            groupedMap.set(key, [item]);
+        }
+    });
+
+    return groupedMap;
+}
+
+export function extractJpgOrFirstUrl(images: string[] | undefined): string | undefined {
+    if (!images) {
+        return undefined;
+    }
+
+    const jpgUrl = images.find(url => url.endsWith('.jpg'));
+    return jpgUrl || images[0];
+}

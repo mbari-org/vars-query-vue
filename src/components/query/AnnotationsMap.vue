@@ -8,7 +8,7 @@ import { computed, createApp, h, onMounted, ref, watch, getCurrentInstance, type
 import { useQueryResultsStore } from '@/stores/query-results'
 import {
     formatBoundsForLeaflet,
-    GeoQueryResult,
+    GeoFauxAnnotation,
     geoQueryResultsViewBounds,
     type MapViewBounds
 } from '@/assets/ts/annosaurus/QueryResults'
@@ -47,8 +47,7 @@ onMounted(() => {
 
 const queryResultsStore = useQueryResultsStore()
 
-const geoAnnotations = computed(() => queryResultsStore.queryResults
-    .map(a => new GeoQueryResult(a))
+const geoAnnotations = computed(() => queryResultsStore.annotations
     .filter(g => g.hasValidPosition()))
 
 watch(geoAnnotations, redraw, { immediate: true })
@@ -79,7 +78,7 @@ function redraw() {
                 marker.on({
                     mouseover: () => marker.openPopup(),
                     mouseout: () => marker.closePopup(),
-                    click: () => emit('selected-annotation', a.queryResult)
+                    click: () => emit('selected-annotation', a.annotation)
                 })
             }
         })

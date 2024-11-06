@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import { computed } from 'vue'
-import { GeoQueryResult } from '@/assets/ts/annosaurus/QueryResults'
+import { GeoFauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
 
 const props = defineProps({
-    annotation: GeoQueryResult
+    annotation: GeoFauxAnnotation
 })
 
 const image = computed(() => {
