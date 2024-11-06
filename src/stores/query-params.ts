@@ -28,6 +28,7 @@ export function buildColumnConstraints(): Array<ColumnConstraint> {
     const chiefScientists = useChiefScientistsStore().buildColumnConstraints()
     const region = useRegionStore().buildColumnConstraints()
     const time = useTimeStore().buildColumnConstraints()
+    const imagesOnly = useDecoratorsStore().buildColumnConstraints()
 
     constraints.push(...selectedConcepts)
     // constraints.push(...associations)
@@ -39,6 +40,7 @@ export function buildColumnConstraints(): Array<ColumnConstraint> {
     constraints.push(...chiefScientists)
     constraints.push(...region)
     constraints.push(...time)
+    constraints.push(...imagesOnly)
 
     return constraints
 }
@@ -59,6 +61,7 @@ export function resetStores() {
     useTimeStore().reset()
     useVideoSequenceNameStore().reset()
     useSelectedColumnsStore().reset()
+    useDecoratorsStore().reset()
 }
 
 export const useSelectedConceptsStore = defineStore('selectedConcepts', () => {
@@ -336,7 +339,7 @@ export const useRegionStore = defineStore('region', () => {
     const bounds = ref({ minLatitude: null, maxLatitude: null, minLongitude: null, maxLongitude: null, minDepth: null, maxDepth: null } as Region)
 
     function reset() {
-        bounds.value = { minLatitude: null, maxLatitude: null, minLongitude: null, maxLongitude: null, minDepth: null, maxDepth: null }
+        bounds.value = { minLatitude: null, maxLatitude: null, minLongitude: null, maxLongitude: null, minDepth: null, maxDepth: null } as Region
     }
 
     function setBounds(region: Region) {
@@ -354,22 +357,23 @@ export const useRegionStore = defineStore('region', () => {
 
     function buildColumnConstraints(): Array<ColumnConstraint> {
         const constraints = [] as Array<ColumnConstraint>
-        if (bounds.value.minLatitude !== null) {
+        if (bounds.value.minLatitude !== undefined && bounds.value.minLatitude !== null) {
             constraints.push({ column: 'latitude', min: bounds.value.minLatitude })
         }
-        if (bounds.value.maxLatitude !== null) {
+        if (bounds.value.maxLatitude !== undefined && bounds.value.maxLatitude !== null) {
             constraints.push({ column: 'latitude', max: bounds.value.maxLatitude })
         }
-        if (bounds.value.minLongitude !== null) {
+        if (bounds.value.minLongitude !== undefined && bounds.value.minLongitude !== null) {
             constraints.push({ column: 'longitude', min: bounds.value.minLongitude })
         }
-        if (bounds.value.maxLongitude !== null) {
+        if (bounds.value.maxLongitude !== undefined && bounds.value.maxLongitude !== null) {
             constraints.push({ column: 'longitude', max: bounds.value.maxLongitude })
         }
-        if (bounds.value.minDepth !== null) {
+        if (bounds.value.minDepth !== undefined && bounds.value.minDepth !== null) {
+            console.log("minDepth", bounds.value.minDepth)
             constraints.push({ column: 'depth', min: bounds.value.minDepth })
         }
-        if (bounds.value.maxDepth !== null) {
+        if (bounds.value.maxDepth !== undefined && bounds.value.maxDepth !== null) {
             constraints.push({ column: 'depth', max: bounds.value.maxDepth })
         }
         return constraints
@@ -456,6 +460,32 @@ export const useSelectedColumnsStore = defineStore('selectedColumns', () => {
     }
 
     return { selectableColumns: selectedColumns, setColumns, reset, buildSelect }
+})
+
+export const useDecoratorsStore = defineStore('decorators', () => {
+
+    const imagesOnly = ref(false)
+    const concurrentObservations = ref(false)
+    const relatedAssociations = ref(false)
+
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+        if (imagesOnly.value) {
+            return [{
+                column: 'image_url',
+                isnull: false
+            }]
+        }
+        return []
+    }
+
+    function reset() {
+        imagesOnly.value = false
+        concurrentObservations.value = false
+        relatedAssociations.value = false
+    }
+
+    return { imagesOnly, concurrentObservations, relatedAssociations, reset, buildColumnConstraints }
+
 })
 
 

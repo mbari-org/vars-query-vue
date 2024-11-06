@@ -2,7 +2,7 @@ import type { AnnosaurusApi } from '@/assets/ts/annosaurus/api'
 import {
     buildColumnConstraints,
     buildSelect,
-    useAssociationsStore,
+    useAssociationsStore, useDecoratorsStore,
     useSelectedColumnsStore
 } from '@/stores/query-params'
 import type { Query } from '@/assets/ts/annosaurus/Query'
@@ -35,7 +35,7 @@ export class QueryRunner {
 
     buildQueries(): Array<Query> {
 
-
+        const decoratorStore = useDecoratorsStore()
         const selectedColumns = buildSelect()
         console.log(selectedColumns)
         const wheres = buildColumnConstraints()
@@ -43,7 +43,9 @@ export class QueryRunner {
             select: selectedColumns,
             where: wheres,
             distinct: true,
-            strict: false
+            strict: false,
+            concurrentObservations: decoratorStore.concurrentObservations,
+            relatedAssociations: decoratorStore.relatedAssociations,
         }
         // console.log(query)
         const associationStore = useAssociationsStore()

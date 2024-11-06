@@ -1,13 +1,20 @@
 <script setup lang="ts">
 
 import { useAnnosaurusStore } from '@/stores/annosaurus'
-import { useActivitiesStore, useChiefScientistsStore, useGroupsStore, useObserversStore } from '@/stores/query-params'
+import {
+    useActivitiesStore,
+    useChiefScientistsStore,
+    useDecoratorsStore,
+    useGroupsStore,
+    useObserversStore
+} from '@/stores/query-params'
 
 const annosaurusStore = useAnnosaurusStore()
 const activitiesStore = useActivitiesStore()
 const groupsStore = useGroupsStore()
 const observersStore = useObserversStore()
 const chiefScientistsStore = useChiefScientistsStore()
+const decoratorsStore = useDecoratorsStore()
 
 </script>
 
@@ -59,15 +66,15 @@ const chiefScientistsStore = useChiefScientistsStore()
             </v-row>
             <v-row>
                 <v-col>
-                    <v-checkbox label="Images only"><v-tooltip activator="parent" location="bottom">Only return annotations with a frame-grab</v-tooltip></v-checkbox>
+                    <v-checkbox label="Images only" v-model="decoratorsStore.imagesOnly"><v-tooltip activator="parent" location="bottom">Only return annotations with a frame-grab</v-tooltip></v-checkbox>
                 </v-col>
                 <v-col>
-                    <v-checkbox label="Concurrent annotations">
+                    <v-checkbox label="Concurrent annotations" v-model="decoratorsStore.concurrentObservations">
                         <v-tooltip activator="parent" location="bottom">Annotations on the same video frame as the ones returned by the search</v-tooltip>
                     </v-checkbox>
                 </v-col>
                 <v-col>
-                    <v-checkbox label="Related associations"><v-tooltip activator="parent" location="bottom">All associations on the annotations returned in the search</v-tooltip></v-checkbox>
+                    <v-checkbox label="Related associations" v-model="decoratorsStore.relatedAssociations"><v-tooltip activator="parent" location="bottom">All associations on the annotations returned in the search</v-tooltip></v-checkbox>
                 </v-col>
             </v-row>
         </v-container>
