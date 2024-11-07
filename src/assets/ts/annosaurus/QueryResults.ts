@@ -30,14 +30,6 @@ export class GeoFauxAnnotation {
         return this.annotation.longitude ?? NaN
     }
 
-
-    get image(): string | null {
-        const urls = this.annotation.images?.map(i => i.url ?? '')
-        // console.log(this.annotation, this.annotation.images, urls)
-        return extractJpgOrFirstUrl(urls) ?? null
-
-    }
-
 }
 
 export interface MapViewBounds {
@@ -189,8 +181,13 @@ export interface FauxAssociation {
     media_type?: string
 }
 
-function fauxAssociationToString(association: FauxAssociation): string {
+export function fauxAssociationToString(association: FauxAssociation): string {
     return `${association.link_name} | ${association.to_concept} | ${association.link_value}`
+}
+
+export function fauxAssociationToStringTrimmed(association: FauxAssociation, length: number): string {
+    const s = fauxAssociationToString(association)
+    return s.length > length ? s.substring(0, length) + "..." : s
 }
 
 
@@ -219,6 +216,12 @@ function isFaustImageReferenceValid(image: FauxImageReference): boolean {
     return !!(image.url?.trim());
 }
 
+export function extractRepresentativeImage(annotation: FauxAnnotation): string | null {
+    const urls = annotation.images?.map(i => i.url ?? '')
+    // console.log(this.annotation, this.annotation.images, urls)
+    return extractJpgOrFirstUrl(urls) ?? null
+}
+
 export interface FauxAnnotation {
     activity?: string
     altitude?: number
@@ -236,7 +239,7 @@ export interface FauxAnnotation {
     duration_millis?: number
     frame_rate?: number
     id?: number                         // This is a synthetic key
-    imageUrl?: string                   // This is a synthetic image generated from image references
+    image?: string                      // This is a synthetic image generated from image references
     imaged_moment_uuid?: string
     images?: FauxImageReference[]       // These are synthetic images generated from image references
     index_elapsed_time_millis?: number

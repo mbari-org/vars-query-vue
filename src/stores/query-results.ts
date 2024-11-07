@@ -1,13 +1,22 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { crushQueryResultToAnnotations, GeoFauxAnnotation, type QueryResult } from '@/assets/ts/annosaurus/QueryResults'
+import {
+    crushQueryResultToAnnotations,
+    extractRepresentativeImage, type FauxAnnotation,
+    GeoFauxAnnotation,
+    type QueryResult
+} from '@/assets/ts/annosaurus/QueryResults'
 
 export const useQueryResultsStore = defineStore('query-results', () => {
     const queryResults = ref([] as QueryResult[])
 
     const annotations = computed(() => {
         return crushQueryResultToAnnotations(queryResults.value)
-            .map((a) => new GeoFauxAnnotation(a))
+            .map((a, id) => {
+                const image = extractRepresentativeImage(a)
+                const newAnno = {id, image, ...a} as FauxAnnotation
+                return new GeoFauxAnnotation(newAnno)
+            })
     })
 
 
@@ -22,3 +31,5 @@ export const useQueryResultsStore = defineStore('query-results', () => {
     return { queryResults, annotations, reset, updateQueryResults: setQueryResults }
 
 })
+
+

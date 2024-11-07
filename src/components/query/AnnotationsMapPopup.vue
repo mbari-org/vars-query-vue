@@ -9,8 +9,8 @@ const props = defineProps({
 
 const image = computed(() => {
     const annotation = props.annotation
-    if (annotation && 'image' in annotation) {
-        return annotation.image as string
+    if (annotation && 'image' in annotation.annotation) {
+        return annotation.annotation.image as string
     }
     return null
 })

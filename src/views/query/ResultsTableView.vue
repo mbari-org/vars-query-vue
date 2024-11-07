@@ -3,31 +3,35 @@
 import {useQueryResultsStore} from '@/stores/query-results'
 import { computed, ref, watch } from 'vue'
 import AnnotationsMap from '@/components/query/AnnotationsMap.vue'
-import { type FauxAnnotation, GeoFauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
+import {
+    type FauxAnnotation,
+    fauxAssociationToString,
+    fauxAssociationToStringTrimmed,
+} from '@/assets/ts/annosaurus/QueryResults'
+import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
 
+
+const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
+const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
+
 
 const search = ref('')
 
 const selectedRow = ref(null as number | null)
 
-const emit = defineEmits(['selected-annotation'])
+const selectedAnnotation = computed(() => {
+    if (!selectedRow.value) {
+        return null as FauxAnnotation | null
+    }
+    return allAnnotations.value.find((a) => a.id === selectedRow.value)
+})
 
-// const fauxAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
 
-const fauxAnnotations = computed(() =>
-    queryResultsStore.annotations.map((a, id) => {
-        const annotation = a.annotation;
-        const imageUrl = a.image; // Extract first image URL if available
-        return {imageUrl, ...annotation} as FauxAnnotation;
-    })
-)
-
-watch(selectedRow, (newVal) => {
+watch(selectedAnnotation, (newVal) => {
     if (newVal) {
-        const selection = fauxAnnotations.value.find((a) => a.id === newVal)
         // console.log('selectedRow', newVal)
-        emit('selected-annotation', selection)
+        emit('selected-annotation', newVal)
     }
 })
 
@@ -36,13 +40,14 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
         annotation = annotation[0]
     }
     // console.log('setSelectedQueryResult', annotation)
-    selectedRow.value = annotation
+    selectedRow.value = annotation.id || null
 }
 
 </script>
 
 <template>
     <annotations-map @selected-annotation="setSelectedFauxAnnotation"></annotations-map>
+    <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>
     <v-card title="Results" flat>
         <template v-slot:text>
             <v-text-field
@@ -56,17 +61,17 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
         </template>
 
         <v-data-table
-            :items="fauxAnnotations"
+            :items="allAnnotations"
             :search="search"
             select-strategy="single"
             show-select
-            show-current-page="true"
+            show-current-page
             v-model="selectedRow">
             <template v-slot:item.images="{ item }">
             </template>
-            <template v-slot:item.imageUrl="{ item }">
+            <template v-slot:item.image="{ item }">
 <!--                <v-hover v-slot:default="{ isHovering }">-->
-                    <v-img :src="item.imageUrl" max-width="500" max-height="500" v-if="item.imageUrl">
+                    <v-img :src="item.image" aspect-ratio="1" max-width="500" max-height="500" v-if="item.image">
                     </v-img>
 <!--                    <div class="thumbnail-container">-->
 <!--                    <v-img-->
@@ -77,6 +82,14 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
 <!--                        class="popup-image"></v-img>-->
 <!--                    </div>-->
 <!--                </v-hover>-->
+            </template>
+            <template v-slot:item.details="{ item }">
+                <div>
+                    <v-chip v-for="(detail, idx) in item.details" :key="idx">
+                        {{ fauxAssociationToStringTrimmed(detail, 40) }}
+                        <v-tooltip activator="parent" location="bottom">{{ fauxAssociationToString(detail) }}</v-tooltip>
+                    </v-chip>
+                </div>
             </template>
         </v-data-table>
     </v-card>

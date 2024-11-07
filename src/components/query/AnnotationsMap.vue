@@ -8,7 +8,6 @@ import { computed, createApp, h, onMounted, ref, watch, getCurrentInstance, type
 import { useQueryResultsStore } from '@/stores/query-results'
 import {
     formatBoundsForLeaflet,
-    GeoFauxAnnotation,
     geoQueryResultsViewBounds,
     type MapViewBounds
 } from '@/assets/ts/annosaurus/QueryResults'
@@ -58,7 +57,7 @@ function redraw() {
     if (geoAnnotations.value && geoAnnotations.value.length > 0) {
         geoAnnotations.value.forEach(a => {
             if (a.hasValidPosition()) {
-                const color = a.image ? "#3333FF" : "#FF3333"
+                const color = a.annotation.image ? "#3333FF" : "#FF3333"
                 const marker = circleMarker([a.latitude, a.longitude], { radius: 5, color: color })
                 marker.addTo(myLayerGroup)
                 // https://forum.vuejs.org/t/how-can-i-get-rendered-html-code-of-vue-component/19421

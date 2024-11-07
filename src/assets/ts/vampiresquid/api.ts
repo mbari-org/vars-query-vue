@@ -6,12 +6,21 @@ export class VampireSquidApi {
 
     url: string
 
+    maxBytes: number = 100000000000
+
     constructor(url: string) {
         this.url = url
     }
 
     findConcurrentMedia(videoReferenceUuid: string): Promise<Media[]> {
         const url = `${this.url}/media/concurrent/${encodeURIComponent(videoReferenceUuid)}`
+        return fetch(url, {
+            mode: "cors",
+        }).then((r) => r.json());
+    }
+
+    findMediaByUri(uri: string): Promise<Media> {
+        const url = `${this.url}/media/uri/${encodeURIComponent(uri)}`
         return fetch(url, {
             mode: "cors",
         }).then((r) => r.json());
@@ -46,7 +55,7 @@ export class VampireSquidApi {
                 if (xs && xs.length > 0) {
                     return xs
                         .filter((x: Media) => x.uri.toLowerCase().endsWith(".mp4"))
-                        .sort((a: Media, b: Media) => b.size_bytes - a.size_bytes)[0];
+                        .sort((a: Media, b: Media) => (b.size_bytes ?? this.maxBytes) - (a.size_bytes ?? this.maxBytes))[0];
                 }
                 return {} as Media;
             });
