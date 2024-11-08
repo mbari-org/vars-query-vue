@@ -21,11 +21,11 @@ const media = computedAsync(async () => {
     return null
 })
 
-const seekTimeMillis = computed( () => {
+const seekTimeSeconds = computed( () => {
     if (media.value && props.recordedTimestamp) {
         const seek = new Date(props.recordedTimestamp)
         const start = new Date(media.value.start_timestamp)
-        return (seek.getTime() - start.getTime())
+        return (seek.getTime() - start.getTime()) / 1000
     }
     return 0
 })
@@ -44,7 +44,7 @@ const mediaType = computed(() => {
         v-if="media"
         :video-url="media.uri"
         :media-type="mediaType || 'video/mp4'"
-        :seek-time="seekTimeMillis"></video-player>
+        :seek-time-seconds="seekTimeSeconds"></video-player>
 </template>
 
 <style scoped>

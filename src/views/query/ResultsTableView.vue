@@ -18,13 +18,14 @@ const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a
 
 const search = ref('')
 
-const selectedRow = ref(null as number | null)
+const selectedRow = ref( [] as number[])
 
 const selectedAnnotation = computed(() => {
-    if (!selectedRow.value) {
-        return null as FauxAnnotation | null
+    console.log('selectedRow', selectedRow.value)
+    if (selectedRow.value?.length === 1) {
+        return allAnnotations.value.find((a) => a.id === selectedRow.value[0])
     }
-    return allAnnotations.value.find((a) => a.id === selectedRow.value)
+    return null as FauxAnnotation | null
 })
 
 
@@ -40,7 +41,12 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
         annotation = annotation[0]
     }
     // console.log('setSelectedQueryResult', annotation)
-    selectedRow.value = annotation.id || null
+    if (annotation.id) {
+        selectedRow.value = [annotation.id]
+    }
+    else {
+        selectedRow.value = []
+    }
 }
 
 </script>

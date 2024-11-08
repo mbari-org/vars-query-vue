@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import { onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
 import { videoOverlay } from 'leaflet'
 
 interface Props {
     videoUrl: string
     mediaType: string
-    seekTime: number
+    seekTimeSeconds: number
 }
 
 const props = defineProps<Props>()
@@ -17,10 +17,14 @@ const hasEventListener = ref(false)
 // IMPORTANT: variable needs to be the same name as the element ref
 const video = ref(null as HTMLVideoElement | null)
 
+watch(() => props.videoUrl, () => {
+    hasSeeked.value = false
+})
+
 function seekHandler() {
     if (video.value) {
         if (!hasSeeked.value) {
-            video.value.currentTime = props.seekTime
+            video.value.currentTime = props.seekTimeSeconds
             hasSeeked.value = true
             window.dispatchEvent(new Event('resize'));
         }
@@ -34,9 +38,10 @@ onMounted(() => {
     }
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
     if (hasEventListener.value) {
         document.getElementById("video-player")?.removeEventListener("loadeddata", seekHandler)
+        hasEventListener.value = false
     }
 })
 
@@ -51,8 +56,9 @@ onBeforeUnmount(() => {
             ref="video"
             preload="auto"
             controls
+            :src="props.videoUrl"
         >
-            <source :src="props.videoUrl" :type="props.mediaType">
+<!--            <source :src="props.videoUrl" :type="props.mediaType">-->
         </video>
         <div v-if="!props.videoUrl">No web friendly video available</div>
     </div>
