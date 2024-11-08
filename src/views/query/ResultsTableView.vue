@@ -21,7 +21,6 @@ const search = ref('')
 const selectedRow = ref( [] as number[])
 
 const selectedAnnotation = computed(() => {
-    console.log('selectedRow', selectedRow.value)
     if (selectedRow.value?.length === 1) {
         return allAnnotations.value.find((a) => a.id === selectedRow.value[0])
     }
@@ -49,6 +48,23 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
     }
 }
 
+function nestedFilter(value: string, search: string, item?: any): boolean | number | [number, number] | [number, number][] {
+    if (!search) return true
+    if (!value) return false
+
+    if (Array.isArray(value)) {
+        return value.some((v) => nestedFilter(v, search, item))
+    }
+    else if (typeof value === 'object') {
+
+        return Object.values(value).some((v) => nestedFilter(`${v}`, search, item))
+    }
+    else {
+        return String(value).toLowerCase().includes(search.toLowerCase())
+    }
+
+}
+
 </script>
 
 <template>
@@ -62,6 +78,7 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
                 prepend-inner-icon="mdi-magnify"
                 variant="outlined"
                 hide-details
+                clearable
                 single-line>
             </v-text-field>
         </template>
@@ -69,6 +86,7 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
         <v-data-table
             :items="allAnnotations"
             :search="search"
+            :custom-filter="nestedFilter"
             select-strategy="single"
             show-select
             show-current-page

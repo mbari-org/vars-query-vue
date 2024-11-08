@@ -45,23 +45,44 @@ onUnmounted(() => {
     }
 })
 
+function togglePictureInPicture() {
+    if (video.value) {
+        if (document.pictureInPictureElement) {
+            document.exitPictureInPicture()
+        } else {
+            video.value.requestPictureInPicture()
+        }
+    }
+}
+
 
 </script>
 
 <template>
-    <div>
-        <video
-            v-if="props.videoUrl"
-            id="video-player"
-            ref="video"
-            preload="auto"
-            controls
-            :src="props.videoUrl"
-        >
-<!--            <source :src="props.videoUrl" :type="props.mediaType">-->
-        </video>
-        <div v-if="!props.videoUrl">No web friendly video available</div>
-    </div>
+    <v-container>
+        <v-row>
+            <v-col>
+                <video
+                    v-if="props.videoUrl"
+                    id="video-player"
+                    ref="video"
+                    preload="auto"
+                    controls
+                    :src="props.videoUrl"
+                >
+                </video>
+                <div v-if="!props.videoUrl">No web friendly video available</div>
+            </v-col>
+        </v-row>
+        <v-row align="center">
+            <v-col cols="1">
+                <v-btn icon="mdi-open-in-new" @click="togglePictureInPicture"></v-btn>
+            </v-col>
+            <v-col>
+                <a :href="videoUrl">{{props.videoUrl}}</a>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <style scoped>
