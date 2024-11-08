@@ -21,6 +21,11 @@ watch(() => props.videoUrl, () => {
     hasSeeked.value = false
 })
 
+watch(() => props.seekTimeSeconds, () => {
+    hasSeeked.value = false
+    seekHandler()
+})
+
 function seekHandler() {
     if (video.value) {
         if (!hasSeeked.value) {

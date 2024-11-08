@@ -56,7 +56,6 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
         return value.some((v) => nestedFilter(v, search, item))
     }
     else if (typeof value === 'object') {
-
         return Object.values(value).some((v) => nestedFilter(`${v}`, search, item))
     }
     else {
