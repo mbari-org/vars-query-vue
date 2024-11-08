@@ -3,12 +3,17 @@ import { computed, ref } from 'vue'
 import {
     crushQueryResultToAnnotations,
     extractRepresentativeImage, type FauxAnnotation,
-    GeoFauxAnnotation,
-    type QueryResult
+    GeoFauxAnnotation
 } from '@/assets/ts/annosaurus/QueryResults'
+import { tabDelimitedToObject } from '@/assets/ts/util'
 
 export const useQueryResultsStore = defineStore('query-results', () => {
-    const queryResults = ref([] as QueryResult[])
+
+    const rawQueryResults = ref([] as string[])
+
+    // const queryResults = ref([] as QueryResult[])
+
+    const queryResults = computed(() => tabDelimitedToObject(rawQueryResults.value))
 
     const annotations = computed(() => {
         return crushQueryResultToAnnotations(queryResults.value)
@@ -21,14 +26,16 @@ export const useQueryResultsStore = defineStore('query-results', () => {
 
 
     function reset() {
-        queryResults.value = []
+        rawQueryResults.value = []
     }
 
-    function setQueryResults(results: Record<string, string | null>[]) {
-        queryResults.value = results
+    function appendRawQueryResults(results: string[]) {
+        rawQueryResults.value = rawQueryResults.value.concat(results)
     }
 
-    return { queryResults, annotations, reset, updateQueryResults: setQueryResults }
+
+
+    return { rawQueryResults, queryResults, annotations, reset, appendRawQueryResults }
 
 })
 

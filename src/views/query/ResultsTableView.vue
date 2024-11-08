@@ -9,6 +9,7 @@ import {
     fauxAssociationToStringTrimmed,
 } from '@/assets/ts/annosaurus/QueryResults'
 import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
+import SaveOptions from '@/components/query/SaveOptions.vue'
 
 
 const emit = defineEmits(['selected-annotation'])
@@ -116,6 +117,7 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
             </template>
         </v-data-table>
     </v-card>
+    <save-options></save-options>
 
 </template>
 

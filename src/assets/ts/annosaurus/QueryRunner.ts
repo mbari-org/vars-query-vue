@@ -23,11 +23,13 @@ export class QueryRunner {
     runQuery() {
         const query = this.buildQueries()
         console.log(query)
+        const queryResultsStore = useQueryResultsStore()
         query.forEach(q => {
             this.api.pageUsingQuery(q, 5000).then((response) => {
                 // console.log(response)
                 // console.log(tabDelimitedToObject(response))
-                useQueryResultsStore().updateQueryResults(tabDelimitedToObject(response))
+                queryResultsStore.appendRawQueryResults(response)
+                // useQueryResultsStore().updateQueryResults(tabDelimitedToObject(response))
                 router.push({name: 'results-table-view'})
             })
         })
