@@ -87,6 +87,7 @@ function download(data: any, filename: string, mediaType: string) {
         </v-col>
         <v-col>
             <v-btn @click="saveTab">
+                Save as TSV
                 <v-tooltip activator="parent" location="top">
                     Save the query results as tab separated values. Great for importing into Excel.
                 </v-tooltip>

@@ -23,16 +23,60 @@ const cancel = () => {
 </script>
 
 <template>
-    <div id="configurationView">
-        <h1>Configuration</h1>
-        <v-text-field
-            id="url-field"
-            label="URL"
-            :model-value="url"
-        ></v-text-field>
-        <v-btn variant="text" @click="save">Save</v-btn>
-        <v-btn variant="text" @click="cancel">Cancel</v-btn>
-    </div>
+
+    <v-container>
+        <v-row>
+            <v-spacer></v-spacer>
+            <v-col>
+                <h1>Configuration</h1>
+            </v-col>
+            <v-spacer></v-spacer>
+        </v-row>
+        <v-row>
+            <v-col>
+                <div>Please enter the URL for your <a href="https://github.com/mbari-org/raziel">VARS configuration server</a>. At MBARI, enter "http://m3.shore.mbari.org/config".</div>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-text-field
+                    id="url-field"
+                    label="URL"
+                    :model-value="url"
+                ></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row justify="center">
+            <v-spacer></v-spacer>
+            <v-col>
+                <v-btn variant="text" @click="save">Save</v-btn>
+                <v-btn variant="text" @click="cancel">Cancel</v-btn>
+            </v-col>
+            <v-spacer></v-spacer>
+        </v-row>
+    </v-container>
+
+
+<!--    <div id="configurationView">-->
+<!--        <h1>Configuration</h1>-->
+<!--        <v-container>-->
+<!--            <v-row>-->
+<!--                <v-col>-->
+<!--                    <h1>Configuration</h1>-->
+<!--                </v-col>-->
+<!--                -->
+<!--            </v-row>-->
+<!--        </v-container>-->
+<!--        <div>Please enter the URL for your <a href="https://github.com/mbari-org/raziel">VARS configuration server</a>. At MBARI, enter "http://m3.shore.mbari.org/config".</div>-->
+<!--        <v-text-field-->
+<!--            id="url-field"-->
+<!--            label="URL"-->
+<!--            :model-value="url"-->
+<!--        ></v-text-field>-->
+<!--        <v-btn variant="text" @click="save">Save</v-btn>-->
+<!--        <v-btn variant="text" @click="cancel">Cancel</v-btn>-->
+
+<!--    </div>-->
 </template>
 
 <style scoped></style>
