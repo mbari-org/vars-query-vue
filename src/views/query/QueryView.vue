@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ConceptConstraint from '@/components/query/ConceptConstraint.vue'
 import AssociationConstraint from '@/components/query/AssociationConstraint.vue'
-import {  resetStores } from '@/stores/query-params'
+import { resetStores, useSelectedColumnsStore } from '@/stores/query-params'
 import DiveConstraint from '@/components/query/DiveConstraint.vue'
 import FieldConstraints from '@/components/query/FieldConstraints.vue'
 import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
@@ -9,6 +9,17 @@ import TimeConstraint from '@/components/query/TimeConstraint.vue'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import Selections from '@/components/query/Selections.vue'
+import { computed, ref } from 'vue'
+import router from '@/router'
+
+const selectedColumnsStore = useSelectedColumnsStore()
+
+const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
+
+const queryIsRunning = ref(false)
+const progress = ref(0)
+const rotate = computed(() => progress.value * 3.6)
+
 
 function reset() {
     resetStores()
@@ -16,10 +27,20 @@ function reset() {
 
 function runQuery() {
     console.log('runQuery')
+    queryIsRunning.value = true
     const annosaurusApi = useAnnosaurusStore().api
     const queryRunner = new QueryRunner(annosaurusApi)
-    queryRunner.runQuery()
+    queryRunner.runQuery((x) => {progress.value = x}).then(() => {
+        queryIsRunning.value = false
+        progress.value = 0
+        router.push({name: 'results-table-view'})
+    }).catch((error) => {
+        console.error(error)
+        progress.value = 0
+        queryIsRunning.value = false
+    })
 }
+
 </script>
 
 <template>
@@ -45,6 +66,7 @@ function runQuery() {
                         <v-btn
                             size="x-large"
                             append-icon="mdi-search-web"
+                            :disabled="!enableSearch"
                             @click="runQuery"
                         >Search</v-btn>
                     </v-col>
@@ -65,24 +87,19 @@ function runQuery() {
         <v-divider></v-divider>
         <selections></selections>
 
-<!--        <div>-->
-<!--            <v-container>-->
-<!--                <v-row justify="end">-->
-<!--                    <v-col cols="2">-->
-<!--                        <v-btn-->
-<!--                            append-icon="mdi-close"-->
-<!--                            @click="reset"-->
-<!--                        >Reset</v-btn>-->
-<!--                    </v-col>-->
-<!--                    <v-col cols="2">-->
-<!--                        <v-btn-->
-<!--                            append-icon="mdi-search-web"-->
-<!--                            @click="runQuery"-->
-<!--                        >Search</v-btn>-->
-<!--                    </v-col>-->
-<!--                </v-row>-->
-<!--            </v-container>-->
-<!--        </div>-->
+        <v-overlay
+            :model-value="queryIsRunning"
+            color="primary"
+            class="justify-center align-center">
+            <div class="big-font">Searching ...</div>
+            <v-progress-circular
+                :size="128"
+                :width="12"
+                color="blue"
+                indeterminate
+            ></v-progress-circular>
+        </v-overlay>
+
     </div>
 </template>
 
@@ -93,5 +110,9 @@ function runQuery() {
     top: 6em;
     z-index: 2;
     margin-top: 1em;
+}
+
+.big-font {
+    font-size: 3.5em;
 }
 </style>

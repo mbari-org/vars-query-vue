@@ -81,10 +81,13 @@ function togglePictureInPicture() {
         </v-row>
         <v-row align="center">
             <v-col cols="1">
-                <v-btn icon="mdi-open-in-new" @click="togglePictureInPicture"></v-btn>
+                <v-btn icon="mdi-open-in-new" @click="togglePictureInPicture">
+                    <v-icon icon="mdi-open-in-new"></v-icon>
+                    <v-tooltip activator="parent" location="bottom">Toggle Picture in Picture</v-tooltip>
+                </v-btn>
             </v-col>
             <v-col>
-                <a :href="videoUrl">{{props.videoUrl}}</a>
+                <a :href="videoUrl" class="small-font">{{props.videoUrl}}</a>
             </v-col>
         </v-row>
     </v-container>
@@ -94,5 +97,9 @@ function togglePictureInPicture() {
 #video-player {
     width: 100%;
     object-fit: cover;
+}
+
+.small-font {
+    font-size: 0.6em;
 }
 </style>

@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import {
     crushQueryResultToAnnotations,
     extractRepresentativeImage, type FauxAnnotation,
-    GeoFauxAnnotation
+    GeoFauxAnnotation, type QueryResult
 } from '@/assets/ts/annosaurus/QueryResults'
 import { tabDelimitedToObject } from '@/assets/ts/util'
 
@@ -13,13 +13,13 @@ export const useQueryResultsStore = defineStore('query-results', () => {
 
     // const queryResults = ref([] as QueryResult[])
 
-    const queryResults = computed(() => tabDelimitedToObject(rawQueryResults.value))
+    const queryResults = computed(() => tabDelimitedToObject(rawQueryResults.value) as QueryResult[])
 
     const annotations = computed(() => {
         return crushQueryResultToAnnotations(queryResults.value)
-            .map((a, id) => {
+            .map((a, row) => {
                 const image = extractRepresentativeImage(a)
-                const newAnno = {id, image, ...a} as FauxAnnotation
+                const newAnno = {row, image, ...a} as FauxAnnotation
                 return new GeoFauxAnnotation(newAnno)
             })
     })

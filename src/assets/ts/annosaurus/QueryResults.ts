@@ -92,19 +92,23 @@ export function formatBoundsForLeaflet(bounds: MapViewBounds, defaultViewBounds:
 export function crushQueryResultToAnnotations(queryResults: QueryResult[]): FauxAnnotation[] {
     // const grouped = _.groupBy(queryResults, 'observation_uuid')
     // const grouped = Map.groupBy(queryResults, (a: FauxAnnotation) => a.observation_uuid)
+    if (queryResults.length === 0) {
+        return []
+    }
+
     const grouped = groupBy<QueryResult, string>(queryResults, (a: FauxAnnotation) => a.observation_uuid ?? '')
     // console.log(grouped)
 
     // combine image info
     const annotations = [] as FauxAnnotation[]
-    let id = 0
+    let row = 0
     for (const [key, group] of grouped) {
     // const annotations = Object.keys(grouped).map((key) => {
     //     const group = grouped.get(key) ?? []
         // const group = grouped[key]
         // console.log(group[0])
-        const main: QueryResult = {id, ...JSON.parse(JSON.stringify(group[0]))}
-        id += 1
+        const main: QueryResult = {row, ...JSON.parse(JSON.stringify(group[0]))}
+        row += 1
         // const main: QueryResult = structuredClone(group[0])
         //  Remove keys that would be duplicated in images and associations
         delete main['image_description']
@@ -129,7 +133,7 @@ export function crushQueryResultToAnnotations(queryResults: QueryResult[]): Faux
                 width_pixels: result.image_width
             }
             return image
-        })
+        }) || []
 
         const tempImages = _.uniqBy(images.filter(isFaustImageReferenceValid), (i) => i.url)
         if (tempImages.length > 0) {
@@ -152,7 +156,7 @@ export function crushQueryResultToAnnotations(queryResults: QueryResult[]): Faux
                 association.link_value = parts[2]
             }
             return association
-        })
+        }) || []
 
         const tempAssociations = _.uniqBy(associations.filter(isFauxAssociationValid),fauxAssociationToString )
         if (tempAssociations.length > 0) {
@@ -182,7 +186,10 @@ export interface FauxAssociation {
 }
 
 export function fauxAssociationToString(association: FauxAssociation): string {
-    return `${association.link_name} | ${association.to_concept} | ${association.link_value}`
+    const a = association.link_name ?? ''
+    const b = association.to_concept ?? ''
+    const c = association.link_value ?? ''
+    return `${a} | ${b} | ${c}`
 }
 
 export function fauxAssociationToStringTrimmed(association: FauxAssociation, length: number): string {
@@ -223,6 +230,10 @@ export function extractRepresentativeImage(annotation: FauxAnnotation): string |
 }
 
 export interface FauxAnnotation {
+
+    // Need to SaveOptions.vue saveTab method to use properties as keys
+    [key: string]: string | string[] | number | number[] | FauxAssociation[] | FauxImageReference[] | undefined
+
     activity?: string
     altitude?: number
     association_mime_type?: string
@@ -238,7 +249,6 @@ export interface FauxAnnotation {
     dive_number?: string
     duration_millis?: number
     frame_rate?: number
-    id?: number                         // This is a synthetic key
     image?: string                      // This is a synthetic image generated from image references
     imaged_moment_uuid?: string
     images?: FauxImageReference[]       // These are synthetic images generated from image references
@@ -256,6 +266,7 @@ export interface FauxAnnotation {
     phi?: number
     pressure_dbar?: number
     psi?: number
+    row?: number                         // This is a synthetic key
     salinity?: number
     temperature_celsius?: number
     theta?: number
@@ -292,3 +303,35 @@ export interface QueryResult extends FauxAnnotation {
     to_concept?: string
 }
 
+export function extractLinkNames(annotations: FauxAnnotation[]): string[] {
+    const linkNames = _.uniq(annotations.flatMap(a => a.details?.map(d => d.link_name) ?? []))
+    return linkNames as string[]
+}
+
+export function fauxAnnotationsToTsv(annotations: FauxAnnotation[]): string {
+    if (annotations.length === 0) {
+        return ''
+    }
+
+    const headers = Object.keys(annotations[0])
+    const headerRow = headers.join('\t')
+
+    const dataRows = annotations.map((a) => {
+        const values = headers.map((h) => {
+            const value = a[h]
+            if (h === 'details') {
+                return (value as FauxAssociation[]).map(fauxAssociationToString).join(';')
+            }
+            if (h === 'images') {
+                return (value as FauxImageReference[]).map(i => i.url).join(';')
+            }
+            if (Array.isArray(value)) {
+                return value.join(';')
+            }
+            return value
+        })
+        return values.join('\t')
+    })
+
+    return [headerRow, ...dataRows].join('\n')
+}

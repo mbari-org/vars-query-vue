@@ -1,7 +1,11 @@
-import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
+
 
 export function tabDelimitedToObject(lines: string[]): Record<string, string | null>[] {
     // Extract the header row and split it into fields
+    if (lines.length < 2) {
+        return [];
+    }
+
     const headers = lines[0].split("\t");
 
     // Iterate over remaining rows and create objects
@@ -46,5 +50,9 @@ export function extractJpgOrFirstUrl(images: string[] | undefined): string | und
 
     const jpgUrl = images.find(url => url.endsWith('.jpg'));
     return jpgUrl || images[0];
+}
+
+export function nowAsCompactString(): string {
+    return new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '');
 }
 

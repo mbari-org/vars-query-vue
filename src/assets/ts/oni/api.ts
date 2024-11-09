@@ -1,5 +1,11 @@
 import { accumulateNamesFromTaxaNodes, type Taxa, type TaxaNode } from '@/assets/ts/oni/ConceptTree'
-import { accumulateNamesFromConcepts, type Concept, ConceptExt, type Image } from '@/assets/ts/oni/Concept'
+import {
+    accumulateNamesFromConcepts,
+    type Concept,
+    ConceptExt,
+    type Descriptor,
+    type Image
+} from '@/assets/ts/oni/Concept'
 import { distinctConcepts } from "@/assets/ts/oni/Concept";
 
 
@@ -136,6 +142,14 @@ export class OniApi {
     }
   }
 
+
+  listLinks(): Promise<Descriptor[]> {
+    return fetch(this.url + "/links",
+      {
+        mode: 'cors',
+      })
+      .then(r => r.json())
+  }
 
 
 }

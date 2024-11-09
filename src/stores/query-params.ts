@@ -129,11 +129,13 @@ export const useAssociationsStore = defineStore('association', () => {
 
         if (associations.value.length > 0) {
 
-            if (exactMatch.value && useAnd.value) {
-                return [{
-                    column: 'associations',
-                    in: associations.value
-                }]
+            if (exactMatch.value) {
+                return associations.value.map((association) => {
+                    return {
+                        column: 'link_name',
+                        equals: association
+                    }
+                })
             }
             else {
                 return associations.value.map((association) => {
@@ -441,7 +443,8 @@ export const useSelectedColumnsStore = defineStore('selectedColumns', () => {
         "observation_uuid",
         "observer",
         "video_sequence_name",
-        "video_uri"
+        "video_uri",
+        "associations"
     ]
 
     const selectedColumns = ref(defaultColumns)

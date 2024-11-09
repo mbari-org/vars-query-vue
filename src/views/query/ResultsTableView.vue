@@ -23,7 +23,7 @@ const selectedRow = ref( [] as number[])
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
-        return allAnnotations.value.find((a) => a.id === selectedRow.value[0])
+        return allAnnotations.value.find((a) => a.row === selectedRow.value[0])
     }
     return null as FauxAnnotation | null
 })
@@ -41,8 +41,8 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
         annotation = annotation[0]
     }
     // console.log('setSelectedQueryResult', annotation)
-    if (annotation.id) {
-        selectedRow.value = [annotation.id]
+    if (annotation.row) {
+        selectedRow.value = [annotation.row]
     }
     else {
         selectedRow.value = []
@@ -87,6 +87,7 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
             :items="allAnnotations"
             :search="search"
             :custom-filter="nestedFilter"
+            item-value="row"
             select-strategy="single"
             show-select
             show-current-page
@@ -95,8 +96,10 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
             </template>
             <template v-slot:item.image="{ item }">
 <!--                <v-hover v-slot:default="{ isHovering }">-->
+                <v-lazy>
                     <v-img :src="item.image" aspect-ratio="1" max-width="500" max-height="500" v-if="item.image">
                     </v-img>
+                </v-lazy>
 <!--                    <div class="thumbnail-container">-->
 <!--                    <v-img-->
 <!--                        v-if="isHovering && item.imageUrl"-->

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRazielStore } from '@/stores/raziel'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import router from '@/router'
 
 const razielStore = useRazielStore()
@@ -18,6 +18,8 @@ const cancel = () => {
     urlField.value = razielStore.url
     router.push('/query')
 }
+
+
 </script>
 
 <template>

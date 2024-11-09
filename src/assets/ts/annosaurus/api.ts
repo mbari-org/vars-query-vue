@@ -126,7 +126,8 @@ export class AnnosaurusApi {
     }).then(r => r.json())
   }
 
-  async pageUsingQuery(q: Query, pageSize: number): Promise<string[]> {
+  async pageUsingQuery(q: Query, pageSize: number, progressCallback: (progress: number) => void = () => {}): Promise<string[]> {
+    progressCallback(0)
     const rows = [] as string[]
     const n = await this.countUsingQuery(q)
     const pages = Math.ceil(n.count / pageSize)
@@ -142,9 +143,9 @@ export class AnnosaurusApi {
         const [head, ...tail] = xs
         rows.push(...tail)
       }
+      progressCallback((i + 1) / pages)
     }
 
-    // TODO assemble annotations from rows
     return rows
 
   }

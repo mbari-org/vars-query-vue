@@ -3,10 +3,8 @@ import {
     buildColumnConstraints,
     buildSelect,
     useAssociationsStore, useDecoratorsStore,
-    useSelectedColumnsStore
 } from '@/stores/query-params'
 import type { Query } from '@/assets/ts/annosaurus/Query'
-import { tabDelimitedToObject } from '@/assets/ts/util'
 import router from '@/router'
 import { useQueryResultsStore } from '@/stores/query-results'
 
@@ -20,19 +18,36 @@ export class QueryRunner {
     /**
      * TODO:
      */
-    runQuery() {
-        const query = this.buildQueries()
-        console.log(query)
+    async runQuery(progressCallback: (progress: number) => void = () => {}) {
+        const queries = this.buildQueries()
+        console.log(queries)
         const queryResultsStore = useQueryResultsStore()
-        query.forEach(q => {
-            this.api.pageUsingQuery(q, 5000).then((response) => {
-                // console.log(response)
-                // console.log(tabDelimitedToObject(response))
-                queryResultsStore.appendRawQueryResults(response)
-                // useQueryResultsStore().updateQueryResults(tabDelimitedToObject(response))
-                router.push({name: 'results-table-view'})
+        queryResultsStore.reset()
+        // query.forEach(q => {
+        //     this.api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
+        //         // console.log(response)
+        //         // console.log(tabDelimitedToObject(response))
+        //         queryResultsStore.appendRawQueryResults(response)
+        //         // useQueryResultsStore().updateQueryResults(tabDelimitedToObject(response))
+        //     }).catch((error) => {
+        //         console.error(error)
+        //     })
+        // })
+        let i = 0
+        for (const q of queries) {
+            await this.api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
+                // only use the header row for the first query
+                if (i === 0) {
+                    queryResultsStore.appendRawQueryResults(response)
+                }
+                else {
+                    queryResultsStore.appendRawQueryResults(response.slice(1))
+                }
+                i++
+            }).catch((error) => {
+                console.error(error)
             })
-        })
+        }
     }
 
     buildQueries(): Array<Query> {
@@ -67,5 +82,17 @@ export class QueryRunner {
         }
         return [query]
 
+    }
+}
+
+export async function runQuery(api: AnnosaurusApi, queries: Array<Query>, progressCallback: (progress: number) => void = () => {}) {
+    const queryResultsStore = useQueryResultsStore()
+    queryResultsStore.reset()
+    for (const q of queries) {
+        await api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
+            queryResultsStore.appendRawQueryResults(response)
+        }).catch((error) => {
+            console.error(error)
+        })
     }
 }

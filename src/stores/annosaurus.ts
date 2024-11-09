@@ -32,6 +32,7 @@ export const useAnnosaurusStore = defineStore('annosaurus', () => {
         return columns.sort()
     })
 
+
     return {url, api, activities, groups, observers, chiefScientists, selectableColumns}
 
 })

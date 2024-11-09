@@ -1,8 +1,12 @@
 <script setup lang="ts">
 
 import {useAssociationsStore} from '@/stores/query-params'
+import { useOniStore } from '@/stores/oni'
+import { computed } from 'vue'
+import { computedAsync } from '@vueuse/core'
 
 const associationsStore = useAssociationsStore()
+const oniStore = useOniStore()
 
 
 function addAssociation(event: Event) {
@@ -20,17 +24,18 @@ function addAssociation(event: Event) {
         <v-container>
             <v-row>
                 <v-col cols="6">
-                    <v-text-field id="associationTextField" clearable label="Association"></v-text-field>
+                    <v-text-field v-if="!associationsStore.exactMatch" id="associationTextField" clearable label="Association"></v-text-field>
+                    <v-autocomplete v-else id="associationTextField" clearable label="Association" :items="oniStore.linkNames"></v-autocomplete>
                 </v-col>
                 <v-col>
-                    <v-checkbox label="Exact Match" v-model="associationsStore.exactMatch"></v-checkbox>
+                    <v-checkbox label="Exact Match" v-model="associationsStore.exactMatch">
+                        <v-tooltip activator="parent">true=find link name that matches. false=find association that contains. </v-tooltip>
+                    </v-checkbox>
                 </v-col>
                 <v-col>
-<!--                    <v-radio-group>-->
-<!--                        <v-radio label="Or" value="false" v-model="associationsStore.useAnd" ></v-radio>-->
-<!--                        <v-radio label="And" value="true" v-model="associationsStore.useAnd"></v-radio>-->
-<!--                    </v-radio-group>-->
-                    <v-checkbox label="And" v-model="associationsStore.useAnd"></v-checkbox>
+                    <v-checkbox label="And" v-model="associationsStore.useAnd">
+                        <v-tooltip activator="parent">Each query result must contain all associations</v-tooltip>
+                    </v-checkbox>
                 </v-col>
                 <v-col>
                     <v-btn @click=addAssociation icon="mdi-plus" size="x-large"></v-btn>
