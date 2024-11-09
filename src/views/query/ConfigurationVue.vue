@@ -1,6 +1,14 @@
+<!--
+This page allows a user to set the location of the VARS configuration server.
+(aka Raziel)
+
+We have the user set the conigureation server URL to allow this application
+to be used with different VARS servers.
+-->
+
 <script setup lang="ts">
 import { useRazielStore } from '@/stores/raziel'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import router from '@/router'
 
 const razielStore = useRazielStore()
@@ -18,12 +26,9 @@ const cancel = () => {
     urlField.value = razielStore.url
     router.push('/query')
 }
-
-
 </script>
 
 <template>
-
     <v-container>
         <v-row>
             <v-spacer></v-spacer>
@@ -56,27 +61,6 @@ const cancel = () => {
         </v-row>
     </v-container>
 
-
-<!--    <div id="configurationView">-->
-<!--        <h1>Configuration</h1>-->
-<!--        <v-container>-->
-<!--            <v-row>-->
-<!--                <v-col>-->
-<!--                    <h1>Configuration</h1>-->
-<!--                </v-col>-->
-<!--                -->
-<!--            </v-row>-->
-<!--        </v-container>-->
-<!--        <div>Please enter the URL for your <a href="https://github.com/mbari-org/raziel">VARS configuration server</a>. At MBARI, enter "http://m3.shore.mbari.org/config".</div>-->
-<!--        <v-text-field-->
-<!--            id="url-field"-->
-<!--            label="URL"-->
-<!--            :model-value="url"-->
-<!--        ></v-text-field>-->
-<!--        <v-btn variant="text" @click="save">Save</v-btn>-->
-<!--        <v-btn variant="text" @click="cancel">Cancel</v-btn>-->
-
-<!--    </div>-->
 </template>
 
 <style scoped></style>

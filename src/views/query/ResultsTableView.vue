@@ -15,10 +15,7 @@ import SaveOptions from '@/components/query/SaveOptions.vue'
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
-
-
 const search = ref('')
-
 const selectedRow = ref( [] as number[])
 
 const selectedAnnotation = computed(() => {

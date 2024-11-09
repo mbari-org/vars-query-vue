@@ -17,7 +17,8 @@ export class RazielApi {
     // console.log("Getting endpoints from " + this.endpoints.config.endpoints)
     return fetch(this.url + "/endpoints", {
       mode: "cors",
-    }).then(r => r.json())
+    }).then(r =>
+        r.ok ? r.json() : Promise.reject(r))
   }
 
 }

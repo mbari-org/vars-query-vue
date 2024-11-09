@@ -7,8 +7,19 @@ import {
     type FauxAssociation,
     fauxAssociationToString
 } from '@/assets/ts/annosaurus/QueryResults'
+import { useAnnosaurusStore } from '@/stores/annosaurus'
+import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 
 const queryResultsStore = useQueryResultsStore()
+
+const saveQueries = () => {
+    const api = useAnnosaurusStore().api
+    const queryRunner = new QueryRunner(api)
+    const data = queryRunner.buildQueries()
+    const filename = `vars-queries-${nowAsCompactString()}.json`
+    const json = JSON.stringify(data, null, 2)
+    download(json, filename, "application/json")
+}
 
 function saveRawTab() {
     console.log("Save Raw")
@@ -61,7 +72,14 @@ function download(data: any, filename: string, mediaType: string) {
 
 <template>
 <v-container>
-    <v-row align="end">
+    <v-row>
+        <v-col>
+            <v-btn @click="saveQueries">
+                Save Queries
+                <v-tooltip activator="parent" location="top">
+                    Save the query constraints as a JSON file.
+                </v-tooltip></v-btn>
+        </v-col>
         <v-col>
             <v-btn @click="saveRawTab">
                 Save Raw as TSV

@@ -1,3 +1,7 @@
+<!--
+This page provides a form for the user to enter constraints for a query.
+-->
+
 <script setup lang="ts">
 import ConceptConstraint from '@/components/query/ConceptConstraint.vue'
 import AssociationConstraint from '@/components/query/AssociationConstraint.vue'
@@ -13,20 +17,21 @@ import { computed, ref } from 'vue'
 import router from '@/router'
 
 const selectedColumnsStore = useSelectedColumnsStore()
-
 const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
-
 const queryIsRunning = ref(false)
 const progress = ref(0)
-const rotate = computed(() => progress.value * 3.6)
 
+// FIXME: This is the progress bar value (in degrees) but when wired up
+// does not seem to be updating the progress bar. I've left it in
+// as a placeholder for now.
+const rotate = computed(() => progress.value * 3.6)
 
 function reset() {
     resetStores()
 }
 
 function runQuery() {
-    console.log('runQuery')
+    // console.log('runQuery')
     queryIsRunning.value = true
     const annosaurusApi = useAnnosaurusStore().api
     const queryRunner = new QueryRunner(annosaurusApi)

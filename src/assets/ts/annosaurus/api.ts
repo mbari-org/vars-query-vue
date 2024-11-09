@@ -112,7 +112,8 @@ export class AnnosaurusApi {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(q),
-    }).then(r => r.text()
+    }).then(r => r.ok ? r : Promise.reject(r))
+        .then(r => r.text()
         .then(t => t.split('\n'))
         .then(xs => xs.map(x => x.trim()))
         .then(xs => xs.filter(x => x && x !== "" && x !== "null")))
@@ -123,7 +124,7 @@ export class AnnosaurusApi {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(q),
-    }).then(r => r.json())
+    }).then(r => r.ok ? r.json() : Promise.reject(r))
   }
 
   async pageUsingQuery(q: Query, pageSize: number, progressCallback: (progress: number) => void = () => {}): Promise<string[]> {

@@ -1,10 +1,17 @@
+<!--
+This is the home view. It is the first view that is shown when the user
+navigates to the application. It checks to see if a valid configuration
+is present and redirects appropriately.
+-->
+
 <script setup lang="ts">
 import ConfigurationVue from '@/views/query/ConfigurationVue.vue'
 import { useRazielStore } from '@/stores/raziel'
 import router from '@/router'
 
-// use raziel api to see if we are logged in. If so, redirect to query page
-// if not, redirect to configuration page
+// Use the raziel api to see if we are logged in.
+// OK = redirect to query page
+// NOT OK = redirect to configuration page
 
 const razielStore = useRazielStore()
 razielStore.api.getEndpoints()
@@ -12,7 +19,7 @@ razielStore.api.getEndpoints()
         router.push('/query')
     })
     .catch((error) => {
-        console.error(error)
+        // console.error(error)
         router.push('/configuration')
     })
 
