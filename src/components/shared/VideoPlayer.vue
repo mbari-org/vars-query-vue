@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
-import { onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
-import { videoOverlay } from 'leaflet'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface Props {
     videoUrl: string
@@ -12,9 +11,6 @@ interface Props {
 const props = defineProps<Props>()
 
 const hasSeeked = ref(false)
-const hasEventListener = ref(false)
-
-// IMPORTANT: variable needs to be the same name as the element ref
 const video = ref(null as HTMLVideoElement | null)
 
 watch(() => props.videoUrl, () => {
@@ -22,31 +18,38 @@ watch(() => props.videoUrl, () => {
 })
 
 watch(() => props.seekTimeSeconds, () => {
-    hasSeeked.value = false
-    seekHandler()
+    if (video.value && !hasSeeked.value) {
+        seekHandler()
+    }
 })
 
 function seekHandler() {
     if (video.value) {
-        if (!hasSeeked.value) {
-            video.value.currentTime = props.seekTimeSeconds
-            hasSeeked.value = true
-            window.dispatchEvent(new Event('resize'));
-        }
+        video.value.currentTime = props.seekTimeSeconds
     }
 }
 
+function onCanPlay() {
+    if (video.value && !hasSeeked.value) {
+        video.value.currentTime = props.seekTimeSeconds
+    }
+}
+
+function onSeeked() {
+    hasSeeked.value = true
+}
+
 onMounted(() => {
-    if (props.videoUrl) {
-        document.getElementById("video-player")?.addEventListener("loadeddata", seekHandler)
-        hasEventListener.value = true
+    if (video.value) {
+        video.value.addEventListener('canplay', onCanPlay)
+        video.value.addEventListener('seeked', onSeeked)
     }
 })
 
 onUnmounted(() => {
-    if (hasEventListener.value) {
-        document.getElementById("video-player")?.removeEventListener("loadeddata", seekHandler)
-        hasEventListener.value = false
+    if (video.value) {
+        video.value.removeEventListener('canplay', onCanPlay)
+        video.value.removeEventListener('seeked', onSeeked)
     }
 })
 
@@ -59,7 +62,6 @@ function togglePictureInPicture() {
         }
     }
 }
-
 
 </script>
 
@@ -76,7 +78,7 @@ function togglePictureInPicture() {
                     :src="props.videoUrl"
                 >
                 </video>
-                <div v-if="!props.videoUrl">No web friendly video available</div>
+                <div v-if="!props.videoUrl">No web-friendly video available</div>
             </v-col>
         </v-row>
         <v-row align="center">
@@ -87,7 +89,7 @@ function togglePictureInPicture() {
                 </v-btn>
             </v-col>
             <v-col>
-                <a :href="videoUrl" class="small-font">{{props.videoUrl}}</a>
+                <a :href="props.videoUrl" class="small-font">{{props.videoUrl}}</a>
             </v-col>
         </v-row>
     </v-container>
