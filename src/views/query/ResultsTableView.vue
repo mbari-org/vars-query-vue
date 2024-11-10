@@ -17,6 +17,9 @@ const queryResultsStore = useQueryResultsStore()
 const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
 const search = ref('')
 const selectedRow = ref( [] as number[])
+const hoveredImage = ref<string | null>(null)
+const mouseX = ref(0)
+const mouseY = ref(0)
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
@@ -24,6 +27,18 @@ const selectedAnnotation = computed(() => {
     }
     return null as FauxAnnotation | null
 })
+
+function showImagePreview(image: string | undefined, event: MouseEvent) {
+    if (image) {
+        hoveredImage.value = image
+        mouseX.value = event.clientX
+        mouseY.value = event.clientY
+    }
+}
+
+function hideImagePreview() {
+    hoveredImage.value = null
+}
 
 
 watch(selectedAnnotation, (newVal) => {
@@ -84,6 +99,7 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
             :items="allAnnotations"
             :search="search"
             :custom-filter="nestedFilter"
+            :hover="true"
             item-value="row"
             select-strategy="single"
             show-select
@@ -91,21 +107,20 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
             v-model="selectedRow">
             <template v-slot:item.images="{ item }">
             </template>
+
+            <!-- Define the image column with hover functionality -->
             <template v-slot:item.image="{ item }">
-<!--                <v-hover v-slot:default="{ isHovering }">-->
                 <v-lazy>
-                    <v-img :src="item.image" aspect-ratio="1" max-width="500" max-height="500" v-if="item.image">
+                    <v-img
+                        :src="item.image"
+                        aspect-ratio="1"
+                        max-width="500"
+                        max-height="500"
+                        @mouseenter="(event: MouseEvent) => showImagePreview(item.image, event)"
+                        @mouseleave="hideImagePreview"
+                        v-if="item.image">
                     </v-img>
                 </v-lazy>
-<!--                    <div class="thumbnail-container">-->
-<!--                    <v-img-->
-<!--                        v-if="isHovering && item.imageUrl"-->
-<!--                        :src="item.imageUrl"-->
-<!--                        max-width="500"-->
-<!--                        max-height="500"-->
-<!--                        class="popup-image"></v-img>-->
-<!--                    </div>-->
-<!--                </v-hover>-->
             </template>
             <template v-slot:item.details="{ item }">
                 <div>
@@ -116,24 +131,37 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
                 </div>
             </template>
         </v-data-table>
+        <!-- Floating enlarged image preview -->
+        <div
+            v-if="hoveredImage"
+            class="image-preview"
+            :style="{ top: `${mouseY - 120}px`, left: `${mouseX}px` }">
+            <img :src="hoveredImage" alt="Preview" />
+        </div>
     </v-card>
     <save-options></save-options>
 
 </template>
 
 <style scoped>
-.thumbnail-container {
-    position: relative;
-    display: inline-block;
+.image-preview {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 500px;
+    height: 281px;
+    border: 2px solid #ccc;
+    background: #181818;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    pointer-events: none;
+    transform: translate(15px, 15px);
 }
 
-.popup-image {
-    position: absolute;
-    top: 0;
-    //left: 200px; /* Adjust this to control popup position */
-    z-index: 10;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
 }
 </style>
