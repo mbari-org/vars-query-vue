@@ -100,6 +100,11 @@ function handleRowClick(event: MouseEvent, row: any) {
     <v-container fluid style="width:100%">
         <v-row>
             <v-col>
+                <router-link to="results-image-grid-view">View image grid</router-link>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <annotations-map
                     @selected-annotation="setSelectedFauxAnnotation"
                 ></annotations-map>
@@ -216,6 +221,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                 <save-options></save-options>
             </v-col>
         </v-row>
+
     </v-container>
 </template>
 

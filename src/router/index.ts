@@ -33,6 +33,11 @@ const router = createRouter({
             component: () => import('../views/query/ResultsTableView.vue'),
         },
         {
+            path: '/results-image-grid-view',
+            name: 'results-image-grid-view',
+            component: () => import('../views/query/ResultsImageGridView.vue'),
+        },
+        {
             path: '/:catchAll(.*)',
             redirect: '/query',
         },
