@@ -17,7 +17,7 @@ function updateEndTime(event: Date) {
 </script>
 
 <template>
-    <v-container>
+    <v-container fluid style="width:100%">
         <v-row>
             <v-col>
                 <date-time-picker picker-title="Start date" time="00:00" @update="updateStartTime"> </date-time-picker>

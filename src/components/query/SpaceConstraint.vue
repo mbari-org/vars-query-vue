@@ -34,41 +34,38 @@ const numberRule = (value: string) => {
 </script>
 
 <template>
-    <div>
-<!--        <h2>Location</h2>-->
-        <v-container>
-            <v-row>
-                <v-col cols="6">
-                    <v-autocomplete
-                        clearable
-                        label="Region"
-                        v-model=selectedRegionName
-                        :items=regionNames
-                    ></v-autocomplete>
-                </v-col>
-                <v-col cols="3">
-                    <v-text-field label="Depth Min" v-model="regionStore.bounds.minDepth" :rules="[numberRule]"></v-text-field>
-                </v-col>
-                <v-col cols="3">
-                    <v-text-field label="Depth Max" v-model="regionStore.bounds.maxDepth" :rules="[numberRule]"></v-text-field>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="3">
-                    <v-text-field label="Latitude Min" v-model="regionStore.bounds.minLatitude" :rules="[numberRule]"></v-text-field>
-                </v-col>
-                <v-col cols="3">
-                    <v-text-field label="Latitude Max" v-model="regionStore.bounds.maxLatitude" :rules="[numberRule]"></v-text-field>
-                </v-col>
-                <v-col cols="3">
-                    <v-text-field label="Longitude Min" v-model="regionStore.bounds.minLongitude" :rules="[numberRule]"></v-text-field>
-                </v-col>
-                <v-col cols="3">
-                    <v-text-field label="Longitude Max" v-model="regionStore.bounds.maxLongitude" :rules="[numberRule]"></v-text-field>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
+    <v-container fluid style="width:100%">
+        <v-row>
+            <v-col cols="6">
+                <v-autocomplete
+                    clearable
+                    label="Region"
+                    v-model=selectedRegionName
+                    :items=regionNames
+                ></v-autocomplete>
+            </v-col>
+            <v-col cols="3">
+                <v-text-field label="Depth Min" v-model="regionStore.bounds.minDepth" :rules="[numberRule]"></v-text-field>
+            </v-col>
+            <v-col cols="3">
+                <v-text-field label="Depth Max" v-model="regionStore.bounds.maxDepth" :rules="[numberRule]"></v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="3">
+                <v-text-field label="Latitude Min" v-model="regionStore.bounds.minLatitude" :rules="[numberRule]"></v-text-field>
+            </v-col>
+            <v-col cols="3">
+                <v-text-field label="Latitude Max" v-model="regionStore.bounds.maxLatitude" :rules="[numberRule]"></v-text-field>
+            </v-col>
+            <v-col cols="3">
+                <v-text-field label="Longitude Min" v-model="regionStore.bounds.minLongitude" :rules="[numberRule]"></v-text-field>
+            </v-col>
+            <v-col cols="3">
+                <v-text-field label="Longitude Max" v-model="regionStore.bounds.maxLongitude" :rules="[numberRule]"></v-text-field>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <style scoped>

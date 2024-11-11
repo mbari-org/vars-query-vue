@@ -21,33 +21,30 @@ function addConcept(event: Event) {
 </script>
 
 <template>
-    <div>
-<!--        <h2>Concept</h2>-->
-        <v-container>
-            <v-row>
-                <v-col cols="6">
-                    <v-autocomplete  id="conceptAutocomplete" clearable label="Concepts" :items=oniStore.concepts></v-autocomplete>
-                </v-col>
-                <v-col cols="4">
-                    <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>
-                </v-col>
-                <v-col cols="2">
-                    <v-btn @click=addConcept icon="mdi-plus" size="x-large"></v-btn>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-chip-group column>
-                    <v-chip
-                        v-for="(selectedConcept, i) in selectedConceptsStore.selectedConcepts" :key="selectedConcept.concept"
-                        closable
-                        @click:close="selectedConceptsStore.remove(i)">
-                        {{selectedConcept.concept}}
-                        <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>
-                    </v-chip>
-                </v-chip-group>
-            </v-row>
-        </v-container>
-    </div>
+    <v-container fluid style="width:100%">
+        <v-row>
+            <v-col cols="6">
+                <v-autocomplete  id="conceptAutocomplete" clearable label="Concepts" :items=oniStore.concepts></v-autocomplete>
+            </v-col>
+            <v-col cols="4">
+                <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>
+            </v-col>
+            <v-col cols="2">
+                <v-btn @click=addConcept icon="mdi-plus" size="x-large"></v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-chip-group column>
+                <v-chip
+                    v-for="(selectedConcept, i) in selectedConceptsStore.selectedConcepts" :key="selectedConcept.concept"
+                    closable
+                    @click:close="selectedConceptsStore.remove(i)">
+                    {{selectedConcept.concept}}
+                    <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>
+                </v-chip>
+            </v-chip-group>
+        </v-row>
+    </v-container>
 </template>
 
 <style scoped>

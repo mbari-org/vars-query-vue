@@ -29,7 +29,7 @@ const cancel = () => {
 </script>
 
 <template>
-    <v-container>
+    <v-container fluid style="width:100%">
         <v-row>
             <v-spacer></v-spacer>
             <v-col>

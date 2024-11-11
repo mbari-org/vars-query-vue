@@ -7,7 +7,7 @@ const selectableColumnsStore = useSelectedColumnsStore()
 </script>
 
 <template>
-    <v-container>
+    <v-container fluid style="width:100%">
         <v-row>
             <v-col cols="12">
                 <v-autocomplete

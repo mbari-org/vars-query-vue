@@ -21,7 +21,7 @@ function addAssociation(event: Event) {
 <template>
     <div>
 <!--        <h2>Association</h2>-->
-        <v-container>
+        <v-container fluid style="width:100%">
             <v-row>
                 <v-col cols="6">
                     <v-text-field v-if="!associationsStore.exactMatch" id="associationTextField" clearable label="Details"></v-text-field>

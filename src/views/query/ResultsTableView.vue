@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-import {useQueryResultsStore} from '@/stores/query-results'
+import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, ref, watch } from 'vue'
 import AnnotationsMap from '@/components/query/AnnotationsMap.vue'
 import {
@@ -11,22 +10,24 @@ import {
 import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
 import SaveOptions from '@/components/query/SaveOptions.vue'
 
-
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
-const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
-const imageOnlyAnnotations = computed(() => allAnnotations.value.filter((a) => a.images && a.images.length > 0))
+const allAnnotations = computed(() =>
+    queryResultsStore.annotations.map(a => a.annotation),
+)
+const imageOnlyAnnotations = computed(() =>
+    allAnnotations.value.filter(a => a.images && a.images.length > 0),
+)
 const showImagesOnly = ref(false)
 const search = ref('')
-const selectedRow = ref( [] as number[])
+const selectedRow = ref([] as number[])
 const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 
-
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
-        return allAnnotations.value.find((a) => a.row === selectedRow.value[0])
+        return allAnnotations.value.find(a => a.row === selectedRow.value[0])
     }
     return null as FauxAnnotation | null
 })
@@ -34,8 +35,7 @@ const selectedAnnotation = computed(() => {
 const viewedAnnotations = computed(() => {
     if (showImagesOnly.value) {
         return imageOnlyAnnotations.value
-    }
-    else {
+    } else {
         return allAnnotations.value
     }
 })
@@ -52,8 +52,7 @@ function hideImagePreview() {
     hoveredImage.value = null
 }
 
-
-watch(selectedAnnotation, (newVal) => {
+watch(selectedAnnotation, newVal => {
     if (newVal) {
         // console.log('selectedRow', newVal)
         emit('selected-annotation', newVal)
@@ -67,108 +66,157 @@ function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
     // console.log('setSelectedQueryResult', annotation)
     if (annotation.row) {
         selectedRow.value = [annotation.row]
-    }
-    else {
+    } else {
         selectedRow.value = []
     }
 }
 
-function nestedFilter(value: string, search: string, item?: any): boolean | number | [number, number] | [number, number][] {
+function nestedFilter(
+    value: string,
+    search: string,
+    item?: any,
+): boolean | number | [number, number] | [number, number][] {
     if (!search) return true
     if (!value) return false
 
     if (Array.isArray(value)) {
-        return value.some((v) => nestedFilter(v, search, item))
-    }
-    else if (typeof value === 'object') {
-        return Object.values(value).some((v) => nestedFilter(`${v}`, search, item))
-    }
-    else {
+        return value.some(v => nestedFilter(v, search, item))
+    } else if (typeof value === 'object') {
+        return Object.values(value).some(v =>
+            nestedFilter(`${v}`, search, item),
+        )
+    } else {
         return String(value).toLowerCase().includes(search.toLowerCase())
     }
-
 }
 
 function handleRowClick(event: MouseEvent, row: any) {
     console.log('click', row)
     selectedRow.value = [row.item.row]
 }
-
 </script>
 
 <template>
-    <annotations-map @selected-annotation="setSelectedFauxAnnotation"></annotations-map>
-    <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>
-    <v-card title="Results" flat>
+    <v-container fluid style="width:100%">
+        <v-row>
+            <v-col>
+                <annotations-map
+                    @selected-annotation="setSelectedFauxAnnotation"
+                ></annotations-map>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <vam-video-player
+                    :source-video-uri="selectedAnnotation?.video_uri"
+                    :recorded-timestamp="
+                        selectedAnnotation?.index_recorded_timestamp
+                    "
+                ></vam-video-player>
+            </v-col>
+        </v-row>
+        <!--    <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>-->
+        <v-row>
+            <v-col>
+                <v-card title="Results" flat>
+                    <template v-slot:text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="9">
+                                    <v-text-field
+                                        v-model="search"
+                                        label="Search"
+                                        prepend-inner-icon="mdi-magnify"
+                                        variant="outlined"
+                                        hide-details
+                                        clearable
+                                        single-line
+                                    >
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="3">
+                                    <v-checkbox
+                                        label="Images only"
+                                        v-model="showImagesOnly"
+                                    ></v-checkbox>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </template>
 
-        <template v-slot:text>
-            <v-container>
-                <v-row>
-                    <v-col cols="9">
-                    <v-text-field
-                        v-model="search"
-                        label="Search"
-                        prepend-inner-icon="mdi-magnify"
-                        variant="outlined"
-                        hide-details
-                        clearable
-                        single-line>
-                    </v-text-field>
-                    </v-col>
-                    <v-col cols="3">
-                        <v-checkbox label="Images only" v-model="showImagesOnly"></v-checkbox>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </template>
+                    <v-data-table
+                        :items="viewedAnnotations"
+                        :search="search"
+                        :custom-filter="nestedFilter"
+                        :hover="true"
+                        @click:row="handleRowClick"
+                        item-value="row"
+                        select-strategy="single"
+                        show-select
+                        show-current-page
+                        v-model="selectedRow"
+                    >
+                        <template v-slot:item.images="{ item }"> </template>
 
-        <v-data-table
-            :items="viewedAnnotations"
-            :search="search"
-            :custom-filter="nestedFilter"
-            :hover="true"
-            @click:row="handleRowClick"
-            item-value="row"
-            select-strategy="single"
-            show-select
-            show-current-page
-            v-model="selectedRow">
-            <template v-slot:item.images="{ item }">
-            </template>
-
-            <!-- Define the image column with hover functionality -->
-            <template v-slot:item.image="{ item }">
-                <v-lazy>
-                    <v-img
-                        :src="item.image"
-                        aspect-ratio="1"
-                        max-width="500"
-                        max-height="500"
-                        @mouseenter="(event: MouseEvent) => showImagePreview(item.image, event)"
-                        @mouseleave="hideImagePreview"
-                        v-if="item.image">
-                    </v-img>
-                </v-lazy>
-            </template>
-            <template v-slot:item.details="{ item }">
-                <div>
-                    <v-chip v-for="(detail, idx) in item.details" :key="idx">
-                        {{ fauxAssociationToStringTrimmed(detail, 40) }}
-                        <v-tooltip activator="parent" location="bottom">{{ fauxAssociationToString(detail) }}</v-tooltip>
-                    </v-chip>
-                </div>
-            </template>
-        </v-data-table>
-        <!-- Floating enlarged image preview -->
-        <div
-            v-if="hoveredImage"
-            class="image-preview"
-            :style="{ top: `${mouseY - 120}px`, left: `${mouseX}px` }">
-            <img :src="hoveredImage" alt="Preview" />
-        </div>
-    </v-card>
-    <save-options></save-options>
-
+                        <!-- Define the image column with hover functionality -->
+                        <template v-slot:item.image="{ item }">
+                            <v-lazy>
+                                <v-img
+                                    :src="item.image"
+                                    aspect-ratio="1"
+                                    max-width="500"
+                                    max-height="500"
+                                    @mouseenter="
+                                        (event: MouseEvent) =>
+                                            showImagePreview(item.image, event)
+                                    "
+                                    @mouseleave="hideImagePreview"
+                                    v-if="item.image"
+                                >
+                                </v-img>
+                            </v-lazy>
+                        </template>
+                        <template v-slot:item.details="{ item }">
+                            <div>
+                                <v-chip
+                                    v-for="(detail, idx) in item.details"
+                                    :key="idx"
+                                >
+                                    {{
+                                        fauxAssociationToStringTrimmed(
+                                            detail,
+                                            40,
+                                        )
+                                    }}
+                                    <v-tooltip
+                                        activator="parent"
+                                        location="bottom"
+                                        >{{ fauxAssociationToString(detail) }}
+                                    </v-tooltip>
+                                </v-chip>
+                            </div>
+                        </template>
+                    </v-data-table>
+                    <!-- Floating enlarged image preview -->
+                    <div
+                        v-if="hoveredImage"
+                        class="image-preview"
+                        :style="{
+                            top: `${mouseY - 120}px`,
+                            left: `${mouseX}px`,
+                        }"
+                    >
+                        <img :src="hoveredImage" alt="Preview" />
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <save-options></save-options>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <style scoped>

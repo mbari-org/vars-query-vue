@@ -51,7 +51,7 @@ function runQuery() {
 <template>
     <div id="queryView">
         <v-toolbar class="fixed-bar">
-            <v-container fluid>
+            <v-container fluid style="width:100%">
                 <v-row>
                     <v-col cols="6">
                         <h1>VARS Query</h1>
