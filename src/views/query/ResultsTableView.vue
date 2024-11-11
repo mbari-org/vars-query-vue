@@ -15,17 +15,29 @@ import SaveOptions from '@/components/query/SaveOptions.vue'
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations = computed(() => queryResultsStore.annotations.map((a) => a.annotation))
+const imageOnlyAnnotations = computed(() => allAnnotations.value.filter((a) => a.images && a.images.length > 0))
+const showImagesOnly = ref(false)
 const search = ref('')
 const selectedRow = ref( [] as number[])
 const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 
+
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
         return allAnnotations.value.find((a) => a.row === selectedRow.value[0])
     }
     return null as FauxAnnotation | null
+})
+
+const viewedAnnotations = computed(() => {
+    if (showImagesOnly.value) {
+        return imageOnlyAnnotations.value
+    }
+    else {
+        return allAnnotations.value
+    }
 })
 
 function showImagePreview(image: string | undefined, event: MouseEvent) {
@@ -77,29 +89,45 @@ function nestedFilter(value: string, search: string, item?: any): boolean | numb
 
 }
 
+function handleRowClick(event: MouseEvent, row: any) {
+    console.log('click', row)
+    selectedRow.value = [row.item.row]
+}
+
 </script>
 
 <template>
     <annotations-map @selected-annotation="setSelectedFauxAnnotation"></annotations-map>
     <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>
     <v-card title="Results" flat>
+
         <template v-slot:text>
-            <v-text-field
-                v-model="search"
-                label="Search"
-                prepend-inner-icon="mdi-magnify"
-                variant="outlined"
-                hide-details
-                clearable
-                single-line>
-            </v-text-field>
+            <v-container>
+                <v-row>
+                    <v-col cols="9">
+                    <v-text-field
+                        v-model="search"
+                        label="Search"
+                        prepend-inner-icon="mdi-magnify"
+                        variant="outlined"
+                        hide-details
+                        clearable
+                        single-line>
+                    </v-text-field>
+                    </v-col>
+                    <v-col cols="3">
+                        <v-checkbox label="Images only" v-model="showImagesOnly"></v-checkbox>
+                    </v-col>
+                </v-row>
+            </v-container>
         </template>
 
         <v-data-table
-            :items="allAnnotations"
+            :items="viewedAnnotations"
             :search="search"
             :custom-filter="nestedFilter"
             :hover="true"
+            @click:row="handleRowClick"
             item-value="row"
             select-strategy="single"
             show-select
