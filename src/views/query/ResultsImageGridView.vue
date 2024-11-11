@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, ref } from 'vue'
+import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations = computed(() =>
@@ -22,18 +23,29 @@ function showImagePreview(image: string | undefined, event: MouseEvent) {
     }
 }
 
-
 function hideImagePreview() {
     hoveredImage.value = null
 }
 
+function extension(image: string) {
+    return image.split('.').pop()
+}
 
+function resolveCaption(annotation: FauxAnnotation) {
+
+    if (annotation.video_sequence_name) {
+        return annotation.video_sequence_name
+    }
+    return annotation.camera_platform ?? '' + ' ' + annotation.index_recorded_timestamp ?? ''
+}
 </script>
 
 <template>
     <v-row>
         <v-col>
-            <router-link to="/results-table-view">Back to results table</router-link>
+            <router-link to="/results-table-view"
+                >Back to results table</router-link
+            >
         </v-col>
     </v-row>
     <v-row>
@@ -41,36 +53,58 @@ function hideImagePreview() {
             v-for="i in imageOnlyAnnotations"
             :key="i.row ?? 1"
             class="d-flex child-flex"
-            cols="4">
-            <v-img
-                :src="i.image"
-                :lazy-src="i.image"
-                :class="{ 'highlight-overlay': hoveredImage && hoveredImage !== i.image }"
-                aspect-ratio="1"
-                contain
-                @mouseenter="(event: MouseEvent) =>showImagePreview(i.image, event)"
-                @mouseleave="hideImagePreview">
-                <template>
-                    <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center">
-                        <v-progress-circular
-                            indeterminate
-                        color="grey lighten-5">
-
-                        </v-progress-circular>
+            cols="4"
+        >
+            <v-card :title="resolveCaption(i)">
+                <v-container>
+                    <v-row>
+                        <v-col>
+                            <v-img
+                                :src="i.image"
+                                :lazy-src="i.image"
+                                :class="{
+                                    'highlight-overlay':
+                                        hoveredImage && hoveredImage !== i.image,
+                                }"
+                                width="500px"
+                                aspect-ratio="1"
+                                contain
+                                @mouseenter="
+                                    (event: MouseEvent) =>
+                                        showImagePreview(i.image, event)
+                                "
+                                @mouseleave="hideImagePreview"
+                            >
+                                <template>
+                                    <v-row
+                                        class="fill-height ma-0"
+                                        align="center"
+                                        justify="center"
+                                    >
+                                        <v-progress-circular
+                                            indeterminate
+                                            color="grey lighten-5"
+                                        >
+                                        </v-progress-circular>
+                                    </v-row>
+                                </template>
+                            </v-img>
+                        </v-col>
                     </v-row>
-                </template>
-            </v-img>
-            <span>{{i.index_recorded_timestamp ?? ''}}</span>
+                    <v-row>
+                        <v-col>
+                            <v-spacer></v-spacer>
+                            <a v-for="image in i.images" :key="image.url" :href="image.url"  target="_blank"
+                                >{{ extension(image.url ?? '.unknown') }}</a>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+            <!--            <span>{{i.index_recorded_timestamp ?? ''}}</span>-->
         </v-col>
-
     </v-row>
     <!-- Floating enlarged image preview -->
-    <div
-        v-if="hoveredImage"
-        class="image-preview">
+    <div v-if="hoveredImage" class="image-preview">
         <img :src="hoveredImage" alt="Preview" />
     </div>
 </template>
@@ -103,5 +137,9 @@ function hideImagePreview() {
 .highlight-overlay {
     filter: brightness(0.3);
     transition: filter 0.3s ease;
+}
+
+.small-font {
+    font-size: 1.0em;
 }
 </style>
