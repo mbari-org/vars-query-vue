@@ -63,8 +63,9 @@ function hideImagePreview() {
                     </v-row>
                 </template>
             </v-img>
-
+            <span>{{i.index_recorded_timestamp ?? ''}}</span>
         </v-col>
+
     </v-row>
     <!-- Floating enlarged image preview -->
     <div

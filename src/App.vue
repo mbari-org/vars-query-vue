@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <v-container fluid style="width:100%" id="app">
         <v-row>
             <v-col
-                >>
+                >
                 <header>
                     <img
                         alt="MBARI logo"
