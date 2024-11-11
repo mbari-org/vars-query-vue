@@ -229,6 +229,50 @@ export function extractRepresentativeImage(annotation: FauxAnnotation): string |
     return extractJpgOrFirstUrl(urls) ?? null
 }
 
+export function parseFauxAnnotation(data: { [key: string]: any }): FauxAnnotation {
+    const fauxAnnotation: FauxAnnotation = {};
+
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            const value = data[key];
+            // Check if the field is a number field and convert strings to numbers as needed
+            if (
+                typeof value === "string" &&
+                [
+                    "altitude",
+                    "depth_meters",
+                    "duration_millis",
+                    "frame_rate",
+                    "index_elapsed_time_millis",
+                    "latitude",
+                    "longitude",
+                    "oxygen_ml_per_l",
+                    "phi",
+                    "pressure_dbar",
+                    "psi",
+                    "row",
+                    "salinity",
+                    "temperature_celsius",
+                    "theta",
+                    "video_duration_millis",
+                    "video_height",
+                    "video_size_bytes",
+                    "video_width",
+                    "x",
+                    "y",
+                    "z"
+                ].includes(key)
+            ) {
+                fauxAnnotation[key] = parseFloat(value);
+            } else {
+                // Otherwise, assign the value as-is
+                fauxAnnotation[key] = value;
+            }
+        }
+    }
+    return fauxAnnotation;
+}
+
 export interface FauxAnnotation {
 
     // Need to SaveOptions.vue saveTab method to use properties as keys

@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, ref } from 'vue'
-import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
+import type { FauxAnnotation, FauxImageReference } from '@/assets/ts/annosaurus/QueryResults'
 
 const queryResultsStore = useQueryResultsStore()
-const allAnnotations = computed(() =>
-    queryResultsStore.annotations.map(a => a.annotation),
-)
+const allAnnotations =  queryResultsStore.annotations
 const imageOnlyAnnotations = computed(() =>
-    allAnnotations.value.filter(a => a.images && a.images.length > 0),
+    allAnnotations.filter(a => a.images && a.images.length > 0),
 )
 
 const hoveredImage = ref<string | null>(null)
@@ -50,6 +48,10 @@ function resolveCaption(annotation: FauxAnnotation) {
     return annotation.camera_platform ?? ''
 }
 
+function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
+    return a.url?.localeCompare(b.url ?? '') ?? 0
+}
+
 </script>
 
 <template>
@@ -71,39 +73,41 @@ function resolveCaption(annotation: FauxAnnotation) {
             :cols="cols"
         >
             <v-card :title="resolveCaption(i)" :subtitle="i.index_recorded_timestamp ?? ''">
-                <v-img
-                    :src="i.image"
-                    :lazy-src="i.image"
-                    :class="{
-                        'highlight-overlay':
-                            hoveredImage && hoveredImage !== i.image,
-                    }"
-                    width="500px"
-                    aspect-ratio="1"
-                    contain
-                    @mouseenter="
-                        (event: MouseEvent) =>
-                            showImagePreview(i.image, event)
-                    "
-                    @mouseleave="hideImagePreview"
-                >
-                    <template>
-                        <v-row
-                            class="fill-height ma-0"
-                            align="center"
-                            justify="center"
-                        >
-                            <v-progress-circular
-                                indeterminate
-                                color="grey lighten-5"
-                            >
-                            </v-progress-circular>
-                        </v-row>
-                    </template>
-                </v-img>
+                <v-lazy>
+                    <v-img
+                        :src="i.image"
+                        :lazy-src="i.image"
+                        :class="{
+                            'highlight-overlay':
+                                hoveredImage && hoveredImage !== i.image,
+                        }"
+                        width="500px"
+                        aspect-ratio="1"
+                        contain
+                        @mouseenter="
+                            (event: MouseEvent) =>
+                                showImagePreview(i.image, event)
+                        "
+                        @mouseleave="hideImagePreview"
+                    >
+<!--                        <template>-->
+<!--                            <v-row-->
+<!--                                class="fill-height ma-0"-->
+<!--                                align="center"-->
+<!--                                justify="center"-->
+<!--                            >-->
+<!--                                <v-progress-circular-->
+<!--                                    indeterminate-->
+<!--                                    color="grey lighten-5"-->
+<!--                                >-->
+<!--                                </v-progress-circular>-->
+<!--                            </v-row>-->
+<!--                        </template>-->
+                    </v-img>
+                </v-lazy>
 
                 <v-card-text>
-                    <a v-for="image in i.images" :key="image.url" :href="image.url"  target="_blank"
+                    <a v-for="image in i.images?.sort(sortByUrl)" :key="image.url" :href="image.url"  target="_blank"
                         >{{ extension(image.url ?? '.unknown') }}</a>
                 </v-card-text>
 

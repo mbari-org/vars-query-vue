@@ -43,3 +43,8 @@ npm run lint
 ```sh   
 npm run format
 ```
+
+## References
+
+- <https://github.com/apexcharts/vue3-apexcharts>
+- <https://apexcharts.com>

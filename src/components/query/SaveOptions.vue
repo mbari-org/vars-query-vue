@@ -48,7 +48,7 @@ function saveTab() {
     // Values in same column are separated by semicolon
 
     const filename = `vars-${nowAsCompactString()}.tsv`
-    const data = queryResultsStore.annotations.map((a) => a.annotation)
+    const data = queryResultsStore.annotations
     const tsvData = fauxAnnotationsToTsv(data)
     download(tsvData, filename, "text/tab-separated-values")
 }

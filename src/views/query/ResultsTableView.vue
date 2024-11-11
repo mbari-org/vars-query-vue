@@ -12,11 +12,9 @@ import SaveOptions from '@/components/query/SaveOptions.vue'
 
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
-const allAnnotations = computed(() =>
-    queryResultsStore.annotations.map(a => a.annotation),
-)
+const allAnnotations = queryResultsStore.annotations
 const imageOnlyAnnotations = computed(() =>
-    allAnnotations.value.filter(a => a.images && a.images.length > 0),
+    allAnnotations.filter(a => a.images && a.images.length > 0),
 )
 const showImagesOnly = ref(false)
 const search = ref('')
@@ -27,7 +25,7 @@ const mouseY = ref(0)
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
-        return allAnnotations.value.find(a => a.row === selectedRow.value[0])
+        return allAnnotations.find(a => a.row === selectedRow.value[0])
     }
     return null as FauxAnnotation | null
 })
@@ -36,7 +34,7 @@ const viewedAnnotations = computed(() => {
     if (showImagesOnly.value) {
         return imageOnlyAnnotations.value
     } else {
-        return allAnnotations.value
+        return allAnnotations
     }
 })
 
@@ -91,7 +89,7 @@ function nestedFilter(
 }
 
 function handleRowClick(event: MouseEvent, row: any) {
-    console.log('click', row)
+    // console.log('click', row)
     selectedRow.value = [row.item.row]
 }
 </script>
@@ -101,6 +99,9 @@ function handleRowClick(event: MouseEvent, row: any) {
         <v-row>
             <v-col>
                 <router-link to="results-image-grid-view">View image grid</router-link>
+            </v-col>
+            <v-col>
+                <router-link to="results-summary-view">View summary</router-link>
             </v-col>
         </v-row>
         <v-row>

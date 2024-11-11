@@ -46,7 +46,7 @@ onMounted(() => {
 
 const queryResultsStore = useQueryResultsStore()
 
-const geoAnnotations = computed(() => queryResultsStore.annotations
+const geoAnnotations = computed(() => queryResultsStore.geoAnnotations
     .filter(g => g.hasValidPosition()))
 
 watch(geoAnnotations, redraw, { immediate: true })

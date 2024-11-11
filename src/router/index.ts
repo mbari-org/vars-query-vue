@@ -38,6 +38,11 @@ const router = createRouter({
             component: () => import('../views/query/ResultsImageGridView.vue'),
         },
         {
+            path: '/results-summary-view',
+            name: 'results-summary-view',
+            component: () => import('../views/query/ResultsSummaryView.vue'),
+        },
+        {
             path: '/:catchAll(.*)',
             redirect: '/query',
         },

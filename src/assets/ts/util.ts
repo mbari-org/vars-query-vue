@@ -56,3 +56,51 @@ export function nowAsCompactString(): string {
     return new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '');
 }
 
+
+export interface HistogramBin {
+    index: number;
+    min: number;
+    max: number
+    count: number;
+}
+
+export function histogram(data: number[], numBins: number): HistogramBin[] {
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const binWidth = (max - min) / numBins;
+
+    const bins = Array.from({ length: numBins }, (_, i) => {
+        const binMin = min + i * binWidth;
+        const binMax = binMin + binWidth;
+        const count = data.filter(value => value >= binMin && value < binMax).length;
+        return {
+            index: i,
+            min: binMin,
+            max: binMax,
+            count,
+        }
+    });
+
+    return bins;
+}
+
+export function depthHistogram(data: number[]): HistogramBin[] {
+    const min = 0;
+    const max = 4000;
+    const numBins = 40;
+    const binWidth = (max - min) / numBins;
+
+    const bins = Array.from({ length: numBins }, (_, i) => {
+        const binMin = min + i * binWidth;
+        const binMax = binMin + binWidth;
+        const count = data.filter(value => value >= binMin && value < binMax).length;
+        return {
+            index: i,
+            min: binMin,
+            max: binMax,
+            count,
+        }
+    });
+
+    return bins;
+}
