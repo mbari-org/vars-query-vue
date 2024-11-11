@@ -14,6 +14,8 @@ const imageOnlyAnnotations = computed(() =>
 const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
+const imagesPerRow = ref(4)
+const cols = computed(() => 12 / imagesPerRow.value)
 
 function showImagePreview(image: string | undefined, event: MouseEvent) {
     if (image) {
@@ -36,8 +38,18 @@ function resolveCaption(annotation: FauxAnnotation) {
     if (annotation.video_sequence_name) {
         return annotation.video_sequence_name
     }
-    return annotation.camera_platform ?? '' + ' ' + annotation.index_recorded_timestamp ?? ''
+    if (annotation.camera_platform) {
+        return annotation.camera_platform
+    }
+    if (annotation.video_name) {
+        return annotation.video_name
+    }
+    if (annotation.chief_scientist) {
+        return annotation.chief_scientist
+    }
+    return annotation.camera_platform ?? ''
 }
+
 </script>
 
 <template>
@@ -47,58 +59,54 @@ function resolveCaption(annotation: FauxAnnotation) {
                 >Back to results table</router-link
             >
         </v-col>
+        <v-col cols="2">
+            <v-select label="Images per row" v-model="imagesPerRow" :items="[1, 2, 3, 4, 6]"></v-select>
+        </v-col>
     </v-row>
     <v-row>
         <v-col
             v-for="i in imageOnlyAnnotations"
             :key="i.row ?? 1"
             class="d-flex child-flex"
-            cols="4"
+            :cols="cols"
         >
-            <v-card :title="resolveCaption(i)">
-                <v-container>
-                    <v-row>
-                        <v-col>
-                            <v-img
-                                :src="i.image"
-                                :lazy-src="i.image"
-                                :class="{
-                                    'highlight-overlay':
-                                        hoveredImage && hoveredImage !== i.image,
-                                }"
-                                width="500px"
-                                aspect-ratio="1"
-                                contain
-                                @mouseenter="
-                                    (event: MouseEvent) =>
-                                        showImagePreview(i.image, event)
-                                "
-                                @mouseleave="hideImagePreview"
+            <v-card :title="resolveCaption(i)" :subtitle="i.index_recorded_timestamp ?? ''">
+                <v-img
+                    :src="i.image"
+                    :lazy-src="i.image"
+                    :class="{
+                        'highlight-overlay':
+                            hoveredImage && hoveredImage !== i.image,
+                    }"
+                    width="500px"
+                    aspect-ratio="1"
+                    contain
+                    @mouseenter="
+                        (event: MouseEvent) =>
+                            showImagePreview(i.image, event)
+                    "
+                    @mouseleave="hideImagePreview"
+                >
+                    <template>
+                        <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                        >
+                            <v-progress-circular
+                                indeterminate
+                                color="grey lighten-5"
                             >
-                                <template>
-                                    <v-row
-                                        class="fill-height ma-0"
-                                        align="center"
-                                        justify="center"
-                                    >
-                                        <v-progress-circular
-                                            indeterminate
-                                            color="grey lighten-5"
-                                        >
-                                        </v-progress-circular>
-                                    </v-row>
-                                </template>
-                            </v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-spacer></v-spacer>
-                            <a v-for="image in i.images" :key="image.url" :href="image.url"  target="_blank"
-                                >{{ extension(image.url ?? '.unknown') }}</a>
-                        </v-col>
-                    </v-row>
-                </v-container>
+                            </v-progress-circular>
+                        </v-row>
+                    </template>
+                </v-img>
+
+                <v-card-text>
+                    <a v-for="image in i.images" :key="image.url" :href="image.url"  target="_blank"
+                        >{{ extension(image.url ?? '.unknown') }}</a>
+                </v-card-text>
+
             </v-card>
             <!--            <span>{{i.index_recorded_timestamp ?? ''}}</span>-->
         </v-col>
