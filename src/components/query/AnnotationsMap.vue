@@ -54,7 +54,7 @@ watch(geoAnnotations, redraw, { immediate: true })
 
 function redraw() {
     myLayerGroup.clearLayers()
-    console.log('redrawing')
+    // console.log('redrawing')
     if (geoAnnotations.value && geoAnnotations.value.length > 0) {
         geoAnnotations.value.forEach(a => {
             if (a.hasValidPosition()) {
@@ -86,7 +86,7 @@ function redraw() {
 
     if (myMap.value) {
         const viewBounds = formatBoundsForLeaflet(geoQueryResultsViewBounds(geoAnnotations.value, defaultViewBounds), defaultViewBounds)
-        console.log('fitting bounds', viewBounds)
+        // console.log('fitting bounds', viewBounds)
         myMap.value.fitBounds(viewBounds)
     }
 

@@ -58,10 +58,10 @@ export function geoQueryResultsViewBounds(geoAnnotations: GeoFauxAnnotation[], d
         const maxLon = Math.max(...lons)
 
         // console.log(lats)
-        console.log(minLon)
-        console.log(maxLon)
-        console.log(minLat)
-        console.log(maxLat)
+        // console.log(minLon)
+        // console.log(maxLon)
+        // console.log(minLat)
+        // console.log(maxLat)
 
         if (minLat && minLon && maxLat && maxLon) {
             // isFinite(minLat) && isFinite(minLon) && isFinite(maxLat) && isFinite(maxLon) &&
