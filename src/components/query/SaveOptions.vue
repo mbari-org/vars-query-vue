@@ -72,45 +72,93 @@ function download(data: any, filename: string, mediaType: string) {
 
 <template>
     <v-container>
-        <v-row>
-            <v-col>
-                <v-btn @click="saveQueries">
-                    Save Queries
-                    <v-tooltip activator="parent" location="top">
-                        Save the query constraints as a JSON file.
-                    </v-tooltip></v-btn>
-            </v-col>
-            <v-col>
-                <v-btn @click="saveRawTab">
-                    Save Raw as TSV
-                    <v-tooltip activator="parent" location="top">
-                        Save the raw query results, as would be returned by a SQL query, as a tab-separated-values file
-                    </v-tooltip></v-btn>
-            </v-col>
-            <v-col>
-                <v-btn @click="saveRawJson">
-                    Save Raw as JSON
-                    <v-tooltip activator="parent" location="top">
-                        Save the raw query results, as would be returned by a SQL query, as a JSON
-                    </v-tooltip>
-                </v-btn>
-            </v-col>
-            <v-col>
-                <v-btn @click="saveJson">
-                    Save JSON
-                    <v-tooltip activator="parent" location="top">
-                        Save the query results as JSON. Best for importing into other applications or python.
-                    </v-tooltip>
-                </v-btn>
-            </v-col>
-            <v-col>
-                <v-btn @click="saveTab">
-                    Save as TSV
-                    <v-tooltip activator="parent" location="top">
-                        Save the query results as tab separated values. Great for importing into Excel.
-                    </v-tooltip>
-                </v-btn>
-            </v-col>
+        <!--<v-row>-->
+        <!--    <v-col>-->
+        <!--        <v-btn @click="saveQueries">-->
+        <!--            Save Queries-->
+        <!--            <v-tooltip activator="parent" location="top">-->
+        <!--                Save the query constraints as a JSON file.-->
+        <!--            </v-tooltip></v-btn>-->
+        <!--    </v-col>-->
+        <!--    <v-col>-->
+        <!--        <v-btn @click="saveRawTab">-->
+        <!--            Save Raw as TSV-->
+        <!--            <v-tooltip activator="parent" location="top">-->
+        <!--                Save the raw query results, as would be returned by a SQL query, as a tab-separated-values file-->
+        <!--            </v-tooltip></v-btn>-->
+        <!--    </v-col>-->
+        <!--    <v-col>-->
+        <!--        <v-btn @click="saveRawJson">-->
+        <!--            Save Raw as JSON-->
+        <!--            <v-tooltip activator="parent" location="top">-->
+        <!--                Save the raw query results, as would be returned by a SQL query, as a JSON-->
+        <!--            </v-tooltip>-->
+        <!--        </v-btn>-->
+        <!--    </v-col>-->
+        <!--    <v-col>-->
+        <!--        <v-btn @click="saveJson">-->
+        <!--            Save JSON-->
+        <!--            <v-tooltip activator="parent" location="top">-->
+        <!--                Save the query results as JSON. Best for importing into other applications or python.-->
+        <!--            </v-tooltip>-->
+        <!--        </v-btn>-->
+        <!--    </v-col>-->
+        <!--    <v-col>-->
+        <!--        <v-btn @click="saveTab">-->
+        <!--            Save as TSV-->
+        <!--            <v-tooltip activator="parent" location="top">-->
+        <!--                Save the query results as tab separated values. Great for importing into Excel.-->
+        <!--            </v-tooltip>-->
+        <!--        </v-btn>-->
+        <!--    </v-col>-->
+        <!--</v-row>-->
+        <v-row justify="end">
+            <v-btn>
+                Save Results
+                <v-menu location="top" activator="parent">
+                    <v-list>
+                        <v-list-item>
+                            <v-btn @click="saveQueries">
+                                Save Queries
+                                <v-tooltip activator="parent" location="bottom">
+                                    Save the query constraints as a JSON file.
+                                </v-tooltip>
+                            </v-btn>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn @click="saveRawTab">
+                                Save Raw as TSV
+                                <v-tooltip activator="parent" location="bottom">
+                                    Save the raw query results, as would be returned by a SQL query, as a tab-separated-values file
+                                </v-tooltip></v-btn>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn @click="saveRawJson">
+                                Save Raw as JSON
+                                <v-tooltip activator="parent" location="bottom">
+                                    Save the raw query results, as would be returned by a SQL query, as a JSON
+                                </v-tooltip>
+                            </v-btn>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn @click="saveTab">
+                                Save as TSV
+                                <v-tooltip activator="parent" location="bottom">
+                                    Save the query results as tab separated values. Great for importing into Excel.
+                                </v-tooltip>
+                            </v-btn>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn @click="saveJson">
+                                Save JSON
+                                <v-tooltip activator="parent" location="bottom">
+                                    Save the query results as JSON. Best for importing into other applications or python.
+                                </v-tooltip>
+                            </v-btn>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-btn>
         </v-row>
     </v-container>
 </template>

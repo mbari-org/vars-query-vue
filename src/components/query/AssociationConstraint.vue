@@ -38,7 +38,11 @@ function addAssociation(event: Event) {
                     </v-checkbox>
                 </v-col>
                 <v-col>
-                    <v-btn @click=addAssociation icon="mdi-plus" size="x-large"></v-btn>
+                    <v-btn @click=addAssociation icon="mdi-plus" size="x-large">
+                        <v-icon icon="mdi-plus"></v-icon>
+                        <v-tooltip v-if="associationsStore.exactMatch" activator="parent" location="bottom">Constrain by details/associations that match this link name</v-tooltip>
+                        <v-tooltip v-else activator="parent" location="bottom">Constrain by details/associations that include this term</v-tooltip>
+                    </v-btn>
                 </v-col>
             </v-row>
             <v-row>

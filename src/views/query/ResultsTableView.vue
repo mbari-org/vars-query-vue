@@ -97,12 +97,13 @@ function handleRowClick(event: MouseEvent, row: any) {
 <template>
     <v-container fluid style="width:100%">
         <v-row>
-            <v-col>
-                <router-link to="results-image-grid-view">View image grid</router-link>
-            </v-col>
-            <v-col>
-                <router-link to="results-summary-view">View summary</router-link>
-            </v-col>
+            <!--<v-col>-->
+                <router-link to="results-image-grid-view" class="view-link">View image grid</router-link>
+            <!--</v-col>-->
+                |
+            <!--<v-col>-->
+                <router-link to="results-summary-view" class="view-link">View summary</router-link>
+            <!--</v-col>-->
         </v-row>
         <v-row>
             <v-col>
@@ -247,4 +248,10 @@ function handleRowClick(event: MouseEvent, row: any) {
     aspect-ratio: 1;
     object-fit: contain;
 }
+
+.view-link {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 </style>

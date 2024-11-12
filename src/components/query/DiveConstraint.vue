@@ -11,8 +11,7 @@ const selectedVideoSequenceName = ref("" as string)
 const selectedCameraPlatform = ref("" as string)
 
 function addItem(event: Event) {
-    // const videoSequenceName = document.getElementById("videoSequenceNameAutocomplete").getAttribute("value")
-    // const cameraPlatform = document.getElementById("cameraPlatformAutocomplete").getAttribute("value")
+
     if (selectedVideoSequenceName.value) {
         videoSequenceNameStore.add(selectedVideoSequenceName.value)
         selectedVideoSequenceName.value = ""
@@ -22,21 +21,6 @@ function addItem(event: Event) {
         selectedCameraPlatform.value = ""
     }
 }
-
-
-// function addVideoSequenceName(event: Event) {
-//     const videoSequenceName = document.getElementById("videoSequenceNameAutocomplete").getAttribute("value")
-//     if (videoSequenceName) {
-//         videoSequenceNameStore.add(videoSequenceName)
-//     }
-// }
-//
-// function addCameraPlatform(event: Event) {
-//     const cameraPlatform = document.getElementById("cameraPlatformAutocomplete").getAttribute("value")
-//     if (cameraPlatform) {
-//         cameraPlatformStore.add(cameraPlatform)
-//     }
-// }
 
 </script>
 
@@ -60,7 +44,10 @@ function addItem(event: Event) {
                         ></v-autocomplete>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addItem icon="mdi-plus" size="x-large"></v-btn>
+                <v-btn @click=addItem icon="mdi-plus" size="x-large">
+                    <v-icon icon="mdi-plus"></v-icon>
+                    <v-tooltip activator="parent" location="bottom">Constrain by deployment or camera platform</v-tooltip>
+                </v-btn>
             </v-col>
         </v-row>
         <v-row>

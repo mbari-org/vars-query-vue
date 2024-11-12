@@ -30,7 +30,10 @@ function addConcept(event: Event) {
                 <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addConcept icon="mdi-plus" size="x-large"></v-btn>
+                <v-btn @click=addConcept icon="mdi-plus" size="x-large">
+                    <v-icon icon="mdi-plus"></v-icon>
+                    <v-tooltip activator="parent" location="bottom">Add concepts to search constraints</v-tooltip>
+                </v-btn>
             </v-col>
         </v-row>
         <v-row>
