@@ -20,10 +20,10 @@ const myMap = ref(null as LeafletMap | null)
 
 const myLayerGroup: LayerGroup = layerGroup()
 const defaultViewBounds: MapViewBounds = {
-    minLat: -121.9,
-    maxLat: -122.2,
-    minLon: 36.6,
-    maxLon: 36.8
+    minLon: -122.2,
+    maxLon: -121.9,
+    minLat: 36.6,
+    maxLat: 36.8
 }
 
 
@@ -54,6 +54,7 @@ watch(geoAnnotations, redraw, { immediate: true })
 
 function redraw() {
     myLayerGroup.clearLayers()
+    console.log('redrawing')
     if (geoAnnotations.value && geoAnnotations.value.length > 0) {
         geoAnnotations.value.forEach(a => {
             if (a.hasValidPosition()) {
@@ -85,6 +86,7 @@ function redraw() {
 
     if (myMap.value) {
         const viewBounds = formatBoundsForLeaflet(geoQueryResultsViewBounds(geoAnnotations.value, defaultViewBounds), defaultViewBounds)
+        console.log('fitting bounds', viewBounds)
         myMap.value.fitBounds(viewBounds)
     }
 

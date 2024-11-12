@@ -5,7 +5,6 @@ import {
     useAssociationsStore, useDecoratorsStore,
 } from '@/stores/query-params'
 import type { Query } from '@/assets/ts/annosaurus/Query'
-import router from '@/router'
 import { useQueryResultsStore } from '@/stores/query-results'
 
 export class QueryRunner {
@@ -20,19 +19,9 @@ export class QueryRunner {
      */
     async runQuery(progressCallback: (progress: number) => void = () => {}) {
         const queries = this.buildQueries()
-        console.log(queries)
+        // console.log(queries)
         const queryResultsStore = useQueryResultsStore()
         queryResultsStore.reset()
-        // query.forEach(q => {
-        //     this.api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
-        //         // console.log(response)
-        //         // console.log(tabDelimitedToObject(response))
-        //         queryResultsStore.appendRawQueryResults(response)
-        //         // useQueryResultsStore().updateQueryResults(tabDelimitedToObject(response))
-        //     }).catch((error) => {
-        //         console.error(error)
-        //     })
-        // })
         let i = 0
         for (const q of queries) {
             await this.api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
@@ -54,7 +43,7 @@ export class QueryRunner {
 
         const decoratorStore = useDecoratorsStore()
         const selectedColumns = buildSelect()
-        console.log(selectedColumns)
+        // console.log(selectedColumns)
         const wheres = buildColumnConstraints()
         const query = {
             select: selectedColumns,

@@ -14,7 +14,9 @@ export class GeoFauxAnnotation {
             'latitude' in this.annotation &&
             'longitude' in this.annotation &&
                 !isNaN(this.latitude) &&
-                !isNaN(this.longitude)
+                !isNaN(this.longitude)  &&
+                this.latitude < 90 && this.latitude > -90 &&
+                this.longitude < 180 && this.longitude > -180
         )
     }
 
@@ -45,21 +47,21 @@ export function geoQueryResultsViewBounds(geoAnnotations: GeoFauxAnnotation[], d
 
         const lats = geoAnnotations
             .map(a => a.latitude)
-            .filter(v => v !== undefined && !isNaN(v))
+            .filter(v => v !== undefined && !isNaN(v) && v !== 0)
         const minLat = Math.min(...lats)
         const maxLat = Math.max(...lats)
 
         const lons = geoAnnotations
             .map(a => a.longitude)
-            .filter(v => v !== undefined && !isNaN(v))
+            .filter(v => v !== undefined && !isNaN(v) && v !== 0)
         const minLon = Math.min(...lons)
         const maxLon = Math.max(...lons)
 
         // console.log(lats)
-        // console.log(minLon)
-        // console.log(maxLon)
-        // console.log(minLat)
-        // console.log(maxLat)
+        console.log(minLon)
+        console.log(maxLon)
+        console.log(minLat)
+        console.log(maxLat)
 
         if (minLat && minLon && maxLat && maxLon) {
             // isFinite(minLat) && isFinite(minLon) && isFinite(maxLat) && isFinite(maxLon) &&
