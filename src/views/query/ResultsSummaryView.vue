@@ -53,7 +53,7 @@ const depthChart = computed(() => {
 const temperatureSalinityChart = computed(() => {
     const data = allAnnotations.filter(a => a.temperature_celsius && a.salinity)
         .map(a => [a.salinity, a.temperature_celsius])
-    console.log(data)
+    // console.log(data)
     return {
         series: [
             {
