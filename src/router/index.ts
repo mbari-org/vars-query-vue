@@ -43,6 +43,11 @@ const router = createRouter({
             component: () => import('../views/query/ResultsSummaryView.vue'),
         },
         {
+            path: '/deployment/:name',
+            name: 'deployment',
+            component: () => import('../views/query/DeploymentLookup.vue')
+        },
+        {
             path: '/:catchAll(.*)',
             redirect: '/query',
         },

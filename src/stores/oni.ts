@@ -5,6 +5,7 @@ import { extractUrlFromConfig } from '@/assets/ts/raziel/api'
 import { OniApi } from '@/assets/ts/oni/api'
 import { computedAsync } from '@vueuse/core'
 import _ from 'lodash'
+import type { Descriptor } from '@/assets/ts/oni/Concept'
 
 const ONI_CONCEPTS_KEY = 'oni-concept'
 
@@ -23,6 +24,7 @@ export const useOniStore = defineStore('oni', () => {
     )
 
     const linkNames = computed(() => _.uniq(links.value?.map((link) => link.linkName)).sort())
+
 
     return { url, api, concepts, links, linkNames }
 })
