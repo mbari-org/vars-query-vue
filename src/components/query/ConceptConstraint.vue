@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useSelectedConceptsStore} from '@/stores/query-params'
+import { type SelectedConcept, useSelectedConceptsStore } from '@/stores/query-params'
 import {useOniStore} from '@/stores/oni'
 import { ref } from 'vue'
 
@@ -17,6 +17,13 @@ function addConcept(event: Event) {
     if (concept) {
         selectedConceptsStore.add(concept, extendTo)
     }
+}
+
+function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
+    if (selectedConcept.extendTo) {
+        return `${selectedConcept.concept} (+${selectedConcept.extendTo})`
+    }
+    return selectedConcept.concept
 }
 </script>
 
@@ -42,7 +49,7 @@ function addConcept(event: Event) {
                     v-for="(selectedConcept, i) in selectedConceptsStore.selectedConcepts" :key="selectedConcept.concept"
                     closable
                     @click:close="selectedConceptsStore.remove(i)">
-                    {{selectedConcept.concept}}
+                    {{selectedConceptToChipLabel(selectedConcept)}}
                     <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>
                 </v-chip>
             </v-chip-group>

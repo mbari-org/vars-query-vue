@@ -373,10 +373,10 @@ export const useRegionStore = defineStore('region', () => {
         }
         if (bounds.value.minDepth !== undefined && bounds.value.minDepth !== null) {
             console.log("minDepth", bounds.value.minDepth)
-            constraints.push({ column: 'depth', min: bounds.value.minDepth })
+            constraints.push({ column: 'depth_meters', min: bounds.value.minDepth })
         }
         if (bounds.value.maxDepth !== undefined && bounds.value.maxDepth !== null) {
-            constraints.push({ column: 'depth', max: bounds.value.maxDepth })
+            constraints.push({ column: 'depth_meters', max: bounds.value.maxDepth })
         }
         return constraints
     }
