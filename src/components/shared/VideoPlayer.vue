@@ -89,7 +89,7 @@ function togglePictureInPicture() {
                 </v-btn>
             </v-col>
             <v-col>
-                <a :href="props.videoUrl" class="small-font">{{props.videoUrl}}</a>
+                <a :href="props.videoUrl" target="_blank" class="small-font">{{props.videoUrl}}</a>
             </v-col>
         </v-row>
     </v-container>

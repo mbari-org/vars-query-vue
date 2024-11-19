@@ -63,17 +63,19 @@ function runQuery() {
                         <v-btn
                             size="x-large"
                             append-icon="mdi-close"
+                            color="error"
                             @click="reset"
-                        >Reset<v-tooltip>Reset all constraints</v-tooltip>
+                        >Reset<v-tooltip activator="parent" location="top">Reset all constraints and returns</v-tooltip>
                         </v-btn>
                     </v-col>
                     <v-col cols="2">
                         <v-btn
                             size="x-large"
                             append-icon="mdi-search-web"
+                            color="primary"
                             :disabled="!enableSearch"
                             @click="runQuery"
-                        >Search</v-btn>
+                        >Search<v-tooltip activator="parent" location="top">Run search</v-tooltip></v-btn>
                     </v-col>
                 </v-row>
             </v-container>

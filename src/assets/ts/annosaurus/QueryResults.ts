@@ -365,10 +365,10 @@ export function fauxAnnotationsToTsv(annotations: FauxAnnotation[]): string {
     const dataRows = annotations.map((a) => {
         const values = headers.map((h) => {
             const value = a[h]
-            if (h === 'details') {
+            if (h === 'details' && value) {
                 return (value as FauxAssociation[]).map(fauxAssociationToString).join(';')
             }
-            if (h === 'images') {
+            if (h === 'images' && value) {
                 return (value as FauxImageReference[]).map(i => i.url).join(';')
             }
             if (Array.isArray(value)) {

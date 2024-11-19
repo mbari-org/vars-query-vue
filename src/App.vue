@@ -16,8 +16,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
                     <div class="wrapper">
                         <nav>
-                            <RouterLink to="/config">Configuration</RouterLink>
                             <RouterLink to="/query">Query</RouterLink>
+                            <RouterLink to="/config">Configuration</RouterLink>
+
                         </nav>
                     </div>
                 </header>
@@ -45,7 +46,7 @@ header {
 
 nav {
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
     text-align: center;
     margin-top: 2rem;
 }

@@ -125,7 +125,7 @@ function handleRowClick(event: MouseEvent, row: any) {
         <!--    <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>-->
         <v-row>
             <v-col>
-                <v-card title="Results" flat>
+                <v-card :title="allAnnotations.length + ' Results'" flat>
                     <template v-slot:text>
                         <v-container>
                             <v-row>
@@ -163,7 +163,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                         show-current-page
                         v-model="selectedRow"
                     >
-                        <template v-slot:item.images="{ item }"> </template>
+                        <template v-slot:item.images="{ item }"><span>&lt;hidden:&gt;</span></template>
 
                         <!-- Define the image column with hover functionality -->
                         <template v-slot:item.image="{ item }">
