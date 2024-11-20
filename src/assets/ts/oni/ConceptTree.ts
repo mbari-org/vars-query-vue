@@ -4,7 +4,7 @@ export interface Taxa {
 }
 
 export interface TaxaNode extends Taxa {
-  alternateNames?: string[];
+  alternativeNames?: string[];
   children?: TaxaNode[];
 }
 
@@ -16,7 +16,7 @@ export function accumulateNamesFromTaxaNodes(nodes: TaxaNode[]): string[] {
 
 export function accumulateNamesFromTaxaNode(node: TaxaNode, names: string[] = []): string[] {
   names.push(node.name);
-  names.push(...(node.alternateNames || []));
+  names.push(...(node.alternativeNames || []));
   if (node.children) {
     node.children.forEach((child) => accumulateNamesFromTaxaNode(child, names));
   }

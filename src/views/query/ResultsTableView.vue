@@ -92,6 +92,7 @@ function handleRowClick(event: MouseEvent, row: any) {
     // console.log('click', row)
     selectedRow.value = [row.item.row]
 }
+
 </script>
 
 <template>
@@ -163,7 +164,10 @@ function handleRowClick(event: MouseEvent, row: any) {
                         show-current-page
                         v-model="selectedRow"
                     >
+
                         <template v-slot:item.images="{ item }"><span>&lt;hidden:&gt;</span></template>
+                            <!-- Hide the images column -->
+                        </template>
 
                         <!-- Define the image column with hover functionality -->
                         <template v-slot:item.image="{ item }">
@@ -254,4 +258,12 @@ function handleRowClick(event: MouseEvent, row: any) {
     margin-right: 1em;
 }
 
+.selected-row {
+    background-color: rgba(255, 165, 0, 0.2); /* Dim orange color */
+}
 </style>
+<!--
+Trying to highlight selected row in the table by adding
+:item-class="(item) => (selectedRow.includes(item.row) ? 'selected-row' : '')"
+to the v-data-table element, but it doesn't work.
+-->
