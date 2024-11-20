@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { computed, ref, watch } from 'vue'
 
 interface Props {
@@ -7,88 +6,157 @@ interface Props {
     time: string // hours:min
 }
 
-const { pickerTitle = "Time", time = "00:00" } = defineProps<Props>()
+const { pickerTitle = 'Time', time = '00:00' } = defineProps<Props>()
 
+const selectedDate = ref<Date | null>(null)
+const dateInput = ref<string>('') // Text field for date input in YYYY-MM-DD format
 
-const date = ref<string | null>(null)
+function reset() {
+    selectedDate.value = null
+    dateInput.value = ''
+}
+
+function setDateTime(dateTime: Date) {
+    selectedDate.value = dateTime
+}
+
+defineExpose({
+    reset,
+    setDateTime,
+})
+
+// Computed value for the combined date and time
+const selectedDateTime = computed(() => {
+    if (selectedDate.value) {
+        const localDate = selectedDate.value
+        if (time) {
+            // Convert to UTC
+            const [hours, minutes] = time.split(':').map(Number)
+            return new Date(
+                Date.UTC(
+                    localDate.getUTCFullYear(),
+                    localDate.getUTCMonth(),
+                    localDate.getUTCDate(),
+                    hours,
+                    minutes,
+                ),
+            )
+        } else {
+            // Convert to UTC at midnight
+            return new Date(
+                Date.UTC(
+                    localDate.getUTCFullYear(),
+                    localDate.getUTCMonth(),
+                    localDate.getUTCDate(),
+                ),
+            )
+        }
+    }
+    return null
+})
+
+const selectedDateTimeString = computed(() => {
+    if (selectedDateTime.value) {
+        //string as iso8601 UTC
+        return selectedDateTime.value.toISOString()
+    }
+    return ''
+})
+
+// Watch the selectedDate and update the text field with the formatted date
+watch(selectedDate, newDate => {
+    // const textField = document.getElementById('textfield') as HTMLInputElement
+    // console.log('textField', textField)
+    if (newDate) {
+        dateInput.value = newDate.toISOString().split('T')[0]
+    } else {
+        dateInput.value = ''
+    }
+})
+
+// Function to update selectedDate from the text field input
+function updateSelectedDate(event: Event) {
+    const dateInput = event.target as HTMLInputElement
+    const dateString = dateInput.value
+
+    // Validate that the date string is in the format YYYY-MM-DD
+    const isValidFormat = /^\d{4}-\d{2}-\d{2}$/.test(dateString)
+
+    if (!isValidFormat) {
+        // console.error('Invalid date format: Must be YYYY-MM-DD');
+        return
+    }
+
+    try {
+        const parsedDate = new Date(dateString)
+
+        // Ensure it's a valid date
+        if (!isNaN(parsedDate.getTime())) {
+            selectedDate.value = parsedDate
+        } else {
+            console.error('Invalid date: Not a real date')
+        }
+    } catch (error) {
+        console.error('Error parsing date', error)
+    }
+}
+
 const dateDialog = ref<boolean>(false)
-
-// const time = ref<string | null>(null)
-// const timeDialog = ref<boolean>(false)
 
 // Close the date dialog
 function closeDateDialog() {
     dateDialog.value = false
 }
 
-// Update the date
-function updateDate(newDate: string) {
-    date.value = newDate
-}
-
-// Close the time dialog
-// function closeTimeDialog() {
-//     timeDialog.value = false
-// }
-
-// Update the time
-// function updateTime(newTime: string) {
-//     time.value = newTime
-// }
-
-const selectedDateTime = computed(() => {
-    if (date.value) {
-        const localDate = new Date(date.value)
-
-        if (time) {
-            // convert to UTC
-            const [hours, minutes] = time.split(':').map(Number)
-            return new Date(Date.UTC(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate(), hours, minutes))
-        }
-        else {
-            // convert to UTC at midnight
-            return new Date(Date.UTC(localDate.getUTCFullYear(), localDate.getUTCMonth(), localDate.getUTCDate()))
-        }
-    }
-    return null
-})
-
-watch(selectedDateTime, (value) => {
-    if (value) {
-        emitUpdate()
-    }
-})
-
-// Confirm the selected date
 function confirmDate() {
     dateDialog.value = false
 }
 
+// Emit event to the parent component
 const emit = defineEmits<{
     (e: 'update', value: Date): void
 }>()
 
-function emitUpdate() {
-    if (selectedDateTime.value) {
-        emit('update', selectedDateTime.value)
+watch(selectedDateTime, value => {
+    if (value) {
+        emit('update', value)
     }
-}
-
+})
 </script>
-
 
 <template>
     <div>
-        <!-- Buttons to open date and time pickers -->
-        <v-btn @click="dateDialog = true">{{pickerTitle}}</v-btn>
-<!--        <v-btn @click="timeDialog = true">Select Time</v-btn>-->
+        <v-row>
+            <!-- Text field to input the date -->
+            <v-col>
+            <v-text-field
+                :label="`${pickerTitle} (YYYY-MM-DD)`"
+                id="textfield"
+                outlined
+                v-model="dateInput"
+                @blur="updateSelectedDate"
+                @input="updateSelectedDate"
+            >
+                <v-tooltip v-if="selectedDateTime" activator="parent" location="top">{{selectedDateTimeString}}</v-tooltip>
+            </v-text-field>
+            </v-col>
+
+            <!-- Button to open date picker -->
+            <v-col cols="2">
+                <v-btn @click="dateDialog = true" icon="mdi-calendar">
+                    <v-icon icon="mdi-calendar"></v-icon>
+                    <v-tooltip activator="parent" location="top">Select {{pickerTitle}}</v-tooltip>
+                </v-btn>
+            </v-col>
+
+        </v-row>
 
         <!-- Date Picker Dialog -->
         <v-dialog v-model="dateDialog" max-width="400">
             <v-card>
-                <v-card-title>{{pickerTitle}}</v-card-title>
+                <v-card-title>{{ pickerTitle }}</v-card-title>
                 <v-card-text>
-                    <v-date-picker v-model="date" @input="updateDate"></v-date-picker>
+                    <v-date-picker v-model="selectedDate"></v-date-picker>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -99,13 +167,10 @@ function emitUpdate() {
         </v-dialog>
 
         <!-- Display the selected Date and Time -->
-        <div v-if="selectedDateTime">
-            <p> {{ selectedDateTime.toUTCString() }}</p>
-        </div>
+<!--        <div v-if="selectedDateTime">-->
+<!--            <p>{{ selectedDateTimeString }}</p>-->
+<!--        </div>-->
     </div>
 </template>
 
-
-<style scoped>
-/* Add any custom styles here */
-</style>
+<style scoped></style>
