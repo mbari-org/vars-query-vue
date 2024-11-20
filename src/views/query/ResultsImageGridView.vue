@@ -116,9 +116,11 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
         </v-col>
     </v-row>
     <!-- Floating enlarged image preview -->
-    <div v-if="hoveredImage" class="image-preview">
-        <img :src="hoveredImage" alt="Preview" />
-    </div>
+    <Transition>
+        <div v-if="hoveredImage" class="image-preview">
+                <img :src="hoveredImage" alt="Preview"  />
+        </div>
+    </Transition>
 </template>
 
 <style scoped>
@@ -153,5 +155,16 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
 
 .small-font {
     font-size: 1.0em;
+}
+
+/* Transition for image preview */
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.7s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>
