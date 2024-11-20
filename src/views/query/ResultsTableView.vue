@@ -165,9 +165,9 @@ function handleRowClick(event: MouseEvent, row: any) {
                         v-model="selectedRow"
                     >
 
-                        <template v-slot:item.images="{ item }"><span>&lt;hidden:&gt;</span></template>
-                            <!-- Hide the images column -->
-                        </template>
+                        <!-- Hide the images column -->
+                        <template v-slot:item.images="{ item }"><span class="dimmer">&lt;hidden&gt;</span></template>
+
 
                         <!-- Define the image column with hover functionality -->
                         <template v-slot:item.image="{ item }">
@@ -260,6 +260,10 @@ function handleRowClick(event: MouseEvent, row: any) {
 
 .selected-row {
     background-color: rgba(255, 165, 0, 0.2); /* Dim orange color */
+}
+
+.dimmer {
+    color: #484848;
 }
 </style>
 <!--
