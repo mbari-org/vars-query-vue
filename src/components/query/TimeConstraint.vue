@@ -2,8 +2,13 @@
 
 import DateTimePicker from '@/components/shared/DateTimePicker.vue'
 import { useTimeStore } from '@/stores/query-params'
+import DateTimePicker2 from '@/components/shared/DateTimePicker2.vue'
+import { onMounted, ref } from 'vue'
 
 const timeStore = useTimeStore()
+
+const startDateRef = ref<InstanceType<typeof DateTimePicker2> | null>(null)
+const endDateRef = ref<InstanceType<typeof DateTimePicker2> | null>(null)
 
 function updateStartTime(event: Date) {
     timeStore.setStartTimestamp(event)
@@ -13,6 +18,25 @@ function updateEndTime(event: Date) {
     timeStore.setEndTimestamp(event)
 }
 
+function reset() {
+    startDateRef.value?.reset()
+    endDateRef.value?.reset()
+}
+
+defineExpose({
+    reset,
+})
+
+onMounted(() => {
+    const bounds = timeStore.bounds
+    if (bounds.startTimestamp) {
+        startDateRef.value?.setDateTime(bounds.startTimestamp)
+    }
+    if (bounds.endTimestamp) {
+        endDateRef.value?.setDateTime(bounds.endTimestamp)
+    }
+})
+
 
 </script>
 
@@ -20,11 +44,11 @@ function updateEndTime(event: Date) {
     <v-container fluid style="width:100%">
         <v-row>
             <v-col>
-                <date-time-picker picker-title="Start date" time="00:00" @update="updateStartTime"> </date-time-picker>
+                <date-time-picker2 ref="startDateRef" picker-title="Start date" time="00:00" @update="updateStartTime"> </date-time-picker2>
             </v-col>
 
             <v-col>
-                <date-time-picker picker-title="End date" time="23:59" @update="updateEndTime"> </date-time-picker>
+                <date-time-picker2 ref="endDateRef" picker-title="End date" time="23:59" @update="updateEndTime"> </date-time-picker2>
             </v-col>
 
         </v-row>

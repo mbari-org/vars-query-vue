@@ -74,15 +74,6 @@ function emitUpdate() {
     }
 }
 
-// Confirm the selected time
-// function confirmTime() {
-//     if (selectedDateTime.value && time.value) {
-//         const [hours, minutes] = time.value.split(':').map(Number)
-//         selectedDateTime.value.setHours(hours)
-//         selectedDateTime.value.setMinutes(minutes)
-//     }
-//     timeDialog.value = false
-// }
 </script>
 
 
@@ -106,21 +97,6 @@ function emitUpdate() {
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
-        <!-- Time Picker Dialog -->
-<!--        <v-dialog v-model="timeDialog" max-width="400">-->
-<!--            <v-card>-->
-<!--                <v-card-title>Select Time</v-card-title>-->
-<!--                <v-card-text>-->
-<!--                    <v-time-picker v-model="time" @input="updateTime"></v-time-picker>-->
-<!--                </v-card-text>-->
-<!--                <v-card-actions>-->
-<!--                    <v-spacer></v-spacer>-->
-<!--                    <v-btn @click="closeTimeDialog">Cancel</v-btn>-->
-<!--                    <v-btn @click="confirmTime">OK</v-btn>-->
-<!--                </v-card-actions>-->
-<!--            </v-card>-->
-<!--        </v-dialog>-->
 
         <!-- Display the selected Date and Time -->
         <div v-if="selectedDateTime">

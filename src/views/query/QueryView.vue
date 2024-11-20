@@ -26,8 +26,11 @@ const progress = ref(0)
 // as a placeholder for now.
 const rotate = computed(() => progress.value * 3.6)
 
+const timeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
+
 function reset() {
     resetStores()
+    timeConstraintRef.value?.reset()
 }
 
 function runQuery() {
@@ -88,7 +91,7 @@ function runQuery() {
         <dive-constraint></dive-constraint>
         <v-divider></v-divider>
         <space-constraint></space-constraint>
-        <time-constraint></time-constraint>
+        <time-constraint ref="timeConstraintRef"></time-constraint>
         <v-divider></v-divider>
         <field-constraints></field-constraints>
         <v-divider></v-divider>
