@@ -20,7 +20,15 @@ export const useQueryResultsStore = defineStore('query-results', () => {
             .map((a, row) => {
                 const b = parseFauxAnnotation(a) // convert strings in query results to numbers
                 const image = extractRepresentativeImage(b)
-                return {row, image, ...b} as FauxAnnotation
+                const concept = a['concept']
+                const video_sequence_name = a['video_sequence_name']
+                const index_recorded_timestamp = a['index_recorded_timestamp']
+                const depth_meters = a['depth_meters']
+                delete b['concept']
+                delete b['video_sequence_name']
+                delete b['index_recorded_timestamp']
+                delete b['depth_meters']
+                return {image, concept, video_sequence_name, index_recorded_timestamp, depth_meters, ...b, row} as FauxAnnotation
             })
     })
 

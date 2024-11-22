@@ -24,7 +24,7 @@ function addAssociation(event: Event) {
         <v-container fluid style="width:100%">
             <v-row>
                 <v-col cols="6">
-                    <v-text-field v-if="!associationsStore.exactMatch" id="associationTextField" clearable label="Details"></v-text-field>
+                    <v-text-field v-if="!associationsStore.exactMatch" id="associationTextField" clearable label="Details/Associations"></v-text-field>
                     <v-autocomplete v-else id="associationTextField" clearable label="Link name" :items="oniStore.linkNames"></v-autocomplete>
                 </v-col>
                 <v-col>
