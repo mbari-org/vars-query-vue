@@ -22,6 +22,7 @@ const selectedRow = ref([] as number[])
 const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
+const tab = ref<string | null>(null)
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
@@ -108,22 +109,33 @@ function handleRowClick(event: MouseEvent, row: any) {
         </v-row>
         <v-row>
             <v-col>
-                <annotations-map
-                    @selected-annotation="setSelectedFauxAnnotation"
-                ></annotations-map>
+                <v-card>
+                <v-tabs v-model="tab">
+                    <v-tab value="map">Map</v-tab>
+                    <v-tab value="video">Video</v-tab>
+                </v-tabs>
+                <v-tabs-window v-model="tab">
+                    <v-tabs-window-item value="map">
+                        <v-lazy>
+                            <annotations-map
+                                @selected-annotation="setSelectedFauxAnnotation"
+                            ></annotations-map>
+                        </v-lazy>
+                    </v-tabs-window-item>
+                    <v-tabs-window-item value="video">
+                        <v-lazy>
+                            <vam-video-player
+                                :source-video-uri="selectedAnnotation?.video_uri"
+                                :recorded-timestamp="
+                                selectedAnnotation?.index_recorded_timestamp
+                            "
+                            ></vam-video-player>
+                        </v-lazy>
+                    </v-tabs-window-item>
+                </v-tabs-window>
+                </v-card>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <vam-video-player
-                    :source-video-uri="selectedAnnotation?.video_uri"
-                    :recorded-timestamp="
-                        selectedAnnotation?.index_recorded_timestamp
-                    "
-                ></vam-video-player>
-            </v-col>
-        </v-row>
-        <!--    <vam-video-player :source-video-uri="selectedAnnotation?.video_uri" :recorded-timestamp="selectedAnnotation?.index_recorded_timestamp"></vam-video-player>-->
         <v-row>
             <v-col>
                 <v-card :title="allAnnotations.length + ' Results'" flat>
