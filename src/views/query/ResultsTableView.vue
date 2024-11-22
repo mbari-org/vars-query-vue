@@ -23,6 +23,7 @@ const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 const tab = ref<string | null>(null)
+const annotationsMapRef = ref<InstanceType<typeof AnnotationsMap> | null>(null)
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
@@ -55,6 +56,7 @@ watch(selectedAnnotation, newVal => {
     if (newVal) {
         // console.log('selectedRow', newVal)
         emit('selected-annotation', newVal)
+        annotationsMapRef.value.setSelectedFauxAnnotation(newVal)
     }
 })
 
@@ -118,6 +120,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                     <v-tabs-window-item value="map">
                         <v-lazy>
                             <annotations-map
+                                ref="annotationsMapRef"
                                 @selected-annotation="setSelectedFauxAnnotation"
                             ></annotations-map>
                         </v-lazy>

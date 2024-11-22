@@ -19,6 +19,8 @@ export const useQueryResultsStore = defineStore('query-results', () => {
         return crushQueryResultToAnnotations(queryResults.value)
             .map((a, row) => {
                 const b = parseFauxAnnotation(a) // convert strings in query results to numbers
+
+                // recorder results so they appear in the data table in the given order
                 const image = extractRepresentativeImage(b)
                 const concept = a['concept']
                 const video_sequence_name = a['video_sequence_name']

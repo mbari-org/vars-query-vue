@@ -4,15 +4,30 @@
 import { map, tileLayer, LayerGroup, circleMarker, layerGroup, canvas, Map as LeafletMap } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-providers'
-import { computed, createApp, h, onMounted, ref, watch, getCurrentInstance, type App } from 'vue'
+import { computed, createApp, h, onMounted, ref, watch, getCurrentInstance } from 'vue'
 import { useQueryResultsStore } from '@/stores/query-results'
 import {
+    type FauxAnnotation,
     formatBoundsForLeaflet,
     geoQueryResultsViewBounds,
     type MapViewBounds
 } from '@/assets/ts/annosaurus/QueryResults'
 import AnnotationsMapPopup from '@/components/query/AnnotationsMapPopup.vue'
 
+
+const selectedAnnotation = ref<null | FauxAnnotation>(null)
+
+const markerMap = ref(new Map<number, any>())
+
+watch(() => selectedAnnotation.value, (newVal) => {
+    // emit('selected-annotation', newVal)
+    if (newVal) {
+        const marker = markerMap.value.get(newVal.row ?? -1)
+        if (marker) {
+            marker.openPopup()
+        }
+    }
+})
 
 const instance = getCurrentInstance()
 const app = instance?.appContext.app
@@ -28,6 +43,10 @@ const defaultViewBounds: MapViewBounds = {
 
 
 const emit = defineEmits(['selected-annotation'])
+
+function emitSelectedAnnotation(annotation: FauxAnnotation) {
+    emit('selected-annotation', annotation)
+}
 
 onMounted(() => {
     const aMap = map("annotations-map").setView([36.8, -122.0], 13)
@@ -54,6 +73,7 @@ watch(geoAnnotations, redraw, { immediate: true })
 
 function redraw() {
     myLayerGroup.clearLayers()
+    markerMap.value.clear()
     // console.log('redrawing')
     if (geoAnnotations.value && geoAnnotations.value.length > 0) {
         geoAnnotations.value.forEach(a => {
@@ -76,10 +96,14 @@ function redraw() {
                 popup.mount(wrapper)
                 marker.bindPopup(wrapper)
                 marker.on({
-                    mouseover: () => marker.openPopup(),
-                    mouseout: () => marker.closePopup(),
-                    click: () => emit('selected-annotation', a.annotation)
+                    // mouseover: () => marker.openPopup(),
+                    // mouseout: () => marker.closePopup(),
+                    click: () => {
+                        selectedAnnotation.value =  a.annotation
+                        emitSelectedAnnotation(a.annotation)
+                    }
                 })
+                markerMap.value.set(a.annotation.row ?? -1, marker)
             }
         })
     }
@@ -92,6 +116,13 @@ function redraw() {
 
 }
 
+function setSelectedFauxAnnotation(annotation: FauxAnnotation) {
+    selectedAnnotation.value = annotation
+}
+
+defineExpose({
+    setSelectedFauxAnnotation
+})
 
 
 </script>
