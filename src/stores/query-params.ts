@@ -413,10 +413,10 @@ export const useTimeStore = defineStore('time', () => {
         if (startTimestamp === null && endTimestamp === null) {
             return []
         }
-        if (startTimestamp === null) {
+        if (!startTimestamp) {
             startTimestamp = new Date("1900-01-01T00:00:00Z")
         }
-        if (endTimestamp === null) {
+        if (!endTimestamp) {
             endTimestamp = new Date(Date.now())
         }
         return [{
@@ -469,7 +469,7 @@ export const useDecoratorsStore = defineStore('decorators', () => {
 
     const imagesOnly = ref(false)
     const concurrentObservations = ref(false)
-    const relatedAssociations = ref(false)
+    const relatedAssociations = ref(true)
 
     function buildColumnConstraints(): Array<ColumnConstraint> {
         if (imagesOnly.value) {
@@ -484,7 +484,7 @@ export const useDecoratorsStore = defineStore('decorators', () => {
     function reset() {
         imagesOnly.value = false
         concurrentObservations.value = false
-        relatedAssociations.value = false
+        relatedAssociations.value = true
     }
 
     return { imagesOnly, concurrentObservations, relatedAssociations, reset, buildColumnConstraints }

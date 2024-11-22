@@ -33,6 +33,10 @@ function reset() {
     timeConstraintRef.value?.reset()
 }
 
+function resetOnlyReturns() {
+    selectedColumnsStore.reset()
+}
+
 function runQuery() {
     // console.log('runQuery')
     queryIsRunning.value = true
@@ -65,7 +69,7 @@ function runQuery() {
                     <v-col cols="2">
                         <v-btn
                             size="x-large"
-                            append-icon="mdi-close"
+                            append-icon="mdi-restore"
                             color="error"
                             @click="reset"
                         >Reset<v-tooltip activator="parent" location="top">Reset all constraints and returns</v-tooltip>
@@ -95,7 +99,20 @@ function runQuery() {
         <v-divider></v-divider>
         <field-constraints></field-constraints>
         <v-divider></v-divider>
-        <selections></selections>
+        <v-row align="center">
+            <v-col>
+                <selections></selections>
+            </v-col>
+            <v-col cols="2">
+                <v-btn
+                    size="x-large"
+                    icon="mdi-restore"
+                    @click="resetOnlyReturns"
+                ><v-icon icon="mdi-restore"></v-icon><v-tooltip activator="parent" location="top">Reset the selected returns</v-tooltip>
+                </v-btn>
+            </v-col>
+        </v-row>
+
 
         <v-overlay
             :model-value="queryIsRunning"

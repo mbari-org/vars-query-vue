@@ -25,13 +25,20 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
     }
     return selectedConcept.concept
 }
+
 </script>
 
 <template>
     <v-container fluid style="width:100%">
         <v-row>
             <v-col cols="6">
-                <v-autocomplete  id="conceptAutocomplete" clearable label="Concepts" :items=oniStore.concepts></v-autocomplete>
+                <v-autocomplete
+                    id="conceptAutocomplete"
+                    clearable
+                    label="Concepts"
+                    :items=oniStore.concepts
+                    auto-select-first>
+                </v-autocomplete>
             </v-col>
             <v-col cols="4">
                 <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>

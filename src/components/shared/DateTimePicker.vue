@@ -133,6 +133,7 @@ watch(selectedDateTime, value => {
                 :label="`${pickerTitle} (YYYY-MM-DD)`"
                 id="textfield"
                 outlined
+                clearable
                 v-model="dateInput"
                 @blur="updateSelectedDate"
                 @input="updateSelectedDate"
