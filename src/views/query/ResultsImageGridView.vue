@@ -2,6 +2,7 @@
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, ref } from 'vue'
 import type { FauxAnnotation, FauxImageReference } from '@/assets/ts/annosaurus/QueryResults'
+import { useVampireSquidStore } from '@/stores/vampire-squid'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations =  queryResultsStore.annotations
@@ -14,6 +15,7 @@ const mouseX = ref(0)
 const mouseY = ref(0)
 const imagesPerRow = ref(4)
 const cols = computed(() => 12 / imagesPerRow.value)
+const vampireSquidStore = useVampireSquidStore()
 
 function showImagePreview(image: string | undefined, event: MouseEvent) {
     if (image) {
@@ -52,6 +54,31 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
     return a.url?.localeCompare(b.url ?? '') ?? 0
 }
 
+function openVideo(a: FauxAnnotation) {
+    console.log('openVideo', a)
+    if (a.video_uri && a.index_recorded_timestamp) {
+        return vampireSquidStore.api
+            .findMediaByUri(a.video_uri ?? '')
+            .then((m) => vampireSquidStore.api.findSmallestConcurrentMp4(m.camera_id, a.index_recorded_timestamp || '' ))
+            .then((m) => {
+                if (m && m.uri) {
+                    let start = 0
+                    if (a.index_recorded_timestamp) {
+                        // Recalc seek time. See VamVideoPlayer.vue and https://nginx.org/en/docs/http/ngx_http_mp4_module.html
+                        const seek = new Date(a.index_recorded_timestamp)
+                        const mediaStart = new Date(m.start_timestamp)
+                        start = (seek.getTime() - mediaStart.getTime()) / 1000
+
+                    }
+
+                    // TODO recalu seek time. See VamVideoPlayer.vue and https://nginx.org/en/docs/http/ngx_http_mp4_module.html
+                    const seekUri = `${m.uri}?start=${start}`
+                    window.open(seekUri, '_blank')?.focus()
+                }
+            })
+    }
+}
+
 </script>
 
 <template>
@@ -84,31 +111,17 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
                         width="500px"
                         aspect-ratio="1"
                         contain
-                        @mouseenter="
-                            (event: MouseEvent) =>
-                                showImagePreview(i.image, event)
-                        "
-                        @mouseleave="hideImagePreview"
+                        @click="(event: MouseEvent) => showImagePreview(i.image, event)"
                     >
-<!--                        <template>-->
-<!--                            <v-row-->
-<!--                                class="fill-height ma-0"-->
-<!--                                align="center"-->
-<!--                                justify="center"-->
-<!--                            >-->
-<!--                                <v-progress-circular-->
-<!--                                    indeterminate-->
-<!--                                    color="grey lighten-5"-->
-<!--                                >-->
-<!--                                </v-progress-circular>-->
-<!--                            </v-row>-->
-<!--                        </template>-->
                     </v-img>
                 </v-lazy>
 
                 <v-card-text>
+                    <span>{{i.concept}} | </span>
+                    <v-icon size="small" @click="() => openVideo(i)">mdi-video</v-icon>
                     <a v-for="image in i.images?.sort(sortByUrl)" :key="image.url" :href="image.url"  target="_blank"
                         >{{ extension(image.url ?? '.unknown') }}</a>
+
                 </v-card-text>
 
             </v-card>
@@ -117,8 +130,8 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
     </v-row>
     <!-- Floating enlarged image preview -->
     <Transition>
-        <div v-if="hoveredImage" class="image-preview">
-                <img :src="hoveredImage" alt="Preview"  />
+        <div v-if="hoveredImage" class="image-preview" @click="hideImagePreview">
+            <img :src="hoveredImage" alt="Preview" />
         </div>
     </Transition>
 </template>
@@ -135,9 +148,9 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
     background: #181818;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    pointer-events: none;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .image-preview img {
@@ -145,6 +158,7 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
     height: auto;
     max-height: 80vh;
     object-fit: contain;
+    pointer-events: none;
 }
 
 /* Grey overlay for highlighted image */

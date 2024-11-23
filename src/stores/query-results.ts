@@ -26,11 +26,15 @@ export const useQueryResultsStore = defineStore('query-results', () => {
                 const video_sequence_name = a['video_sequence_name']
                 const index_recorded_timestamp = a['index_recorded_timestamp']
                 const depth_meters = a['depth_meters']
+                const observer = a['observer']
+                const details = a['details']
                 delete b['concept']
                 delete b['video_sequence_name']
                 delete b['index_recorded_timestamp']
                 delete b['depth_meters']
-                return {image, concept, video_sequence_name, index_recorded_timestamp, depth_meters, ...b, row} as FauxAnnotation
+                delete b['observer']
+                delete b['details']
+                return {image, concept, video_sequence_name, index_recorded_timestamp, depth_meters, observer, details, ...b, row} as FauxAnnotation
             })
     })
 

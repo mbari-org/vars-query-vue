@@ -9,6 +9,7 @@ import {
 } from '@/assets/ts/annosaurus/QueryResults'
 import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
 import SaveOptions from '@/components/query/SaveOptions.vue'
+import ImageThumbnail from '@/components/query/ImageThumbnail.vue'
 
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
@@ -19,9 +20,6 @@ const imageOnlyAnnotations = computed(() =>
 const showImagesOnly = ref(false)
 const search = ref('')
 const selectedRow = ref([] as number[])
-const hoveredImage = ref<string | null>(null)
-const mouseX = ref(0)
-const mouseY = ref(0)
 const tab = ref<string | null>(null)
 const annotationsMapRef = ref<InstanceType<typeof AnnotationsMap> | null>(null)
 
@@ -40,23 +38,12 @@ const viewedAnnotations = computed(() => {
     }
 })
 
-function showImagePreview(image: string | undefined, event: MouseEvent) {
-    if (image) {
-        hoveredImage.value = image
-        mouseX.value = event.clientX
-        mouseY.value = event.clientY
-    }
-}
-
-function hideImagePreview() {
-    hoveredImage.value = null
-}
 
 watch(selectedAnnotation, newVal => {
     if (newVal) {
         // console.log('selectedRow', newVal)
         emit('selected-annotation', newVal)
-        annotationsMapRef.value.setSelectedFauxAnnotation(newVal)
+        annotationsMapRef.value?.setSelectedFauxAnnotation(newVal)
     }
 })
 
@@ -154,6 +141,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                                         hide-details
                                         clearable
                                         single-line
+                                        density="compact"
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -161,6 +149,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                                     <v-checkbox
                                         label="Images only"
                                         v-model="showImagesOnly"
+                                        density="compact"
                                     ></v-checkbox>
                                 </v-col>
                             </v-row>
@@ -177,31 +166,18 @@ function handleRowClick(event: MouseEvent, row: any) {
                         select-strategy="single"
                         show-select
                         show-current-page
+                        density="compact"
                         v-model="selectedRow"
                     >
 
                         <!-- Hide the images column -->
                         <template v-slot:item.images="{ item }"><span class="dimmer">&lt;hidden&gt;</span></template>
 
-
                         <!-- Define the image column with hover functionality -->
                         <template v-slot:item.image="{ item }">
-                            <v-lazy>
-                                <v-img
-                                    :src="item.image"
-                                    aspect-ratio="1"
-                                    max-width="500"
-                                    max-height="500"
-                                    @mouseenter="
-                                        (event: MouseEvent) =>
-                                            showImagePreview(item.image, event)
-                                    "
-                                    @mouseleave="hideImagePreview"
-                                    v-if="item.image"
-                                >
-                                </v-img>
-                            </v-lazy>
+                            <image-thumbnail :annotation="item"></image-thumbnail>
                         </template>
+
                         <template v-slot:item.details="{ item }">
                             <div>
                                 <v-chip
@@ -223,17 +199,6 @@ function handleRowClick(event: MouseEvent, row: any) {
                             </div>
                         </template>
                     </v-data-table>
-                    <!-- Floating enlarged image preview -->
-                    <div
-                        v-if="hoveredImage"
-                        class="image-preview"
-                        :style="{
-                            top: `${mouseY - 120}px`,
-                            left: `${mouseX}px`,
-                        }"
-                    >
-                        <img :src="hoveredImage" alt="Preview" />
-                    </div>
                 </v-card>
             </v-col>
         </v-row>
@@ -247,26 +212,6 @@ function handleRowClick(event: MouseEvent, row: any) {
 </template>
 
 <style scoped>
-.image-preview {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 500px;
-    height: 281px;
-    border: 2px solid #ccc;
-    background: #181818;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    pointer-events: none;
-    transform: translate(15px, 15px);
-}
-
-.image-preview img {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1;
-    object-fit: contain;
-}
 
 .view-link {
     margin-left: 1em;
