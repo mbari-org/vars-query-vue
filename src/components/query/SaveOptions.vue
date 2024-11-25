@@ -90,13 +90,22 @@ function download(data: any, filename: string, mediaType: string) {
 
 async function addPreviewMediaToAnnotations() {
     if (includePreviewMedia.value) {
-        for (const a of queryResultsStore.annotations) {
-            if (!a.preview_media_uri && a.video_uri && a.index_recorded_timestamp) {
-                const pm = await vampreSquidStore.api.findPreviewMediaByUriAndTimestamp(a.video_uri, a.index_recorded_timestamp)
+        // for (const a of queryResultsStore.annotations) {
+        //     if (!a.preview_media_uri && a.video_uri && a.index_recorded_timestamp) {
+        //         const pm = await vampreSquidStore.api.findPreviewMediaByUriAndTimestamp(a.video_uri, a.index_recorded_timestamp)
+        //         a.preview_media_uri = pm.media.uri
+        //         a.preview_media_index_seconds = pm.seekTimeSeconds
+        //     }
+        // }
+        const previewableAnnotations = queryResultsStore.annotations.filter(a => !a.preview_media_uri && a.video_uri && a.index_recorded_timestamp)
+        const promises = previewableAnnotations.map(async (a) => {
+            const pm = await vampreSquidStore.api.findPreviewMediaByUriAndTimestamp(a.video_uri ?? '', a.index_recorded_timestamp ?? '')
+            if (pm && pm.media && pm.media.uri) {
                 a.preview_media_uri = pm.media.uri
-                a.preview_media_index_seconds = pm.seekTimeSeconds
+                a.preview_media_index_seconds = pm.seekTimeSeconds ?? 0
             }
-        }
+        })
+        await Promise.all(promises)
     }
 }
 
