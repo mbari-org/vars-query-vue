@@ -8,23 +8,45 @@ to be used with different VARS servers.
 
 <script setup lang="ts">
 import { useRazielStore } from '@/stores/raziel'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import router from '@/router'
 
 const razielStore = useRazielStore()
 
 const url = computed(() => razielStore.url)
 
-const save = () => {
+
+
+const save = async () => {
     const urlField = document.getElementById('url-field') as HTMLInputElement
     razielStore.$updateUrl(urlField.value)
-    router.push('/query')
+    // router.push('/query')
+    await checkRaziel()
 }
 
 const cancel = () => {
     const urlField = document.getElementById('url-field') as HTMLInputElement
     urlField.value = razielStore.url
-    router.push('/query')
+    // router.push('/query')
+    // checkRaziel()
+}
+
+watch(() => razielStore.isLoading, (value) => {
+    if (!value) {
+        checkRaziel()
+    }
+})
+
+function checkRaziel() {
+    razielStore.api.getEndpoints()
+        .then(() => {
+            console.log('Configuration is OK')
+            router.push('/query')
+        })
+        .catch((error) => {
+            console.error(error)
+            router.push('/config')
+        })
 }
 </script>
 

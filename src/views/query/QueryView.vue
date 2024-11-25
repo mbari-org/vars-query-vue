@@ -15,16 +15,12 @@ import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import Selections from '@/components/query/Selections.vue'
 import { computed, ref } from 'vue'
 import router from '@/router'
+import { useRazielStore } from '@/stores/raziel'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
 const queryIsRunning = ref(false)
 const progress = ref(0)
-
-// FIXME: This is the progress bar value (in degrees) but when wired up
-// does not seem to be updating the progress bar. I've left it in
-// as a placeholder for now.
-const rotate = computed(() => progress.value * 3.6)
 
 const timeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
 

@@ -1,5 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { useRazielStore } from '@/stores/raziel'
+import router from '@/router'
+import { computedAsync } from '@vueuse/core'
+
+const razielStore = useRazielStore()
+razielStore.api.getEndpoints()
+    .then(() => {
+        router.push('/query')
+    })
+    .catch((error) => {
+        router.push('/config')
+    })
+
+const configIsOk = computedAsync(() => {
+    return razielStore.api.getEndpoints()
+        .then(() => {
+            return true
+        })
+        .catch((error) => {
+            return false
+        })
+})
+
+
 </script>
 
 <template>
@@ -17,7 +41,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
                     <div class="wrapper">
                         <nav>
-                            <RouterLink to="/query">Query</RouterLink>
+                            <RouterLink v-if="configIsOk" to="/query">Query</RouterLink>
                             <RouterLink to="/config">Configuration</RouterLink>
                         </nav>
                     </div>
@@ -29,6 +53,15 @@ import { RouterLink, RouterView } from 'vue-router'
         <v-row>
             <v-col>
                 <RouterView />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-alert
+                    v-if="!configIsOk"
+                    color="error"
+                    icon="$error"
+                    text="That is not a valid configuration URL"></v-alert>
             </v-col>
         </v-row>
     </v-container>

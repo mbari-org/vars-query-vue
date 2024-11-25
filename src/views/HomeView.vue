@@ -13,17 +13,6 @@ import router from '@/router'
 // OK = redirect to query page
 // NOT OK = redirect to configuration page
 
-const razielStore = useRazielStore()
-razielStore.api.getEndpoints()
-    .then(() => {
-        router.push('/query')
-    })
-    .catch((error) => {
-        // console.error(error)
-        router.push('/configuration')
-    })
-
-
 </script>
 
 <template>
