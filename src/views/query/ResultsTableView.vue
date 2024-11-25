@@ -78,10 +78,37 @@ function nestedFilter(
     }
 }
 
-function handleRowClick(event: MouseEvent, row: any) {
+function handleRowClick(event: MouseEvent, row: { item: { row: number } }) {
     // console.log('click', row)
     selectedRow.value = [row.item.row]
 }
+
+
+const rowProps = computed(() => {
+    return (item: any) => {
+
+        const clazz = selectedRow.value.includes(item.item.row) ? 'selected-row' : ''
+        const color = selectedRow.value.includes(item.item.row) ? '#014260' : ''
+        const p = {
+            class: clazz,
+            bgcolor: color /* Dim orange color */
+        }
+
+        // console.log('rowProps', p, selectedRow.value, item.item.row)
+        return p
+    }
+})
+//
+// function rowProps(item: any) {
+//     const clazz = selectedRow.value.includes(item.row) ? 'selected-row' : ''
+//     const color = selectedRow.value.includes(item.row) ? 'red' : 'blue'
+//     const p = {
+//         class: clazz,
+//         bgcolor: color /* Dim orange color */
+//     }
+//     console.log('rowProps', p)
+//     return p
+// }
 
 </script>
 
@@ -163,6 +190,7 @@ function handleRowClick(event: MouseEvent, row: any) {
                         :hover="true"
                         @click:row="handleRowClick"
                         item-value="row"
+                        :row-props="rowProps"
                         select-strategy="single"
                         show-select
                         show-current-page
@@ -219,12 +247,13 @@ function handleRowClick(event: MouseEvent, row: any) {
 }
 
 .selected-row {
-    background-color: rgba(255, 165, 0, 0.2); /* Dim orange color */
+    background-color: rgba(255, 165, 165, 0.8); /* Dim orange color */
 }
 
 .dimmer {
     color: #484848;
 }
+
 </style>
 <!--
 Trying to highlight selected row in the table by adding

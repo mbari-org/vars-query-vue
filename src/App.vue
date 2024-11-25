@@ -3,10 +3,11 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-    <v-container fluid style="width:100%" id="app">
-        <v-row>
-            <v-col
-                >
+    <div id="app">
+<!--    <v-container fluid style="width:100%" id="app">-->
+<!--        <v-row>-->
+<!--            <v-col-->
+<!--                >-->
                 <header>
                     <img
                         alt="MBARI logo"
@@ -18,19 +19,20 @@ import { RouterLink, RouterView } from 'vue-router'
                         <nav>
                             <RouterLink to="/query">Query</RouterLink>
                             <RouterLink to="/config">Configuration</RouterLink>
-
                         </nav>
                     </div>
                 </header>
-            </v-col>
-        </v-row>
+<!--            </v-col>-->
+<!--        </v-row>-->
 
+    <v-container fluid style="width:100%">
         <v-row>
             <v-col>
                 <RouterView />
             </v-col>
         </v-row>
     </v-container>
+    </div>
 </template>
 
 <style scoped>
@@ -73,7 +75,7 @@ nav a:first-of-type {
     header {
         display: flex;
         place-items: center;
-        padding-right: calc(var(--section-gap) / 2);
+        //padding-right: calc(var(--section-gap) / 2);
     }
 
     .logo {

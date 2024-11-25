@@ -335,6 +335,8 @@ export interface FauxAnnotation {
     xyz_position_units?: string
     y?: number
     z?: number
+    preview_media_uri?: string
+    preview_media_index_seconds?: number
 }
 
 export interface QueryResult extends FauxAnnotation {

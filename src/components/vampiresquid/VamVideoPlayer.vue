@@ -12,39 +12,30 @@ interface Props {
 const props  = defineProps<Props>()
 const vampireSquidStore = useVampireSquidStore()
 
-const media = computedAsync(async () => {
+const previewMedia = computedAsync(async () => {
     if (props.sourceVideoUri && props.recordedTimestamp) {
         return await vampireSquidStore.api
-            .findMediaByUri(props.sourceVideoUri)
-            .then((m) => vampireSquidStore.api.findSmallestConcurrentMp4(m.camera_id, props.recordedTimestamp || '' ))
+            .findPreviewMediaByUriAndTimestamp(props.sourceVideoUri, props.recordedTimestamp)
     }
     return null
 })
 
-const seekTimeSeconds = computed( () => {
-    if (media.value && props.recordedTimestamp) {
-        const seek = new Date(props.recordedTimestamp)
-        const start = new Date(media.value.start_timestamp)
-        return (seek.getTime() - start.getTime()) / 1000
-    }
-    return 0
-})
-
 const mediaType = computed(() => {
-    if (media.value) {
-        return media.value.container
+    if (previewMedia.value) {
+        return previewMedia.value.media.container
     }
     return 'video/mp4'
 })
+
 
 </script>
 
 <template>
     <video-player
-        v-if="media"
-        :video-url="media.uri"
+        v-if="previewMedia"
+        :video-url="previewMedia.media.uri"
         :media-type="mediaType || 'video/mp4'"
-        :seek-time-seconds="seekTimeSeconds"></video-player>
+        :seek-time-seconds="previewMedia.seekTimeSeconds"></video-player>
 </template>
 
 <style scoped>

@@ -175,7 +175,7 @@ export class AnnosaurusApi {
             distinct: true,
             orderby: ['observer']
         }
-        return this.runUsingQuery(query)
+        return this.runUsingQuery(query).then(xs => xs.slice(1))
     }
 
     listChiefScientists(): Promise<string[]> {
@@ -184,7 +184,7 @@ export class AnnosaurusApi {
             distinct: true,
             orderby: ['chief_scientist']
         }
-        return this.runUsingQuery(query)
+        return this.runUsingQuery(query).then(xs => xs.slice(1).sort())
     }
 
 

@@ -3,6 +3,7 @@ import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, ref } from 'vue'
 import type { FauxAnnotation, FauxImageReference } from '@/assets/ts/annosaurus/QueryResults'
 import { useVampireSquidStore } from '@/stores/vampire-squid'
+import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations =  queryResultsStore.annotations
@@ -55,24 +56,15 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
 }
 
 function openVideo(a: FauxAnnotation) {
-    console.log('openVideo', a)
+    // console.log('openVideo', a)
     if (a.video_uri && a.index_recorded_timestamp) {
-        return vampireSquidStore.api
-            .findMediaByUri(a.video_uri ?? '')
-            .then((m) => vampireSquidStore.api.findSmallestConcurrentMp4(m.camera_id, a.index_recorded_timestamp || '' ))
-            .then((m) => {
-                if (m && m.uri) {
-                    let start = 0
-                    if (a.index_recorded_timestamp) {
-                        // Recalc seek time. See VamVideoPlayer.vue and https://nginx.org/en/docs/http/ngx_http_mp4_module.html
-                        const seek = new Date(a.index_recorded_timestamp)
-                        const mediaStart = new Date(m.start_timestamp)
-                        start = (seek.getTime() - mediaStart.getTime()) / 1000
 
-                    }
-
-                    // TODO recalu seek time. See VamVideoPlayer.vue and https://nginx.org/en/docs/http/ngx_http_mp4_module.html
-                    const seekUri = `${m.uri}?start=${start}`
+        vampireSquidStore.api
+            .findPreviewMediaByUriAndTimestamp(a.video_uri, a.index_recorded_timestamp)
+            .then((pm: PreviewMedia) => {
+                if (pm.media && pm.media.uri) {
+                    const start = pm.seekTimeSeconds ?? 0
+                    const seekUri = `${pm.media.uri}?start=${start}`
                     window.open(seekUri, '_blank')?.focus()
                 }
             })

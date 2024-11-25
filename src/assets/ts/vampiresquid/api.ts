@@ -1,5 +1,6 @@
 import type { Media } from "@/assets/ts/vampiresquid/Media";
 import type { Video } from "@/assets/ts/vampiresquid/Video";
+import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
 
 
 export class VampireSquidApi {
@@ -59,6 +60,25 @@ export class VampireSquidApi {
                 }
                 return {} as Media;
             });
+    }
+
+    findPreviewMediaByUriAndTimestamp(mediaUri: string, timestamp: string): Promise<PreviewMedia> {
+        return this.findMediaByUri(mediaUri)
+            .then((m: Media) => this.findSmallestConcurrentMp4(m.camera_id, timestamp))
+            .then((m: Media) => {
+                let seekTimeSeconds = 0
+                if (m && m.start_timestamp && timestamp) {
+                    // console.log("m.start_timestamp", m.start_timestamp)
+                    const seek = new Date(timestamp)
+                    const start = new Date(m.start_timestamp)
+                    seekTimeSeconds = (seek.getTime() - start.getTime()) / 1000 // seconds
+                }
+                return {
+                    media: m,
+                    seekTimeSeconds: seekTimeSeconds,
+                }
+            })
+
     }
 
 
