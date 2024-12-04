@@ -76,6 +76,7 @@ function togglePictureInPicture() {
                     ref="video"
                     preload="auto"
                     controls
+                    crossorigin="anonymous"
                     :src="props.videoUrl"
                 >
                 </video>
