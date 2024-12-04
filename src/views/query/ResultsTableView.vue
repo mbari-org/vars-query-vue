@@ -18,6 +18,8 @@ const imageOnlyAnnotations = computed(() =>
     allAnnotations.filter(a => a.images && a.images.length > 0),
 )
 const showImagesOnly = ref(false)
+const multiSelect = ref(false)
+const selectionStrategy = computed(() => multiSelect.value ? 'page' : 'single')
 const search = ref('')
 const selectedRow = ref([] as number[])
 const tab = ref<string | null>(null)
@@ -35,6 +37,12 @@ const viewedAnnotations = computed(() => {
         return imageOnlyAnnotations.value
     } else {
         return allAnnotations
+    }
+})
+
+watch(multiSelect, newVal => {
+    if (!newVal) {
+        selectedRow.value = []
     }
 })
 
@@ -98,17 +106,7 @@ const rowProps = computed(() => {
         return p
     }
 })
-//
-// function rowProps(item: any) {
-//     const clazz = selectedRow.value.includes(item.row) ? 'selected-row' : ''
-//     const color = selectedRow.value.includes(item.row) ? 'red' : 'blue'
-//     const p = {
-//         class: clazz,
-//         bgcolor: color /* Dim orange color */
-//     }
-//     console.log('rowProps', p)
-//     return p
-// }
+
 
 </script>
 
@@ -159,7 +157,7 @@ const rowProps = computed(() => {
                     <template v-slot:text>
                         <v-container>
                             <v-row>
-                                <v-col cols="9">
+                                <v-col cols="6">
                                     <v-text-field
                                         v-model="search"
                                         label="Search"
@@ -179,6 +177,12 @@ const rowProps = computed(() => {
                                         density="compact"
                                     ></v-checkbox>
                                 </v-col>
+                                <v-col cols="3">
+                                    <v-checkbox
+                                        label="Multi-select"
+                                        v-model="multiSelect"
+                                        density="compact"></v-checkbox>
+                                </v-col>
                             </v-row>
                         </v-container>
                     </template>
@@ -191,7 +195,7 @@ const rowProps = computed(() => {
                         @click:row="handleRowClick"
                         item-value="row"
                         :row-props="rowProps"
-                        select-strategy="single"
+                        :select-strategy="selectionStrategy"
                         show-select
                         show-current-page
                         density="compact"

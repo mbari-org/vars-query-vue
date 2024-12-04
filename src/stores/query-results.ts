@@ -40,6 +40,7 @@ export const useQueryResultsStore = defineStore('query-results', () => {
 
     const geoAnnotations = computed(() => annotations.value.map(a => new GeoFauxAnnotation(a)))
 
+    const selectedAnnotations = ref([] as FauxAnnotation[] | [])
 
     function reset() {
         rawQueryResults.value = []
@@ -51,7 +52,7 @@ export const useQueryResultsStore = defineStore('query-results', () => {
 
 
 
-    return { rawQueryResults, queryResults, annotations, geoAnnotations, reset, appendRawQueryResults }
+    return { rawQueryResults, queryResults, annotations, geoAnnotations, selectedAnnotations, reset, appendRawQueryResults }
 
 })
 
