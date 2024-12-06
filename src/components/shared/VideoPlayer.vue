@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface Props {
     videoUrl: string
@@ -12,6 +12,10 @@ const props = defineProps<Props>()
 
 const hasSeeked = ref(false)
 const video = ref(null as HTMLVideoElement | null)
+
+const videoUrlWithTime = computed(() => {
+    return `${props.videoUrl}#t=${props.seekTimeSeconds}`
+})
 
 watch(() => props.videoUrl, () => {
     hasSeeked.value = false
@@ -76,6 +80,7 @@ function togglePictureInPicture() {
                     ref="video"
                     preload="auto"
                     controls
+                    muted
                     crossorigin="anonymous"
                     :src="props.videoUrl"
                 >
@@ -91,7 +96,7 @@ function togglePictureInPicture() {
                 </v-btn>
             </v-col>
             <v-col>
-                <a :href="props.videoUrl" target="_blank" class="small-font">{{props.videoUrl}}</a>
+                <a :href="videoUrlWithTime" target="_blank" class="small-font">{{videoUrlWithTime}}</a>
             </v-col>
         </v-row>
     </v-container>

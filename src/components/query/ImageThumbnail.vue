@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
 import { computed, ref } from 'vue'
+import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
+import { useVampireSquidStore } from '@/stores/vampire-squid'
 
 interface Props {
     annotation: FauxAnnotation
@@ -11,6 +13,8 @@ const props = defineProps<Props>()
 const hoveredImage = ref<string | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
+
+const vampireSquidStore = useVampireSquidStore()
 
 function showImagePreview(image: string | undefined, event: MouseEvent) {
     if (image) {
@@ -30,6 +34,21 @@ function openImageInNewTab(image: string | undefined) {
     }
 }
 
+function openVideo(a: FauxAnnotation) {
+    if (a.video_uri && a.index_recorded_timestamp) {
+
+        vampireSquidStore.api
+            .findPreviewMediaByUriAndTimestamp(a.video_uri, a.index_recorded_timestamp)
+            .then((pm: PreviewMedia) => {
+                if (pm.media && pm.media.uri) {
+                    const start = pm.seekTimeSeconds ?? 0
+                    const seekUri = `${pm.media.uri}#t=${start}`
+                    window.open(seekUri, '_blank')?.focus()
+                }
+            })
+    }
+}
+
 </script>
 
 <template>
@@ -38,8 +57,10 @@ function openImageInNewTab(image: string | undefined) {
             <v-img
                 :src="props.annotation.image"
                 aspect-ratio="1"
-                max-width="500"
-                max-height="500"
+                max-width="250"
+                max-height="250"
+                min-width="250"
+                min-height="250"
                 @mouseenter="
                     (event: MouseEvent) =>
                         showImagePreview(props.annotation.image, event)
@@ -54,6 +75,7 @@ function openImageInNewTab(image: string | undefined) {
 <!--        <v-icon icon="mdi-video" size="x-small"></v-icon>-->
 
         <!-- Floating enlarged image preview -->
+        <!-- Disabled hover at video labs request
         <div
             v-if="hoveredImage"
             class="image-preview"
@@ -64,6 +86,12 @@ function openImageInNewTab(image: string | undefined) {
         >
             <img :src="hoveredImage" alt="Preview" />
         </div>
+        -->
+
+        <v-icon
+            size="small"
+            class="video-icon"
+            @click="() => openVideo(props.annotation)">mdi-video</v-icon>
     </div>
 </template>
 
@@ -93,6 +121,13 @@ function openImageInNewTab(image: string | undefined) {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ensure the image fits well */
+    position: relative;
 }
 
+.video-icon {
+    position: absolute;
+    color: white;
+    bottom: 10px;
+    right: 10px;
+}
 </style>

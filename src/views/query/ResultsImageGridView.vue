@@ -56,7 +56,6 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
 }
 
 function openVideo(a: FauxAnnotation) {
-    // console.log('openVideo', a)
     if (a.video_uri && a.index_recorded_timestamp) {
 
         vampireSquidStore.api
@@ -64,7 +63,7 @@ function openVideo(a: FauxAnnotation) {
             .then((pm: PreviewMedia) => {
                 if (pm.media && pm.media.uri) {
                     const start = pm.seekTimeSeconds ?? 0
-                    const seekUri = `${pm.media.uri}?start=${start}`
+                    const seekUri = `${pm.media.uri}#t=${start}`
                     window.open(seekUri, '_blank')?.focus()
                 }
             })
@@ -80,6 +79,9 @@ function openVideo(a: FauxAnnotation) {
                 >Back to results table</router-link
             >
         </v-col>
+<!--        <v-col cols="2">-->
+<!--            <v-btn>Save Images</v-btn>-->
+<!--        </v-col>-->
         <v-col cols="2">
             <v-select label="Images per row" v-model="imagesPerRow" :items="[1, 2, 3, 4, 6]"></v-select>
         </v-col>

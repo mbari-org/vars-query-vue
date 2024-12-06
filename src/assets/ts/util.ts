@@ -1,3 +1,5 @@
+import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
+import JSZip from 'jszip'
 
 
 export function tabDelimitedToObject(lines: string[]): Record<string, string | null>[] {
@@ -53,7 +55,15 @@ export function extractJpgOrFirstUrl(images: string[] | undefined): string | und
 }
 
 export function nowAsCompactString(): string {
-    return new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '');
+    return new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '') + 'Z';
+}
+
+export function dateStringToCompactString(dateString: string): string {
+    const date = new Date(dateString);
+    // if (isNaN(date.getTime())) {
+    //     throw new Error("Invalid date format");
+    // }
+    return date.toISOString().replace(/[-:]/g, '').replace(/\..+/, '') + 'Z';
 }
 
 
@@ -103,4 +113,46 @@ export function depthHistogram(data: number[]): HistogramBin[] {
     });
 
     return bins;
+}
+
+// https://www.cjoshmartin.com/blog/creating-zip-files-with-javascript
+export function generateZipDownloadFromAnnotations(xs: Array<FauxAnnotation>) {
+    const zip = new JSZip();
+    const folder = zip.folder('annotations');
+
+    xs.forEach((a, i) => {
+        const filename = `${a.video_sequence_name}-${a.observation_uuid}.json`;
+        const content = JSON.stringify(a, null, 2);
+        folder?.file(filename, content);
+
+        // fetch image if it exists
+        if (a.images) {
+            a.images.forEach((image, j) => {
+                // Get image extension
+                const url = image.url
+                console.log(url)
+                if (url) {
+                    const ext = url.split('.').pop();
+                    fetch(url, {mode: 'cors'}).then(response => {
+                        if (response.ok) {
+                            response.blob().then(blob => {
+                                folder?.file(`${a.video_sequence_name}-${a.observation_uuid}.${ext}`, blob);
+                            });
+                        }
+                    });
+                }
+            })
+        }
+    });
+
+    return zip.generateAsync({ type: 'blob' })
+
+    // zip.generateAsync({ type: 'blob' }).then(content => {
+    //     const url = URL.createObjectURL(content);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = zipName;
+    //     a.click();
+    // });
+
 }

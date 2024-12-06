@@ -32,7 +32,7 @@ const concept = computed(() => {
             v-if="image"
             :src="image"
             :alt="concept"
-            width="600em"
+            width="300em"
             loading="lazy" >
     </div>
 </template>

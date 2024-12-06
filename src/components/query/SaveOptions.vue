@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { useQueryResultsStore } from '@/stores/query-results'
-import { nowAsCompactString } from '@/assets/ts/util'
+import { nowAsCompactString, generateZipDownloadFromAnnotations } from '@/assets/ts/util'
 import {
     fauxAnnotationsToTsv,
     type FauxAssociation,
@@ -57,6 +57,16 @@ async function saveJson() {
     const data = queryResultsStore.annotations
     const json = JSON.stringify(data, null, 2)
     download(json, filename, "application/json")
+    saveIsRunning.value = false
+}
+
+async function saveImages() {
+    saveIsRunning.value = true
+    await addPreviewMediaToAnnotations()
+    const filename = `vars-images-${nowAsCompactString()}.zip`
+    const data = queryResultsStore.annotations
+    const zip = await generateZipDownloadFromAnnotations(data)
+    download(zip, filename, "application/zip")
     saveIsRunning.value = false
 }
 
@@ -132,6 +142,14 @@ async function addPreviewMediaToAnnotations() {
                                     Save Queries
                                     <v-tooltip activator="parent" location="bottom">
                                         Save the query constraints as a JSON file.
+                                    </v-tooltip>
+                                </v-btn>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-btn @click="saveImages" :hidden="numberOfResults > 500">
+                                    Save Images
+                                    <v-tooltip activator="parent" location="bottom">
+                                        Save the images.
                                     </v-tooltip>
                                 </v-btn>
                             </v-list-item>

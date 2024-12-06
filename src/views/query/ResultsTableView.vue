@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useQueryResultsStore } from '@/stores/query-results'
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import AnnotationsMap from '@/components/query/AnnotationsMap.vue'
 import {
     type FauxAnnotation,
@@ -22,6 +22,17 @@ const search = ref('')
 const selectedRow = ref([] as number[])
 const tab = ref<string | null>(null)
 const annotationsMapRef = ref<InstanceType<typeof AnnotationsMap> | null>(null)
+const minimizeMapAndVideo = ref(false)
+const minimizeMapAndVideoKey = 'minimizeMapAndVideo'
+
+const floatMapAndVideo = ref(false)
+watch(floatMapAndVideo, newVal => {
+    if (newVal) {
+        document.getElementById('map-and-video')?.classList.add('fixed')
+    } else {
+        document.getElementById('map-and-video')?.classList.remove('fixed')
+    }
+})
 
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
@@ -35,6 +46,17 @@ const viewedAnnotations = computed(() => {
         return imageOnlyAnnotations.value
     } else {
         return allAnnotations
+    }
+})
+
+watch (minimizeMapAndVideo, newVal => {
+    window.localStorage.setItem(minimizeMapAndVideoKey, newVal.toString())
+})
+
+onMounted(() => {
+    const val = window.localStorage.getItem(minimizeMapAndVideoKey)
+    if (val) {
+        minimizeMapAndVideo.value = val === 'true'
     }
 })
 
@@ -124,38 +146,64 @@ const rowProps = computed(() => {
             <!--</v-col>-->
         </v-row>
         <v-row>
+<!--            <v-col>-->
+<!--                <v-card>-->
+<!--                <v-tabs v-model="tab">-->
+<!--                    <v-tab value="map">Map</v-tab>-->
+<!--                    <v-tab value="video">Video</v-tab>-->
+<!--                </v-tabs>-->
+<!--                <v-tabs-window v-model="tab">-->
+<!--                    <v-tabs-window-item value="map">-->
+<!--                        <v-lazy>-->
+<!--                            <annotations-map-->
+<!--                                ref="annotationsMapRef"-->
+<!--                                @selected-annotation="setSelectedFauxAnnotation"-->
+<!--                            ></annotations-map>-->
+<!--                        </v-lazy>-->
+<!--                    </v-tabs-window-item>-->
+<!--                    <v-tabs-window-item value="video">-->
+<!--                        <v-lazy>-->
+<!--                            <vam-video-player-->
+<!--                                :source-video-uri="selectedAnnotation?.video_uri"-->
+<!--                                :recorded-timestamp="-->
+<!--                                selectedAnnotation?.index_recorded_timestamp-->
+<!--                            "-->
+<!--                            ></vam-video-player>-->
+<!--                        </v-lazy>-->
+<!--                    </v-tabs-window-item>-->
+<!--                </v-tabs-window>-->
+<!--                </v-card>-->
+<!--            </v-col>-->
             <v-col>
-                <v-card>
-                <v-tabs v-model="tab">
-                    <v-tab value="map">Map</v-tab>
-                    <v-tab value="video">Video</v-tab>
-                </v-tabs>
-                <v-tabs-window v-model="tab">
-                    <v-tabs-window-item value="map">
-                        <v-lazy>
-                            <annotations-map
-                                ref="annotationsMapRef"
-                                @selected-annotation="setSelectedFauxAnnotation"
-                            ></annotations-map>
-                        </v-lazy>
-                    </v-tabs-window-item>
-                    <v-tabs-window-item value="video">
-                        <v-lazy>
-                            <vam-video-player
-                                :source-video-uri="selectedAnnotation?.video_uri"
-                                :recorded-timestamp="
-                                selectedAnnotation?.index_recorded_timestamp
-                            "
-                            ></vam-video-player>
-                        </v-lazy>
-                    </v-tabs-window-item>
-                </v-tabs-window>
+                <v-card id="map-and-video">
+                    <v-row>
+                        <v-col>
+                                <annotations-map
+                                    ref="annotationsMapRef"
+                                    :hidden="minimizeMapAndVideo"
+                                    @selected-annotation="setSelectedFauxAnnotation"
+                                ></annotations-map>
+                        </v-col>
+                        <v-col>
+                                <vam-video-player
+                                    :hidden="minimizeMapAndVideo"
+                                    :source-video-uri="selectedAnnotation?.video_uri"
+                                    :recorded-timestamp="
+                                    selectedAnnotation?.index_recorded_timestamp
+                                "
+                                ></vam-video-player>
+                        </v-col>
+                    </v-row>
+                    <v-card-actions>
+                        <v-checkbox label="Hide map and video" v-model="minimizeMapAndVideo"></v-checkbox>
+                        <v-checkbox label="Float map and video" v-model="floatMapAndVideo"></v-checkbox>
+                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
-                <v-card :title="allAnnotations.length + ' Results'" flat>
+                <v-card :title="viewedAnnotations.length + ' Results'" flat>
                     <template v-slot:text>
                         <v-container>
                             <v-row>
@@ -254,6 +302,19 @@ const rowProps = computed(() => {
     color: #484848;
 }
 
+.fixed {
+    position: fixed;
+    top: 5%; /* Adjust as needed */
+    right: 5%; /* Adjust as needed */
+    width: 90%;
+    z-index: 9999;
+    //max-height: 40%;
+}
+
+.fixed > v-row > v-col {
+    max-height: 40%;
+    min-width: 45%;
+}
 </style>
 <!--
 Trying to highlight selected row in the table by adding

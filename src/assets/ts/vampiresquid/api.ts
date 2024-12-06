@@ -1,6 +1,8 @@
 import type { Media } from "@/assets/ts/vampiresquid/Media";
 import type { Video } from "@/assets/ts/vampiresquid/Video";
 import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
+import { da } from "vuetify/locale";
+import { dateStringToCompactString } from "../util";
 
 
 export class VampireSquidApi {
@@ -43,7 +45,9 @@ export class VampireSquidApi {
     }
 
     findMediaByCameraIdAndTimestamp(cameraId: string, timestamp: string): Promise<Media[]> {
-        const url = `${this.url}/media/camera/${encodeURIComponent(cameraId)}/${encodeURIComponent(timestamp)}`
+        console.log("findMediaByCameraIdAndTimestamp", cameraId, timestamp)
+        const compactTimestamp = dateStringToCompactString(timestamp)
+        const url = `${this.url}/media/camera/${encodeURIComponent(cameraId)}/${compactTimestamp}`
         return fetch(url, {
             mode: "cors",
         }).then((r) => r.json());
