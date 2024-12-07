@@ -59,7 +59,9 @@ export function nowAsCompactString(): string {
 }
 
 export function dateStringToCompactString(dateString: string): string {
+    console.log(dateString)
     const date = new Date(dateString);
+    console.log(date)
     // if (isNaN(date.getTime())) {
     //     throw new Error("Invalid date format");
     // }
@@ -116,36 +118,29 @@ export function depthHistogram(data: number[]): HistogramBin[] {
 }
 
 // https://www.cjoshmartin.com/blog/creating-zip-files-with-javascript
-export function generateZipDownloadFromAnnotations(xs: Array<FauxAnnotation>) {
+export async function generateZipDownloadFromAnnotations(xs: Array<FauxAnnotation>) {
     const zip = new JSZip();
     const folder = zip.folder('annotations');
 
-    xs.forEach((a, i) => {
+    for (const a of xs) {
         const filename = `${a.video_sequence_name}-${a.observation_uuid}.json`;
         const content = JSON.stringify(a, null, 2);
         folder?.file(filename, content);
 
         // fetch image if it exists
         if (a.images) {
-            a.images.forEach((image, j) => {
-                // Get image extension
-                const url = image.url
-                console.log(url)
+            for (const image of a.images) {
+                const url = image.url;
                 if (url) {
                     const ext = url.split('.').pop();
-                    fetch(url, {mode: 'cors'}).then(response => {
-                        if (response.ok) {
-                            response.blob().then(blob => {
-                                folder?.file(`${a.video_sequence_name}-${a.observation_uuid}.${ext}`, blob);
-                            });
-                        }
-                    });
+                    const file = await fetch(url, {mode: 'cors'}).then(r => r.blob())
+                    folder?.file(`${a.video_sequence_name}-${a.observation_uuid}.${ext}`, file);
                 }
-            })
+            }
         }
-    });
+    };
 
-    return zip.generateAsync({ type: 'blob' })
+    return await zip.generateAsync({ type: 'blob', streamFiles: true })
 
     // zip.generateAsync({ type: 'blob' }).then(content => {
     //     const url = URL.createObjectURL(content);

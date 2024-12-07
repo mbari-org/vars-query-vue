@@ -61,7 +61,7 @@ function checkRaziel() {
         </v-row>
         <v-row>
             <v-col>
-                <div>Please enter the URL for your <a href="https://github.com/mbari-org/raziel">VARS configuration server</a>. At MBARI, enter "http://m3.shore.mbari.org/config".</div>
+                <div>Please enter the URL for your <a href="https://github.com/mbari-org/raziel">VARS configuration server</a>. At MBARI, enter "https://m3.shore.mbari.org/config".</div>
             </v-col>
         </v-row>
         <v-row>

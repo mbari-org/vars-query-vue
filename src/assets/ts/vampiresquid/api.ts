@@ -45,7 +45,7 @@ export class VampireSquidApi {
     }
 
     findMediaByCameraIdAndTimestamp(cameraId: string, timestamp: string): Promise<Media[]> {
-        console.log("findMediaByCameraIdAndTimestamp", cameraId, timestamp)
+        // console.log("findMediaByCameraIdAndTimestamp", cameraId, timestamp)
         const compactTimestamp = dateStringToCompactString(timestamp)
         const url = `${this.url}/media/camera/${encodeURIComponent(cameraId)}/${compactTimestamp}`
         return fetch(url, {
@@ -55,6 +55,7 @@ export class VampireSquidApi {
 
 
     findSmallestConcurrentMp4(cameraId: string, timestamp: string): Promise<Media> {
+        console.log("findSmallestConcurrentMp4", cameraId, timestamp)
         return this.findMediaByCameraIdAndTimestamp(cameraId, timestamp)
             .then(xs => {
                 if (xs && xs.length > 0) {
