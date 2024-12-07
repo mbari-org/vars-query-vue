@@ -58,7 +58,6 @@ function sortByUrl(a: FauxImageReference, b: FauxImageReference) {
 function openVideo(a: FauxAnnotation) {
     if (a.video_uri && a.index_recorded_timestamp) {
 
-        console.log(a.video_uri)
         vampireSquidStore.api
             .findPreviewMediaByUriAndTimestamp(a.video_uri, a.index_recorded_timestamp)
             .then((pm: PreviewMedia) => {
