@@ -398,11 +398,11 @@ export const useTimeStore = defineStore('time', () => {
         }
     }
 
-    function setStartTimestamp(startTimestamp: Date) {
+    function setStartTimestamp(startTimestamp: Date | null) {
         bounds.value.startTimestamp = startTimestamp
     }
 
-    function setEndTimestamp(endTimestamp: Date) {
+    function setEndTimestamp(endTimestamp: Date | null) {
         bounds.value.endTimestamp = endTimestamp
     }
 
