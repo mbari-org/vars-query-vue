@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useFathomnetStore } from '@/stores/fathomnet'
 import { computedAsync } from '@vueuse/core'
 import { useRegionStore } from '@/stores/query-params'
@@ -22,7 +22,7 @@ watch(selectedRegion, (region) => {
         regionStore.setBounds(region)
     }
     else {
-        regionStore.reset()
+        // regionStore.reset()
     }
 })
 
@@ -42,6 +42,7 @@ const numberRule = (value: string) => {
                     label="Region"
                     v-model=selectedRegionName
                     :items=regionNames
+                    @click:clear="regionStore.reset"
                 ></v-autocomplete>
             </v-col>
             <v-col cols="3">
