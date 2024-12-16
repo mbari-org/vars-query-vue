@@ -311,6 +311,14 @@ const rowProps = computed(() => {
     //max-height: 40%;
 }
 
+@media (min-width: 2048px) {
+    .fixed > v-row > v-col{
+        max-height: 25%;
+        min-width: 25%;
+    }
+}
+
+
 .fixed > v-row > v-col {
     max-height: 40%;
     min-width: 45%;

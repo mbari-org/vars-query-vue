@@ -60,6 +60,16 @@ onMounted(() => {
     const renderer = canvas({padding: 0.5})
     renderer.addTo(aMap)
     myMap.value = aMap
+
+    // We don't want the map to catch the scroll wheel or dragging events
+    // unti the user deliberately clicks on the map. Otherwise, the map
+    // catches the events and prevents the user from scrolling the page.
+    aMap.scrollWheelZoom.disable()
+    aMap.dragging.disable()
+    aMap.addEventListener('click', () => {
+        aMap.scrollWheelZoom.enable()
+        aMap.dragging.enable()
+    })
     redraw()
 })
 

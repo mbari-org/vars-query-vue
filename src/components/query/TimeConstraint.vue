@@ -22,6 +22,14 @@ function reset() {
     endDateRef.value?.reset()
 }
 
+function onClearStart() {
+    timeStore.setStartTimestamp(null)
+}
+
+function onClearEnd() {
+    timeStore.setEndTimestamp(null)
+}
+
 defineExpose({
     reset,
 })
@@ -43,11 +51,21 @@ onMounted(() => {
     <v-container fluid style="width:100%">
         <v-row>
             <v-col>
-                <date-time-picker ref="startDateRef" picker-title="Start date" time="00:00" @update="updateStartTime"> </date-time-picker>
+                <date-time-picker
+                    ref="startDateRef"
+                    picker-title="Start date"
+                    time="00:00"
+                    @update="updateStartTime"
+                    @click:clear="onClearStart"> </date-time-picker>
             </v-col>
 
             <v-col>
-                <date-time-picker ref="endDateRef" picker-title="End date" time="23:59" @update="updateEndTime"> </date-time-picker>
+                <date-time-picker
+                    ref="endDateRef"
+                    picker-title="End date"
+                    time="23:59"
+                    @update="updateEndTime"
+                    @click:clear="onClearEnd"> </date-time-picker>
             </v-col>
 
         </v-row>
