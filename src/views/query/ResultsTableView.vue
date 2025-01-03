@@ -29,8 +29,10 @@ const floatMapAndVideo = ref(false)
 watch(floatMapAndVideo, newVal => {
     if (newVal) {
         document.getElementById('map-and-video')?.classList.add('fixed')
+        document.getElementById('annotation-table')?.classList.add('fixed-table')
     } else {
         document.getElementById('map-and-video')?.classList.remove('fixed')
+        document.getElementById('annotation-table')?.classList.remove('fixed-table')
     }
 })
 
@@ -203,7 +205,7 @@ const rowProps = computed(() => {
         </v-row>
         <v-row>
             <v-col>
-                <v-card :title="viewedAnnotations.length + ' Results'" flat>
+                <v-card :title="viewedAnnotations.length + ' Results'" flat id="annotation-table">
                     <template v-slot:text>
                         <v-container>
                             <v-row>
@@ -308,7 +310,7 @@ const rowProps = computed(() => {
     right: 5%; /* Adjust as needed */
     width: 90%;
     z-index: 9999;
-    //max-height: 40%;
+    /*max-height: 40%;*/
 }
 
 @media (min-width: 2048px) {
@@ -316,12 +318,20 @@ const rowProps = computed(() => {
         max-height: 25%;
         min-width: 25%;
     }
+
+    .fixed-table {
+        margin-top: calc(25vh + 10px);
+    }
 }
 
 
 .fixed > v-row > v-col {
     max-height: 40%;
     min-width: 45%;
+}
+
+.fixed-table {
+    margin-top: calc(40vh + 10px);
 }
 </style>
 <!--
