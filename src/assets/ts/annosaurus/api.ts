@@ -144,7 +144,8 @@ export class AnnosaurusApi {
         const [head, ...tail] = xs
         rows.push(...tail)
       }
-      progressCallback((i + 1) / pages)
+      // console.log(`Page ${i + 1} of ${pages}`)
+      progressCallback(((i + 1) / pages) * 100)
     }
 
     return rows

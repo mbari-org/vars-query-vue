@@ -13,7 +13,7 @@ import TimeConstraint from '@/components/query/TimeConstraint.vue'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import Selections from '@/components/query/Selections.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import router from '@/router'
 import { useRazielStore } from '@/stores/raziel'
 
@@ -22,7 +22,23 @@ const enableSearch = computed(() => selectedColumnsStore.selectableColumns.lengt
 const queryIsRunning = ref(false)
 const progress = ref(0)
 
+// watch(progress, (value) => {
+//     console.log('Progress', value)
+// })
+
 const timeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
+
+const progressBarText = computed(() => {
+    if (progress.value === 0) {
+        return 'Searching ...'
+    }
+    else {
+        const v = progress.value.toFixed(0)
+        return `Loaded ${v}%`
+    }
+})
+
+const indeterminate = computed(() => progress.value === 0)
 
 function reset() {
     resetStores()
@@ -115,12 +131,13 @@ function runQuery() {
             :model-value="queryIsRunning"
             color="primary"
             class="justify-center align-center">
-            <div class="big-font">Searching ...</div>
+            <div class="big-font">{{progressBarText}}</div>
             <v-progress-circular
                 :size="128"
                 :width="12"
                 color="blue"
-                indeterminate
+                :indeterminate="indeterminate"
+                :model-value="progress"
             ></v-progress-circular>
         </v-overlay>
 
