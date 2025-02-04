@@ -11,7 +11,7 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { resetStores, useVideoSequenceNameStore} from '@/stores/query-params'
+import { resetStores, useVideoSequenceNameStore, useDecoratorsStore} from '@/stores/query-params'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import router from '@/router'
@@ -23,6 +23,8 @@ const route = useRoute()
 const razielStore = useRazielStore()
 const doQuery = ref(false)
 const progress = ref(0)
+
+const showImageGrid = route.query.images === 'true'
 
 
 watch(() => razielStore.isLoading, (loading) => {
@@ -64,6 +66,9 @@ function runQueryWithName(name: string | string[], redirect: boolean = true) {
     if (Array.isArray(name)) {
         name = name[0]
     }
+    if (showImageGrid) {
+        useDecoratorsStore().imagesOnly = true
+    }
     videoSequenceNameStore.add(name)
     runQuery(redirect)
 }
@@ -76,7 +81,11 @@ function runQuery(redirect: boolean = true) {
     queryRunner.runQuery((p) => {progress.value = p}).then(() => {
         // console.log('Query complete')
         if (redirect) {
-            router.push({ name: 'results-table-view' })
+            if (showImageGrid) {
+                router.push({ name: 'results-image-grid-view' })
+            } else {
+                router.push({ name: 'results-table-view' })
+            }
         }
     }).catch((error) => {
         console.error(error)

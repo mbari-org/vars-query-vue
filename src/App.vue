@@ -7,7 +7,7 @@ import { computedAsync } from '@vueuse/core'
 const razielStore = useRazielStore()
 razielStore.api.getEndpoints()
     .then(() => {
-        router.push('/query')
+        // router.push('/query')
     })
     .catch((error) => {
         router.push('/config')

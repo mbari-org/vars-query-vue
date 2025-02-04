@@ -13,6 +13,7 @@ import router from '@/router'
 // OK = redirect to query page
 // NOT OK = redirect to configuration page
 
+
 </script>
 
 <template>
