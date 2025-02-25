@@ -108,7 +108,7 @@ export class AnnosaurusApi {
   }
 
   runUsingQuery(q: Query): Promise<string[]> {
-    return fetch(`${this.url}/query/run`, {
+    return fetch(`${this.url}/query/download`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(q),
@@ -129,24 +129,26 @@ export class AnnosaurusApi {
 
   async pageUsingQuery(q: Query, pageSize: number, progressCallback: (progress: number) => void = () => {}): Promise<string[]> {
     progressCallback(0)
-    const rows = [] as string[]
-    const n = await this.countUsingQuery(q)
-    const pages = Math.ceil(n.count / pageSize)
-    for (let i = 0; i < pages; i++) {
-      q.limit = pageSize
-      q.offset = pageSize * i
-      const xs = await this.runUsingQuery(q)
-      if (i === 0) {
-        rows.push(...xs)
-      }
-      else {
-        // Drop the header row from subsequent pages
-        const [head, ...tail] = xs
-        rows.push(...tail)
-      }
+    const rows = await this.runUsingQuery(q)
+    progressCallback(100)
+    // const rows = [] as string[]
+    // const n = await this.countUsingQuery(q)
+    // const pages = Math.ceil(n.count / pageSize)
+    // for (let i = 0; i < pages; i++) {
+    //   q.limit = pageSize
+    //   q.offset = pageSize * i
+    //   const xs = await this.runUsingQuery(q)
+    //   if (i === 0) {
+    //     rows.push(...xs)
+    //   }
+    //   else {
+    //     // Drop the header row from subsequent pages
+    //     const [head, ...tail] = xs
+    //     rows.push(...tail)
+    //   }
       // console.log(`Page ${i + 1} of ${pages}`)
-      progressCallback(((i + 1) / pages) * 100)
-    }
+      // progressCallback(((i + 1) / pages) * 100)
+    // }
 
     return rows
 

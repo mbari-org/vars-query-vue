@@ -24,7 +24,7 @@ export class QueryRunner {
         queryResultsStore.reset()
         let i = 0
         for (const q of queries) {
-            await this.api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
+            await this.api.pageUsingQuery(q, 500000, progressCallback).then((response) => {
                 // only use the header row for the first query
                 if (i === 0) {
                     queryResultsStore.appendRawQueryResults(response)
@@ -78,7 +78,7 @@ export async function runQuery(api: AnnosaurusApi, queries: Array<Query>, progre
     const queryResultsStore = useQueryResultsStore()
     queryResultsStore.reset()
     for (const q of queries) {
-        await api.pageUsingQuery(q, 5000, progressCallback).then((response) => {
+        await api.pageUsingQuery(q, 500000, progressCallback).then((response) => {
             queryResultsStore.appendRawQueryResults(response)
         }).catch((error) => {
             console.error(error)
