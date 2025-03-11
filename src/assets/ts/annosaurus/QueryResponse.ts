@@ -171,7 +171,7 @@ export class GeoAnnotation {
   get image(): string {
     if (this.annotation && this.annotation.image_references) {
       const ir = this.annotation
-        .image_references.filter(i => i.format === "image/jpg");
+        .image_references.filter(i => i.format === "image/jpg" || i.format === "image/jpeg");
       if (ir && ir.length > 0) {
         return ir[0].url;
       }
