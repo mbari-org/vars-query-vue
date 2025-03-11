@@ -5,6 +5,9 @@ import router from '@/router'
 import { computedAsync } from '@vueuse/core'
 
 const razielStore = useRazielStore()
+
+
+
 razielStore.api.getEndpoints()
     .then(() => {
         // router.push('/query')
@@ -108,7 +111,7 @@ nav a:first-of-type {
     header {
         display: flex;
         place-items: center;
-        //padding-right: calc(var(--section-gap) / 2);
+        /* padding-right: calc(var(--section-gap) / 2);*/
     }
 
     .logo {
