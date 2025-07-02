@@ -36,7 +36,7 @@ function saveRawTab() {
     saveIsRunning.value = true
     console.log("Save Raw")
     const filename = `vars-raw-${nowAsCompactString()}.tsv`
-    const data = queryResultsStore.rawQueryResults
+    const data = queryResultsStore.rawQueryResults.join('\n')
     download(data, filename, "text/tab-separated-values")
     saveIsRunning.value = false
 }
