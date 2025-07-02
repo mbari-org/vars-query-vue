@@ -1,7 +1,7 @@
 import type { Count, GeoImage } from "@/assets/ts/fathomnet/GeoImage";
 import type { Region } from '@/assets/ts/fathomnet/Region'
 
-const fathomnetUrl = "https://fathomnet.org/api";
+const fathomnetUrl = "https://database.fathomnet.org/api";
 const fathomnetEndpoints = {
   boundingBoxes: {
     count: fathomnetUrl + "/boundingboxes/count",
