@@ -36,6 +36,8 @@ watch(floatMapAndVideo, newVal => {
     }
 })
 
+const compactMapAndVideo = ref(false)
+
 const selectedAnnotation = computed(() => {
     if (selectedRow.value?.length === 1) {
         return allAnnotations.find(a => a.row === selectedRow.value[0])
@@ -122,17 +124,7 @@ const rowProps = computed(() => {
         return p
     }
 })
-//
-// function rowProps(item: any) {
-//     const clazz = selectedRow.value.includes(item.row) ? 'selected-row' : ''
-//     const color = selectedRow.value.includes(item.row) ? 'red' : 'blue'
-//     const p = {
-//         class: clazz,
-//         bgcolor: color /* Dim orange color */
-//     }
-//     console.log('rowProps', p)
-//     return p
-// }
+
 
 </script>
 
@@ -140,65 +132,40 @@ const rowProps = computed(() => {
     <v-container fluid style="width:100%">
         <v-row>
             <!--<v-col>-->
-                <router-link to="results-image-grid-view" class="view-link">View image grid</router-link>
+            <router-link to="results-image-grid-view" class="view-link">View image grid</router-link>
             <!--</v-col>-->
-                |
+            |
             <!--<v-col>-->
-                <router-link to="results-summary-view" class="view-link">View summary</router-link>
+            <router-link to="results-summary-view" class="view-link">View summary</router-link>
             <!--</v-col>-->
         </v-row>
         <v-row>
-<!--            <v-col>-->
-<!--                <v-card>-->
-<!--                <v-tabs v-model="tab">-->
-<!--                    <v-tab value="map">Map</v-tab>-->
-<!--                    <v-tab value="video">Video</v-tab>-->
-<!--                </v-tabs>-->
-<!--                <v-tabs-window v-model="tab">-->
-<!--                    <v-tabs-window-item value="map">-->
-<!--                        <v-lazy>-->
-<!--                            <annotations-map-->
-<!--                                ref="annotationsMapRef"-->
-<!--                                @selected-annotation="setSelectedFauxAnnotation"-->
-<!--                            ></annotations-map>-->
-<!--                        </v-lazy>-->
-<!--                    </v-tabs-window-item>-->
-<!--                    <v-tabs-window-item value="video">-->
-<!--                        <v-lazy>-->
-<!--                            <vam-video-player-->
-<!--                                :source-video-uri="selectedAnnotation?.video_uri"-->
-<!--                                :recorded-timestamp="-->
-<!--                                selectedAnnotation?.index_recorded_timestamp-->
-<!--                            "-->
-<!--                            ></vam-video-player>-->
-<!--                        </v-lazy>-->
-<!--                    </v-tabs-window-item>-->
-<!--                </v-tabs-window>-->
-<!--                </v-card>-->
-<!--            </v-col>-->
             <v-col>
-                <v-card id="map-and-video">
-                    <v-row>
-                        <v-col>
+                <v-card id="map-and-video" :class="{ compact: compactMapAndVideo, fixed: floatMapAndVideo }">
+                    <div class="map-video-content">
+                        <v-row>
+                            <v-col>
                                 <annotations-map
                                     ref="annotationsMapRef"
                                     :hidden="minimizeMapAndVideo"
                                     @selected-annotation="setSelectedFauxAnnotation"
                                 ></annotations-map>
-                        </v-col>
-                        <v-col>
+                            </v-col>
+                            <v-col>
                                 <vam-video-player
                                     :hidden="minimizeMapAndVideo"
                                     :source-video-uri="selectedAnnotation?.video_uri"
                                     :recorded-timestamp="
-                                    selectedAnnotation?.index_recorded_timestamp
-                                "
+                                        selectedAnnotation?.index_recorded_timestamp
+                                    "
                                 ></vam-video-player>
-                        </v-col>
-                    </v-row>
+                            </v-col>
+                        </v-row>
+                    </div>
                     <v-card-actions>
                         <v-checkbox label="Hide map and video" v-model="minimizeMapAndVideo"></v-checkbox>
                         <v-checkbox label="Float map and video" v-model="floatMapAndVideo"></v-checkbox>
+                        <v-checkbox label="Compact map and video" v-model="compactMapAndVideo" />
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -271,7 +238,7 @@ const rowProps = computed(() => {
                                     <v-tooltip
                                         activator="parent"
                                         location="bottom"
-                                        >{{ fauxAssociationToString(detail) }}
+                                    >{{ fauxAssociationToString(detail) }}
                                     </v-tooltip>
                                 </v-chip>
                             </div>
@@ -333,9 +300,25 @@ const rowProps = computed(() => {
 .fixed-table {
     margin-top: calc(40vh + 10px);
 }
+
+.map-video-content {
+    transition: max-height 0.3s ease;
+}
+
+/* normal size */
+#map-and-video .map-video-content {
+    max-height: 60vh; /* adjust to taste */
+}
+
+/* compact size */
+#map-and-video.compact .map-video-content {
+    max-height: 25vh; /* shrinks proportionally */
+}
+
+/* ensure children fill available height */
+.map-video-content .v-row,
+.map-video-content .v-col {
+    height: 100%;
+}
 </style>
-<!--
-Trying to highlight selected row in the table by adding
-:item-class="(item) => (selectedRow.includes(item.row) ? 'selected-row' : '')"
-to the v-data-table element, but it doesn't work.
--->
+
