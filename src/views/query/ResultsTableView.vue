@@ -10,6 +10,7 @@ import {
 import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
 import SaveOptions from '@/components/query/SaveOptions.vue'
 import ImageThumbnail from '@/components/query/ImageThumbnail.vue'
+import { useSelectedColumnsStore } from '@/stores/query-params'
 
 const emit = defineEmits(['selected-annotation'])
 const queryResultsStore = useQueryResultsStore()
@@ -19,8 +20,23 @@ const imageOnlyAnnotations = computed(() =>
 )
 const showImagesOnly = ref(false)
 const search = ref('')
+const selectedColumnsStore = useSelectedColumnsStore()
+const tableHeader = computed(() => {
+    const columns = Array.from(selectedColumnsStore.selectableColumns)
+    columns.push('details')
+    columns.sort()
+    columns.unshift('image')
+    columns.unshift("row")
+
+    return columns.map(c => {
+        return {
+            title: c.replaceAll("_", " "),
+            key: c,
+            value: c,
+        }
+    })
+})
 const selectedRow = ref([] as number[])
-const tab = ref<string | null>(null)
 const annotationsMapRef = ref<InstanceType<typeof AnnotationsMap> | null>(null)
 const minimizeMapAndVideo = ref(false)
 const minimizeMapAndVideoKey = 'minimizeMapAndVideo'
@@ -205,6 +221,7 @@ const rowProps = computed(() => {
                         :search="search"
                         :custom-filter="nestedFilter"
                         :hover="true"
+                        :headers="tableHeader"
                         @click:row="handleRowClick"
                         item-value="row"
                         :row-props="rowProps"
