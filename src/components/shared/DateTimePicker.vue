@@ -144,7 +144,7 @@ watch(selectedDateTime, value => {
 
             <!-- Button to open date picker -->
             <v-col cols="2">
-                <v-btn @click="dateDialog = true" icon="mdi-calendar">
+                <v-btn @click="dateDialog = true" icon="mdi-calendar" variant="tonal" color="primary">
                     <v-icon icon="mdi-calendar"></v-icon>
                     <v-tooltip activator="parent" location="top">Select {{pickerTitle}}</v-tooltip>
                 </v-btn>

@@ -29,6 +29,7 @@ const decoratorsStore = useDecoratorsStore()
                     label="Activites"
                     v-model=activitiesStore.activities
                     :items=annosaurusStore.activities
+                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
                 ></v-autocomplete>
             </v-col>
@@ -39,6 +40,7 @@ const decoratorsStore = useDecoratorsStore()
                     label="Groups"
                     v-model=groupsStore.groups
                     :items=annosaurusStore.groups
+                    :chip-props="{ color: 'secondary', variant: 'tonal', background: 'secondary'}"
                     multiple
                 ></v-autocomplete>
             </v-col>
@@ -49,6 +51,7 @@ const decoratorsStore = useDecoratorsStore()
                     label="Observers"
                     v-model=observersStore.observers
                     :items=annosaurusStore.observers
+                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
                 ></v-autocomplete>
             </v-col>
@@ -59,6 +62,7 @@ const decoratorsStore = useDecoratorsStore()
                     label="Chief Scientists"
                     v-model=chiefScientistsStore.chiefScientists
                     :items=annosaurusStore.chiefScientists
+                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
                 ></v-autocomplete>
             </v-col>

@@ -16,6 +16,7 @@ import Selections from '@/components/query/Selections.vue'
 import { computed, ref, watch } from 'vue'
 import router from '@/router'
 import { useRazielStore } from '@/stores/raziel'
+import ChipTest from '@/components/shared/ChipTest.vue'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
@@ -54,7 +55,7 @@ function runQuery() {
     queryIsRunning.value = true
     const annosaurusApi = useAnnosaurusStore().api
     const queryRunner = new QueryRunner(annosaurusApi)
-    queryRunner.runQuery((x) => {progress.value = x}).then(() => {
+    queryRunner.runQuery((x) => {progress.value = x}, () => alert("No query constraints were added")).then(() => {
         queryIsRunning.value = false
         progress.value = 0
         router.push({name: 'results-table-view'})
@@ -73,7 +74,10 @@ function runQuery() {
             <v-container fluid style="width:100%">
                 <v-row>
                     <v-col cols="6">
-                        <h1>VARS Query</h1>
+                        <h1>
+                            VARS Query
+                            <v-tooltip activator="parent" location="top">To run a query, add constraints and then press the search button</v-tooltip>
+                        </h1>
                     </v-col>
                     <v-col cols="auto">
                         <v-spacer></v-spacer>
@@ -101,6 +105,7 @@ function runQuery() {
             </v-container>
         </v-toolbar>
 
+
         <concept-constraint></concept-constraint>
         <v-divider></v-divider>
         <association-constraint></association-constraint>
@@ -121,11 +126,11 @@ function runQuery() {
                     size="x-large"
                     icon="mdi-restore"
                     @click="resetOnlyReturns"
+                    variant="tonal" color="error"
                 ><v-icon icon="mdi-restore"></v-icon><v-tooltip activator="parent" location="top">Reset the selected returns</v-tooltip>
                 </v-btn>
             </v-col>
         </v-row>
-
 
         <v-overlay
             :model-value="queryIsRunning"
@@ -141,6 +146,7 @@ function runQuery() {
             ></v-progress-circular>
         </v-overlay>
 
+<!--        <chip-test></chip-test>-->
     </div>
 </template>
 

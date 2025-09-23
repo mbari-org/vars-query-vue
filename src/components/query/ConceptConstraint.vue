@@ -44,22 +44,23 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                 <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addConcept icon="mdi-plus" size="x-large">
+                <v-btn @click=addConcept icon="mdi-plus" size="x-large" variant="tonal" color="primary">
                     <v-icon icon="mdi-plus"></v-icon>
                     <v-tooltip activator="parent" location="bottom">Add concepts to search constraints</v-tooltip>
                 </v-btn>
             </v-col>
         </v-row>
         <v-row>
-            <v-chip-group column>
-                <v-chip
-                    v-for="(selectedConcept, i) in selectedConceptsStore.selectedConcepts" :key="selectedConcept.concept"
-                    closable
-                    @click:close="selectedConceptsStore.remove(i)">
-                    {{selectedConceptToChipLabel(selectedConcept)}}
-                    <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>
-                </v-chip>
-            </v-chip-group>
+            <v-chip
+                v-for="(selectedConcept, i) in selectedConceptsStore.selectedConcepts" :key="selectedConcept.concept"
+                closable
+                @click:close="selectedConceptsStore.remove(i)"
+                color="secondary"
+                variant="tonal"
+            >
+                {{selectedConceptToChipLabel(selectedConcept)}}
+                <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>
+            </v-chip>
         </v-row>
     </v-container>
 </template>

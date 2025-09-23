@@ -44,28 +44,32 @@ function addItem(event: Event) {
                         ></v-autocomplete>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addItem icon="mdi-plus" size="x-large">
+                <v-btn @click=addItem icon="mdi-plus" size="x-large" variant="tonal" color="primary">
                     <v-icon icon="mdi-plus"></v-icon>
-                    <v-tooltip activator="parent" location="bottom">Constrain by deployment or camera platform</v-tooltip>
+                    <v-tooltip activator="parent" location="bottom">Constrain by deployments OR camera platforms</v-tooltip>
                 </v-btn>
             </v-col>
         </v-row>
         <v-row>
-            <v-chip-group column>
-                <v-chip
-                    v-for="(name, i) in videoSequenceNameStore.videoSequenceNames" :key="name"
-                    closable
-                    @click:close="videoSequenceNameStore.remove(i)">
-                    {{name}}
+            <v-chip
+                v-for="(name, i) in videoSequenceNameStore.videoSequenceNames" :key="name"
+                closable
+                @click:close="videoSequenceNameStore.remove(i)"
+                color="secondary"
+                variant="tonal"
+            >
+                {{name}}
 <!--                        <v-tooltip activator="parent" location="bottom">{{selectedConcept.conceptNames.join(", ")}}</v-tooltip>-->
-                </v-chip>
-                    <v-chip
-                        v-for="(name, i) in cameraPlatformStore.cameraPlatforms" :key="name"
-                        closable
-                        @click:close="cameraPlatformStore.remove(i)">
-                        {{name}}
-                    </v-chip>
-            </v-chip-group>
+            </v-chip>
+            <v-chip
+                v-for="(name, i) in cameraPlatformStore.cameraPlatforms" :key="name"
+                closable
+                @click:close="cameraPlatformStore.remove(i)"
+                color="secondary"
+                variant="tonal"
+            >
+                {{name}}
+            </v-chip>
         </v-row>
     </v-container>
 </template>
