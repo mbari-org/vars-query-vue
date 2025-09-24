@@ -32,7 +32,7 @@ const numberRule = (value: string) => {
     return !isNaN(Number(value)) || 'Please enter a valid number'
 }
 
-function stringToNumber(value: string) {
+function stringToNumber(value: string | null | undefined | number) {
     if (value === '' || value === null) {
         return null
     }

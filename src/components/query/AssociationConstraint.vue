@@ -33,9 +33,10 @@ function addAssociation(event: Event) {
                     </v-checkbox>
                 </v-col>
                 <v-col>
-                    <v-checkbox label="And" v-model="associationsStore.useAnd">
-                        <v-tooltip activator="parent">Each query result must contain all associations</v-tooltip>
-                    </v-checkbox>
+                    <v-spacer></v-spacer>
+<!--                    <v-checkbox label="And" v-model="associationsStore.useAnd">-->
+<!--                        <v-tooltip activator="parent">Each query result must contain all associations</v-tooltip>-->
+<!--                    </v-checkbox>-->
                 </v-col>
                 <v-col>
                     <v-btn @click=addAssociation icon="mdi-plus" size="x-large" variant="tonal" color="primary">

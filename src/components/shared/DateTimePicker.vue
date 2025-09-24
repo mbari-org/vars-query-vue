@@ -137,6 +137,7 @@ watch(selectedDateTime, value => {
                 v-model="dateInput"
                 @blur="updateSelectedDate"
                 @input="updateSelectedDate"
+                @click:clear="reset"
             >
                 <v-tooltip v-if="selectedDateTime" activator="parent" location="top">{{selectedDateTimeString}}</v-tooltip>
             </v-text-field>

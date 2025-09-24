@@ -27,10 +27,15 @@ const tableHeader = computed(() => {
     columns.sort()
     columns.unshift('image')
     columns.unshift("row")
+    // TODO remove associations
+    const idx = columns.indexOf('associations')
+    if (idx !== -1) {
+        columns.splice(idx, 1)
+    }
 
     return columns.map(c => {
         return {
-            title: c.replaceAll("_", " "),
+            title: c.replace(/_/g, " "), // Replace all underscores with spaces
             key: c,
             value: c,
         }

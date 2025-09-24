@@ -13,10 +13,8 @@ import TimeConstraint from '@/components/query/TimeConstraint.vue'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import Selections from '@/components/query/Selections.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import router from '@/router'
-import { useRazielStore } from '@/stores/raziel'
-import ChipTest from '@/components/shared/ChipTest.vue'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
