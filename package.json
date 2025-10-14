@@ -33,7 +33,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/lodash": "^4.17.13",
     "@types/node": "^20.17.0",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.0.0",
     "@vue/eslint-config-typescript": "^14.1.1",
     "@vue/tsconfig": "^0.5.1",

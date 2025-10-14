@@ -17,7 +17,9 @@ import { computed, ref } from 'vue'
 import router from '@/router'
 
 const selectedColumnsStore = useSelectedColumnsStore()
-const enableSearch = computed(() => selectedColumnsStore.selectableColumns.length > 0)
+const enableSearch = computed(
+    () => selectedColumnsStore.selectableColumns.length > 0,
+)
 const queryIsRunning = ref(false)
 const progress = ref(0)
 
@@ -30,8 +32,7 @@ const timeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
 const progressBarText = computed(() => {
     if (progress.value === 0) {
         return 'Searching ...'
-    }
-    else {
+    } else {
         const v = progress.value.toFixed(0)
         return `Loaded ${v}%`
     }
@@ -53,28 +54,40 @@ function runQuery() {
     queryIsRunning.value = true
     const annosaurusApi = useAnnosaurusStore().api
     const queryRunner = new QueryRunner(annosaurusApi)
-    queryRunner.runQuery((x) => {progress.value = x}, () => alert("No query constraints were added")).then(() => {
-        queryIsRunning.value = false
-        progress.value = 0
-        router.push({name: 'results-table-view'})
-    }).catch((error) => {
-        console.error(error)
-        progress.value = 0
-        queryIsRunning.value = false
-    })
+    queryRunner
+        .runQuery(
+            x => {
+                progress.value = x
+            },
+            () => alert('No query constraints were added'),
+        )
+        .then(ok => {
+            queryIsRunning.value = false
+            progress.value = 0
+            if (ok) {
+                router.push({ name: 'results-table-view' })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            progress.value = 0
+            queryIsRunning.value = false
+        })
 }
-
 </script>
 
 <template>
     <div id="queryView">
         <v-toolbar class="fixed-bar">
-            <v-container fluid style="width:100%">
+            <v-container fluid style="width: 100%">
                 <v-row>
                     <v-col cols="6">
                         <h1>
                             VARS Query
-                            <v-tooltip activator="parent" location="top">To run a query, add constraints and then press the search button</v-tooltip>
+                            <v-tooltip activator="parent" location="top"
+                                >To run a query, add constraints and then press
+                                the search button</v-tooltip
+                            >
                         </h1>
                     </v-col>
                     <v-col cols="auto">
@@ -87,7 +100,10 @@ function runQuery() {
                             color="primary"
                             :disabled="!enableSearch"
                             @click="runQuery"
-                        >Search<v-tooltip activator="parent" location="top">Run search</v-tooltip></v-btn>
+                            >Search<v-tooltip activator="parent" location="top"
+                                >Run search</v-tooltip
+                            ></v-btn
+                        >
                     </v-col>
                     <v-col cols="2" class="d-flex">
                         <v-spacer></v-spacer>
@@ -96,13 +112,14 @@ function runQuery() {
                             append-icon="mdi-restore"
                             color="error"
                             @click="reset"
-                        >Reset<v-tooltip activator="parent" location="top">Reset all constraints and returns</v-tooltip>
+                            >Reset<v-tooltip activator="parent" location="top"
+                                >Reset all constraints and returns</v-tooltip
+                            >
                         </v-btn>
                     </v-col>
                 </v-row>
             </v-container>
         </v-toolbar>
-
 
         <concept-constraint></concept-constraint>
         <v-divider></v-divider>
@@ -124,8 +141,12 @@ function runQuery() {
                     size="x-large"
                     icon="mdi-restore"
                     @click="resetOnlyReturns"
-                    variant="tonal" color="error"
-                ><v-icon icon="mdi-restore"></v-icon><v-tooltip activator="parent" location="top">Reset the selected returns</v-tooltip>
+                    variant="tonal"
+                    color="error"
+                    ><v-icon icon="mdi-restore"></v-icon
+                    ><v-tooltip activator="parent" location="top"
+                        >Reset the selected returns</v-tooltip
+                    >
                 </v-btn>
             </v-col>
         </v-row>
@@ -133,8 +154,9 @@ function runQuery() {
         <v-overlay
             :model-value="queryIsRunning"
             color="primary"
-            class="justify-center align-center">
-            <div class="big-font">{{progressBarText}}</div>
+            class="justify-center align-center"
+        >
+            <div class="big-font">{{ progressBarText }}</div>
             <v-progress-circular
                 :size="128"
                 :width="12"
@@ -144,7 +166,7 @@ function runQuery() {
             ></v-progress-circular>
         </v-overlay>
 
-<!--        <chip-test></chip-test>-->
+        <!--        <chip-test></chip-test>-->
     </div>
 </template>
 

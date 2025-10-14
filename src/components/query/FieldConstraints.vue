@@ -29,9 +29,16 @@ const decoratorsStore = useDecoratorsStore()
                     label="Activites"
                     v-model=activitiesStore.activities
                     :items=annosaurusStore.activities
-                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
-                ></v-autocomplete>
+                >
+                    <template v-slot:chip="{ props, item }">
+                        <v-chip
+                            v-bind="props"
+                            color="secondary"
+                            :text="item.raw.name"
+                        ></v-chip>
+                    </template>
+                </v-autocomplete>
             </v-col>
             <v-col cols="6">
                 <v-autocomplete
@@ -40,9 +47,16 @@ const decoratorsStore = useDecoratorsStore()
                     label="Groups"
                     v-model=groupsStore.groups
                     :items=annosaurusStore.groups
-                    :chip-props="{ color: 'secondary', variant: 'tonal', background: 'secondary'}"
                     multiple
-                ></v-autocomplete>
+                >
+                    <template v-slot:chip="{ props, item }">
+                        <v-chip
+                            v-bind="props"
+                            color="secondary"
+                            :text="item.raw.name"
+                        ></v-chip>
+                    </template>
+                </v-autocomplete>
             </v-col>
             <v-col cols="6">
                 <v-autocomplete
@@ -51,9 +65,16 @@ const decoratorsStore = useDecoratorsStore()
                     label="Observers"
                     v-model=observersStore.observers
                     :items=annosaurusStore.observers
-                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
-                ></v-autocomplete>
+                >
+                    <template v-slot:chip="{ props, item }">
+                        <v-chip
+                            v-bind="props"
+                            color="secondary"
+                            :text="item.raw.name"
+                        ></v-chip>
+                    </template>
+                </v-autocomplete>
             </v-col>
             <v-col cols="6">
                 <v-autocomplete
@@ -62,9 +83,16 @@ const decoratorsStore = useDecoratorsStore()
                     label="Chief Scientists"
                     v-model=chiefScientistsStore.chiefScientists
                     :items=annosaurusStore.chiefScientists
-                    :chip-props="{ color: 'secondary', variant: 'tonal' }"
                     multiple
-                ></v-autocomplete>
+                >
+                    <template v-slot:chip="{ props, item }">
+                        <v-chip
+                            v-bind="props"
+                            color="secondary"
+                            :text="item.raw.name"
+                        ></v-chip>
+                    </template>
+                </v-autocomplete>
             </v-col>
         </v-row>
         <v-row>

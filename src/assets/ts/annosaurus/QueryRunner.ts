@@ -23,7 +23,7 @@ export class QueryRunner {
         // If the all the queries where fields are empty then don't run the query
         if (queries.length === 0 || queries.every(q => (q.where === undefined || q.where.length === 0))) {
             notifyOnAbortCallback()
-            return
+            return false
         }
         console.log(queries)
         const queryResultsStore = useQueryResultsStore()
@@ -43,6 +43,7 @@ export class QueryRunner {
                 console.error(error)
             })
         }
+        return true
     }
 
     buildQueries(): Array<Query> {

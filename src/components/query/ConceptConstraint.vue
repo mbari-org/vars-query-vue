@@ -8,12 +8,15 @@ const oniStore = useOniStore()
 const selectedConceptsStore = useSelectedConceptsStore()
 
 const extendTo = ref(["", "parent", "children", "siblings", "descendants"])
+const selectedConceptInAutocomplete = ref("")
 
 function addConcept(event: Event) {
     // console.log("addConcept")
     // console.log(event)
-    const concept = document?.getElementById("conceptAutocomplete")?.getAttribute("value")
+    // const concept = document?.getElementById("conceptAutocomplete")?.getAttribute("value")
+    const concept = selectedConceptInAutocomplete.value
     const extendTo = document?.getElementById("extendToCombobox")?.getAttribute("value") ?? ""
+    // console.log(concept, extendTo)
     if (concept) {
         selectedConceptsStore.add(concept, extendTo)
     }
@@ -36,6 +39,7 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                     id="conceptAutocomplete"
                     clearable
                     label="Concepts"
+                    v-model="selectedConceptInAutocomplete"
                     :items=oniStore.concepts
                     auto-select-first>
                 </v-autocomplete>

@@ -2,36 +2,24 @@
 import { computed, ref, watch } from 'vue'
 
 interface Props {
-    pickerTitle: string
-    time: string // hours:min
+    pickerTitle?: string
+    time?: string // hours:min
+    modelValue?: Date | null
 }
 
-const { pickerTitle = 'Time', time = '00:00' } = defineProps<Props>()
+const props = defineProps<Props>()
 
-const selectedDate = ref<Date | null>(null)
+// const { pickerTitle = 'Time', time = '00:00', modelValue = null} = defineProps<Props>()
+
 const dateInput = ref<string>('') // Text field for date input in YYYY-MM-DD format
-
-function reset() {
-    selectedDate.value = null
-    dateInput.value = ''
-}
-
-function setDateTime(dateTime: Date) {
-    selectedDate.value = dateTime
-}
-
-defineExpose({
-    reset,
-    setDateTime,
-})
 
 // Computed value for the combined date and time
 const selectedDateTime = computed(() => {
-    if (selectedDate.value) {
-        const localDate = selectedDate.value
-        if (time) {
+    if (props.modelValue) {
+        const localDate = props.modelValue
+        if (props.time) {
             // Convert to UTC
-            const [hours, minutes] = time.split(':').map(Number)
+            const [hours, minutes] = props.time.split(':').map(Number)
             return new Date(
                 Date.UTC(
                     localDate.getUTCFullYear(),
@@ -64,7 +52,7 @@ const selectedDateTimeString = computed(() => {
 })
 
 // Watch the selectedDate and update the text field with the formatted date
-watch(selectedDate, newDate => {
+watch(props.modelValue, newDate => {
     // const textField = document.getElementById('textfield') as HTMLInputElement
     // console.log('textField', textField)
     if (newDate) {
@@ -76,7 +64,7 @@ watch(selectedDate, newDate => {
 
 watch(dateInput, newDate => {
     if (newDate === null || newDate === '' || newDate === undefined) {
-        selectedDate.value = null
+        props.modelValue = null
     }
 })
 
@@ -119,9 +107,12 @@ function confirmDate() {
 }
 
 // Emit event to the parent component
-const emit = defineEmits<{
-    (e: 'update', value: Date): void
-}>()
+const emit = defineEmits(['update:modelValue']);
+
+// Method to emit the 'update:modelValue' event when the input changes
+const updateValue = (event) => {
+    emit('update:modelValue', event.target.value);
+};
 
 watch(selectedDateTime, value => {
     if (value) {
@@ -135,18 +126,18 @@ watch(selectedDateTime, value => {
         <v-row>
             <!-- Text field to input the date -->
             <v-col>
-            <v-text-field
-                :label="`${pickerTitle} (YYYY-MM-DD)`"
-                id="textfield"
-                outlined
-                clearable
-                v-model="dateInput"
-                @blur="updateSelectedDate"
-                @input="updateSelectedDate"
-                @click:clear="reset"
-            >
-                <v-tooltip v-if="selectedDateTime" activator="parent" location="top">{{selectedDateTimeString}}</v-tooltip>
-            </v-text-field>
+                <v-text-field
+                    :label="`${pickerTitle} (YYYY-MM-DD)`"
+                    id="textfield"
+                    outlined
+                    clearable
+                    v-model="dateInput"
+                    @blur="updateSelectedDate"
+                    @input="updateSelectedDate"
+                    @click:clear="reset"
+                >
+                    <v-tooltip v-if="selectedDateTime" activator="parent" location="top">{{selectedDateTimeString}}</v-tooltip>
+                </v-text-field>
             </v-col>
 
             <!-- Button to open date picker -->
@@ -164,7 +155,7 @@ watch(selectedDateTime, value => {
             <v-card>
                 <v-card-title>{{ pickerTitle }}</v-card-title>
                 <v-card-text>
-                    <v-date-picker v-model="selectedDate"></v-date-picker>
+                    <v-date-picker :v-model="modelValue"></v-date-picker>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -175,9 +166,9 @@ watch(selectedDateTime, value => {
         </v-dialog>
 
         <!-- Display the selected Date and Time -->
-<!--        <div v-if="selectedDateTime">-->
-<!--            <p>{{ selectedDateTimeString }}</p>-->
-<!--        </div>-->
+        <!--        <div v-if="selectedDateTime">-->
+        <!--            <p>{{ selectedDateTimeString }}</p>-->
+        <!--        </div>-->
     </div>
 </template>
 
