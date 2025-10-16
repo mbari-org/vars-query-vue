@@ -18,7 +18,8 @@ export class QueryRunner {
      * TODO:
      */
     async runQuery(progressCallback: (progress: number) => void = () => {},
-                   notifyOnAbortCallback: () => void = () => {}) {
+                   notifyOnAbortCallback: () => void = () => {},
+                   notifyOnTimeoutCallback: () => void = () => {}) {
         const queries = this.buildQueries()
         // If the all the queries where fields are empty then don't run the query
         if (queries.length === 0 || queries.every(q => (q.where === undefined || q.where.length === 0))) {
@@ -30,7 +31,12 @@ export class QueryRunner {
         queryResultsStore.reset()
         let i = 0
         for (const q of queries) {
-            await this.api.pageUsingQuery(q, 500000, progressCallback).then((response) => {
+            // IMPORTANT: there is a timeout of 15000 milliseconds for the query
+            await this.api.pageUsingQueryWithTimeout(q,
+                500000,
+                progressCallback,
+                notifyOnTimeoutCallback,
+                25000).then((response) => {
                 // only use the header row for the first query
                 if (i === 0) {
                     queryResultsStore.appendRawQueryResults(response)

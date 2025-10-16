@@ -15,6 +15,7 @@ import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import Selections from '@/components/query/Selections.vue'
 import { computed, ref } from 'vue'
 import router from '@/router'
+import { useQueryResultsStore } from '@/stores/query-results'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(
@@ -54,18 +55,49 @@ function runQuery() {
     queryIsRunning.value = true
     const annosaurusApi = useAnnosaurusStore().api
     const queryRunner = new QueryRunner(annosaurusApi)
+    const queryResultsStore = useQueryResultsStore()
     queryRunner
         .runQuery(
             x => {
                 progress.value = x
             },
             () => alert('No query constraints were added'),
+            () =>
+                alert(
+                    'Query timed out. Try adding more constraints or reducing the time range.',
+                ),
         )
         .then(ok => {
             queryIsRunning.value = false
             progress.value = 0
             if (ok) {
-                router.push({ name: 'results-table-view' })
+                // Check size of results. If too large, alert user and do not navigate, immmediately
+                // download the results.
+                // IMPORTANT: this is a hack to prevent the table view from being displayed above 5000 rows
+                if (queryResultsStore.queryResults.length > 5000) {
+                    alert(
+                        'Too many results to display. Downloading the results instead.'
+                    )
+                    const data = queryResultsStore.queryResults
+                    const json = JSON.stringify(data, null, 2)
+                    const blob = new Blob([json], {
+                        type: 'application/json',
+                    })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = 'vars-results.json'
+                    document.body.appendChild(a)
+                    a.click()
+                    setTimeout(function() {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    }, 0);
+                    queryResultsStore.reset()
+
+                } else {
+                    router.push({ name: 'results-table-view' })
+                }
             }
         })
         .catch(error => {

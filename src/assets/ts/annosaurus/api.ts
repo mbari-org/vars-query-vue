@@ -1,170 +1,264 @@
 import { minify } from './QueryConstraints'
 import type { QueryConstraints } from './QueryConstraints'
 import type {
-  Annotation,
-  Count,
-  DepthHistogram,
-  GeoRange,
-  QueryResponse,
-  QueryResponseAnno,
-  QueryResponseCount,
-  QueryResponseGeoRange,
-  StringHistogram,
-  TimeHistogram,
+    Annotation,
+    Count,
+    DepthHistogram,
+    GeoRange,
+    QueryResponse,
+    QueryResponseAnno,
+    QueryResponseCount,
+    QueryResponseGeoRange,
+    StringHistogram,
+    TimeHistogram,
 } from './QueryResponse'
 import type { Query } from '@/assets/ts/annosaurus/Query'
 import type { QueryColumns } from '@/assets/ts/annosaurus/QueryColumns'
 
 export class AnnosaurusApi {
-
     url: string
-  constructor(annoUrl: string) {
-    this.url = annoUrl
-  }
-
-  executeQuery<Type>(
-    url: string,
-    queryConstraints: QueryConstraints,
-  ): Promise<Type> {
-    return fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(minify(queryConstraints)),
-    })
-      .then(r => r.json())
-      .then(json => json.content)
-  }
-
-  compareAnnotations(a: Annotation, b: Annotation) {
-    let at = a.recorded_timestamp
-    if (at === undefined || at === null) {
-      at = '1900-01-01T00:00:00Z'
+    constructor(annoUrl: string) {
+        this.url = annoUrl
     }
-    let bt = b.recorded_timestamp
-    if (bt === undefined || bt === null) {
-      bt = '1900-01-01T00:00:00Z'
+
+    executeQueryWithTimeout<Type>(
+        url: string,
+        queryConstraints: QueryConstraints,
+    ): Promise<Type> {
+        return fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(minify(queryConstraints)),
+            signal: AbortSignal.timeout(20000),
+        })
+            .then(r => r.json())
+            .then(json => json.content)
     }
-    return at.localeCompare(bt)
-  }
 
-  async pagedSearch(q: QueryConstraints, pageSize: number) {
-    const annotations = [] as Annotation[]
-    const n = await this.count(q)
-    const pages = Math.ceil(n.count / pageSize)
-    for (let i = 0; i < pages; i++) {
-      q.limit = pageSize
-      q.offset = pageSize * i
-      const xs = await this.search(q)
-      annotations.push(...xs)
+    executeQuery<Type>(
+        url: string,
+        queryConstraints: QueryConstraints,
+    ): Promise<Type> {
+        return fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(minify(queryConstraints)),
+        })
+            .then(r => r.json())
+            .then(json => json.content)
     }
-    annotations.sort(this.compareAnnotations) // sort by recorded_timestamp
-    return annotations
-  }
 
-  count(q: QueryConstraints): Promise<Count> {
-    return this.executeQuery(`${this.url}/fast/count`, q)
-  }
+    compareAnnotations(a: Annotation, b: Annotation) {
+        let at = a.recorded_timestamp
+        if (at === undefined || at === null) {
+            at = '1900-01-01T00:00:00Z'
+        }
+        let bt = b.recorded_timestamp
+        if (bt === undefined || bt === null) {
+            bt = '1900-01-01T00:00:00Z'
+        }
+        return at.localeCompare(bt)
+    }
 
-  geoRange(q: QueryConstraints): Promise<GeoRange> {
-    // {min_latitude: 0, max_latitude: 0, min_longitude: 0, max_longitude: 0, min_depth_meters: 0, max_depth_meters: 0}
-    return this.executeQuery(`${this.url}/fast/georange`, q)
-  }
+    async pagedSearch(q: QueryConstraints, pageSize: number) {
+        const annotations = [] as Annotation[]
+        const n = await this.count(q)
+        const pages = Math.ceil(n.count / pageSize)
+        for (let i = 0; i < pages; i++) {
+            q.limit = pageSize
+            q.offset = pageSize * i
+            const xs = await this.search(q)
+            annotations.push(...xs)
+        }
+        annotations.sort(this.compareAnnotations) // sort by recorded_timestamp
+        return annotations
+    }
 
-  depthHistogram(q: QueryConstraints, size = 100): Promise<DepthHistogram> {
-    return this.executeQuery(`${this.url}/analysis/histogram/depth?size=${size}`, q)
-  }
+    count(q: QueryConstraints): Promise<Count> {
+        return this.executeQuery(`${this.url}/fast/count`, q)
+    }
 
-  timeHistogram(q: QueryConstraints, size = 180): Promise<TimeHistogram> {
-    return this.executeQuery(
-      `${this.url}/analysis/histogram/time?size=${size}`,
-      q,
-    ).then(response => {
-        const queryResponse = response as QueryResponse<TimeHistogram>
-        const hist = queryResponse.content
+    geoRange(q: QueryConstraints): Promise<GeoRange> {
+        // {min_latitude: 0, max_latitude: 0, min_longitude: 0, max_longitude: 0, min_depth_meters: 0, max_depth_meters: 0}
+        return this.executeQuery(`${this.url}/fast/georange`, q)
+    }
 
-      // @ts-ignore
-      const mins: Date[] = hist.bins_min.map(s => new Date(Date.parse(s)))
-      // @ts-ignore
-      const maxs: Date[] = hist.bins_max.map(s => new Date(Date.parse(s)))
-      // @ts-ignore
-      // @ts-ignore
-      return {
-        bins_min: mins,
-        bins_max: maxs,
-        values: hist.values,
-      }
-    })
-  }
+    depthHistogram(q: QueryConstraints, size = 100): Promise<DepthHistogram> {
+        return this.executeQuery(
+            `${this.url}/analysis/histogram/depth?size=${size}`,
+            q,
+        )
+    }
 
-  search(q: QueryConstraints): Promise<Annotation[]> {
-    return this.executeQuery(`${this.url}/fast/`, q)
-  }
+    timeHistogram(q: QueryConstraints, size = 180): Promise<TimeHistogram> {
+        return this.executeQuery(
+            `${this.url}/analysis/histogram/time?size=${size}`,
+            q,
+        ).then(response => {
+            const queryResponse = response as QueryResponse<TimeHistogram>
+            const hist = queryResponse.content
 
-  images(conceptName: string): Promise<Annotation[]> {
-    const url = `${this.url}/fast/concept/images/${encodeURIComponent(conceptName)}?data=true`
-    return fetch(url, {
-      mode: 'cors',
-    }).then(r => r.json())
-  }
+            // @ts-ignore
+            const mins: Date[] = hist.bins_min.map(s => new Date(Date.parse(s)))
+            // @ts-ignore
+            const maxs: Date[] = hist.bins_max.map(s => new Date(Date.parse(s)))
+            // @ts-ignore
+            // @ts-ignore
+            return {
+                bins_min: mins,
+                bins_max: maxs,
+                values: hist.values,
+            }
+        })
+    }
 
-  runUsingQuery(q: Query): Promise<string[]> {
-    return fetch(`${this.url}/query/download`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(q),
-    }).then(r => r.ok ? r : Promise.reject(r))
-        .then(r => r.text()
-        .then(t => t.split('\n'))
-        .then(xs => xs.map(x => x.trim()))
-        .then(xs => xs.filter(x => x && x !== "" && x !== "null")))
-  }
+    search(q: QueryConstraints): Promise<Annotation[]> {
+        return this.executeQuery(`${this.url}/fast/`, q)
+    }
 
-  countUsingQuery(q: Query): Promise<Count> {
-    return fetch(`${this.url}/query/count`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(q),
-    }).then(r => r.ok ? r.json() : Promise.reject(r))
-  }
+    images(conceptName: string): Promise<Annotation[]> {
+        const url = `${this.url}/fast/concept/images/${encodeURIComponent(conceptName)}?data=true`
+        return fetch(url, {
+            mode: 'cors',
+        }).then(r => r.json())
+    }
 
-  async pageUsingQuery(q: Query, pageSize: number, progressCallback: (progress: number) => void = () => {}): Promise<string[]> {
-    progressCallback(0)
-    const rows = await this.runUsingQuery(q)
-    progressCallback(100)
-    // const rows = [] as string[]
-    // const n = await this.countUsingQuery(q)
-    // const pages = Math.ceil(n.count / pageSize)
-    // for (let i = 0; i < pages; i++) {
-    //   q.limit = pageSize
-    //   q.offset = pageSize * i
-    //   const xs = await this.runUsingQuery(q)
-    //   if (i === 0) {
-    //     rows.push(...xs)
-    //   }
-    //   else {
-    //     // Drop the header row from subsequent pages
-    //     const [head, ...tail] = xs
-    //     rows.push(...tail)
-    //   }
-      // console.log(`Page ${i + 1} of ${pages}`)
-      // progressCallback(((i + 1) / pages) * 100)
-    // }
+    runUsingQuery(q: Query): Promise<string[]> {
+        return fetch(`${this.url}/query/download`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+        })
+            .then(r => (r.ok ? r : Promise.reject(r)))
+            .then(r =>
+                r
+                    .text()
+                    .then(t => t.split('\n'))
+                    .then(xs => xs.map(x => x.trim()))
+                    .then(xs => xs.filter(x => x && x !== '' && x !== 'null')),
+            )
+    }
 
-    return rows
+    runUsingQueryWithTimeout(q: Query, timeoutMillis: number): Promise<string[]> {
+        return fetch(`${this.url}/query/download`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+            signal: AbortSignal.timeout(timeoutMillis),
+        })
+            .then(r => (r.ok ? r : Promise.reject(r)))
+            .then(r =>
+                r
+                    .text()
+                    .then(t => t.split('\n'))
+                    .then(xs => xs.map(x => x.trim()))
+                    .then(xs => xs.filter(x => x && x !== '' && x !== 'null')),
+            )
+    }
 
-  }
+    runUsingQueryWithAbortController(q: Query, abortController: AbortController): Promise<string[]> {
+        return fetch(`${this.url}/query/download`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+            signal: abortController.signal,
+        })
+            .then(r => (r.ok ? r : Promise.reject(r)))
+            .then(r =>
+                r
+                    .text()
+                    .then(t => t.split('\n'))
+                    .then(xs => xs.map(x => x.trim()))
+                    .then(xs => xs.filter(x => x && x !== '' && x !== 'null')),
+            )
+    }
 
-  listQueryColumns(): Promise<QueryColumns[]> {
-    return fetch(`${this.url}/query/columns`, {
-      mode: 'cors',
-    }).then(r => r.json())
-  }
+    countUsingQuery(q: Query): Promise<Count> {
+        return fetch(`${this.url}/query/count`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+        }).then(r => (r.ok ? r.json() : Promise.reject(r)))
+    }
 
-  listActivities(): Promise<string[]> {
-    return fetch(`${this.url}/observations/activities`, {
-      mode: 'cors',
-    }).then(r => r.json())
-  }
+    countUsingQueryWithTimeout(q: Query, timeoutMillis: number): Promise<Count> {
+        return fetch(`${this.url}/query/count`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+            signal: AbortSignal.timeout(timeoutMillis),
+        }).then(r => (r.ok ? r.json() : Promise.reject(r)))
+    }
+
+    countUsingQueryWithAbortController(q: Query, abortController: AbortController): Promise<Count> {
+        return fetch(`${this.url}/query/count`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(q),
+            signal: abortController.signal,
+        }).then(r => (r.ok ? r.json() : Promise.reject(r)))
+    }
+
+    async pageUsingQuery(
+        q: Query,
+        pageSize: number,
+        progressCallback: (progress: number) => void = () => {},
+    ): Promise<string[]> {
+        progressCallback(0)
+        const rows = await this.runUsingQuery(q)
+        progressCallback(100)
+        // const rows = [] as string[]
+        // const n = await this.countUsingQuery(q)
+        // const pages = Math.ceil(n.count / pageSize)
+        // for (let i = 0; i < pages; i++) {
+        //   q.limit = pageSize
+        //   q.offset = pageSize * i
+        //   const xs = await this.runUsingQuery(q)
+        //   if (i === 0) {
+        //     rows.push(...xs)
+        //   }
+        //   else {
+        //     // Drop the header row from subsequent pages
+        //     const [head, ...tail] = xs
+        //     rows.push(...tail)
+        //   }
+        // console.log(`Page ${i + 1} of ${pages}`)
+        // progressCallback(((i + 1) / pages) * 100)
+        // }
+
+        return rows
+    }
+
+    async pageUsingQueryWithTimeout(
+        q: Query,
+        pageSize: number,
+        progressCallback: (progress: number) => void = () => {},
+        abortCallback: () => void = () => {},
+        timeoutMillis: number,
+    ): Promise<string[]> {
+        const abortController = new AbortController()
+        const timer = setTimeout(() => abortController.abort(), timeoutMillis)
+        const signal = abortController.signal
+        signal.addEventListener('abort', abortCallback)
+        progressCallback(0)
+        const rows = await this.runUsingQueryWithAbortController(q, abortController)
+        clearTimeout(timer)
+        progressCallback(100)
+
+        return rows
+    }
+
+    listQueryColumns(): Promise<QueryColumns[]> {
+        return fetch(`${this.url}/query/columns`, {
+            mode: 'cors',
+        }).then(r => r.json())
+    }
+
+    listActivities(): Promise<string[]> {
+        return fetch(`${this.url}/observations/activities`, {
+            mode: 'cors',
+        }).then(r => r.json())
+    }
 
     listGroups(): Promise<string[]> {
         return fetch(`${this.url}/observations/groups`, {
@@ -176,7 +270,7 @@ export class AnnosaurusApi {
         const query: Query = {
             select: ['observer'],
             distinct: true,
-            orderby: ['observer']
+            orderby: ['observer'],
         }
         return this.runUsingQuery(query).then(xs => xs.slice(1))
     }
@@ -185,10 +279,8 @@ export class AnnosaurusApi {
         const query: Query = {
             select: ['chief_scientist'],
             distinct: true,
-            orderby: ['chief_scientist']
+            orderby: ['chief_scientist'],
         }
         return this.runUsingQuery(query).then(xs => xs.slice(1).sort())
     }
-
-
 }
