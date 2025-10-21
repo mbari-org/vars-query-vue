@@ -117,6 +117,24 @@ export function depthHistogram(data: number[]): HistogramBin[] {
     return bins;
 }
 
+export function yearHistogram(data: Date[]): HistogramBin[] {
+    const years = data.map(d => d.getUTCFullYear());
+    const minYear = 1985;
+    const maxYear = new Date().getUTCFullYear();
+    const numBins = maxYear - minYear + 1;
+    const bins = Array.from({ length: numBins }, (_, i) => {
+        const year = minYear + i;
+        const count = years.filter(y => y === year).length;
+        return {
+            index: i,
+            min: year,
+            max: year,
+            count,
+        }
+    })
+    return bins;
+}
+
 // https://www.cjoshmartin.com/blog/creating-zip-files-with-javascript
 export async function generateZipDownloadFromAnnotations(xs: Array<FauxAnnotation>) {
     const zip = new JSZip();
