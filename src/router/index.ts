@@ -43,6 +43,11 @@ const router = createRouter({
             component: () => import('../views/query/ResultsSummaryView.vue'),
         },
         {
+            path: '/large-results-view',
+            name: 'large-results-view',
+            component: () => import('../views/query/LargeResultsView.vue'),
+        },
+        {
             path: '/deployment/:name',
             name: 'deployment',
             component: () => import('../views/query/DeploymentLookup.vue')

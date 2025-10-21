@@ -52,11 +52,11 @@ const selectedDateTimeString = computed(() => {
 })
 
 // Watch the selectedDate and update the text field with the formatted date
-watch(props.modelValue, newDate => {
+watch(props, () => {
     // const textField = document.getElementById('textfield') as HTMLInputElement
     // console.log('textField', textField)
-    if (newDate) {
-        dateInput.value = newDate.toISOString().split('T')[0]
+    if (props.modelValue) {
+        dateInput.value = props.modelValue.toISOString().split('T')[0]
     } else {
         dateInput.value = ''
     }
@@ -64,7 +64,7 @@ watch(props.modelValue, newDate => {
 
 watch(dateInput, newDate => {
     if (newDate === null || newDate === '' || newDate === undefined) {
-        props.modelValue = null
+        // props.modelValue = null
     }
 })
 
@@ -86,7 +86,7 @@ function updateSelectedDate(event: Event) {
 
         // Ensure it's a valid date
         if (!isNaN(parsedDate.getTime())) {
-            selectedDate.value = parsedDate
+            // selectedDateTime.value = parsedDate
         } else {
             console.error('Invalid date: Not a real date')
         }
@@ -106,17 +106,21 @@ function confirmDate() {
     dateDialog.value = false
 }
 
+function reset() {
+
+}
+
 // Emit event to the parent component
 const emit = defineEmits(['update:modelValue']);
 
 // Method to emit the 'update:modelValue' event when the input changes
-const updateValue = (event) => {
-    emit('update:modelValue', event.target.value);
-};
+// const updateValue = (event) => {
+//     emit('update:modelValue', event.target.value);
+// };
 
 watch(selectedDateTime, value => {
     if (value) {
-        emit('update', value)
+        // emit('update', value)
     }
 })
 </script>

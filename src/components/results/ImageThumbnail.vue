@@ -72,21 +72,6 @@ function openVideo(a: FauxAnnotation) {
             </v-img>
 
         </v-lazy>
-<!--        <v-icon icon="mdi-video" size="x-small"></v-icon>-->
-
-        <!-- Floating enlarged image preview -->
-        <!-- Disabled hover at video labs request
-        <div
-            v-if="hoveredImage"
-            class="image-preview"
-            :style="{
-                top: `${mouseY - 120}px`,
-                left: `${mouseX}px`,
-            }"
-        >
-            <img :src="hoveredImage" alt="Preview" />
-        </div>
-        -->
 
         <v-icon
             size="small"
