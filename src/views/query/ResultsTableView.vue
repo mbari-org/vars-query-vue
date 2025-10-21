@@ -25,9 +25,21 @@ const tableHeader = computed(() => {
     const columns = Array.from(selectedColumnsStore.selectableColumns)
     columns.push('details')
     columns.sort()
-    columns.unshift('image')
-    columns.unshift("row")
-    // TODO remove associations
+    const prepend = ["row", "image", "concept", "video_sequence_name", "index_recorded_timestamp", "observer"]
+    for (let i = prepend.length - 1; i >= 0; i--) {
+        const col = prepend[i]
+        const idx = columns.indexOf(col)
+        if (idx !== -1) {
+            columns.splice(idx, 1)
+        }
+        columns.unshift(col)
+    }
+    // columns.unshift("observer")
+    // columns.unshift("video_sequence_name")
+    // columns.unshift("concept")
+    // columns.unshift('image')
+    // columns.unshift("row")
+    // remove associations
     const idx = columns.indexOf('associations')
     if (idx !== -1) {
         columns.splice(idx, 1)
