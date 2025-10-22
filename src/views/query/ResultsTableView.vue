@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed, onMounted, ref, watch } from 'vue'
-import AnnotationsMap from '@/components/query/AnnotationsMap.vue'
+import AnnotationsMap from '@/components/results/AnnotationsMap.vue'
 import {
     type FauxAnnotation,
     fauxAssociationToString,
     fauxAssociationToStringTrimmed,
 } from '@/assets/ts/annosaurus/QueryResults'
 import VamVideoPlayer from '@/components/vampiresquid/VamVideoPlayer.vue'
-import SaveOptions from '@/components/query/SaveOptions.vue'
-import ImageThumbnail from '@/components/query/ImageThumbnail.vue'
+import SaveOptions from '@/components/results/SaveOptions.vue'
+import ImageThumbnail from '@/components/results/ImageThumbnail.vue'
 import { useSelectedColumnsStore } from '@/stores/query-params'
 
 const emit = defineEmits(['selected-annotation'])
@@ -171,6 +171,8 @@ const rowProps = computed(() => {
             <!--<v-col>-->
             <router-link to="results-summary-view" class="view-link">View summary</router-link>
             <!--</v-col>-->
+            |
+            <router-link to="large-results-view" class="view-link">View alternate table</router-link>
         </v-row>
         <v-row>
             <v-col>

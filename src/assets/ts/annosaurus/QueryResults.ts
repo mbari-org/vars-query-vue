@@ -1,5 +1,5 @@
 import type { Annotation } from '@/assets/ts/annosaurus/QueryResponse'
-import _ from 'lodash'
+import _, { isString } from 'lodash'
 import { extractJpgOrFirstUrl, groupBy } from '@/assets/ts/util'
 
 export class GeoFauxAnnotation {
@@ -356,6 +356,11 @@ export function extractLinkNames(annotations: FauxAnnotation[]): string[] {
     return linkNames as string[]
 }
 
+/**
+ * Convert FauxAnnotations to TSV format. Associations are represented
+ * as semi-colon separated strings in the 'details' column.
+ * @param annotations
+ */
 export function fauxAnnotationsToTsv(annotations: FauxAnnotation[]): string {
     if (annotations.length === 0) {
         return ''
@@ -383,3 +388,99 @@ export function fauxAnnotationsToTsv(annotations: FauxAnnotation[]): string {
 
     return [headerRow, ...dataRows].join('\n')
 }
+
+
+/**
+ * When we write association fields, we want to simplify it for import into
+ * spreadsheets. This allows us to skip 'self' and 'nil' values which might be
+ * just noise
+ * @param value
+ */
+function isWritableAssociationFieldValue(value: string): boolean {
+    if (_.isString(value?.trim())) {
+        const v = value?.trim()?.toLowerCase()
+        return v !== 'self' && v !== 'nil'
+    }
+    return false
+}
+
+/**
+ * Simplify an association into a string for TSV export. We're separating associations
+ * into columns by link_name. Often, either to_concept or link_value may be 'self' or 'nil',
+ * which is not useful in a spreadsheet context. This function omits those values when possible.
+ * @param association
+ */
+function simplifyAssocation(association: FauxAssociation): string {
+    const writeToConcept = isWritableAssociationFieldValue(association.to_concept ?? '')
+    const writeLinkValue = isWritableAssociationFieldValue(association.link_value ?? '')
+    if (writeToConcept && writeLinkValue) {
+        return `${association.to_concept} | ${association.link_value}`
+    }
+    else if (writeToConcept) {
+        return `${association.to_concept}`
+    }
+    else if (writeLinkValue) {
+        return `${association.link_value}`
+    }
+    else {
+        return ''
+    }
+}
+
+/**
+ * Convert FauxAnnotations to TSV format, separating associations into their own columns
+ * by link_name.
+ * @param annotations
+ */
+export function fauxAnnotationsToTsvSeparateAssociations(annotations: FauxAnnotation[]): string {
+    if (annotations.length === 0) {
+        return ''
+    }
+
+    // Collect all unique link_names from all annotations' details arrays
+    const detailKeys = Array.from(
+        new Set(
+            annotations
+                .flatMap(a => (a.details ?? []).map(d => d.link_name).filter((n): n is string => !!n))
+        )
+    )
+
+    // Base headers, excluding 'details' itself
+    const baseHeaders = Object.keys(annotations[0]).filter(h => h !== 'details')
+
+    // Combine base headers + dynamic detail columns
+    const headers = [...baseHeaders, ...detailKeys]
+    const headerRow = headers.join('\t')
+
+    const dataRows = annotations.map(a => {
+        // Build a lookup from link_name → link_value for this annotation
+        const detailMap: Record<string, string> = {}
+        for (const d of a.details ?? []) {
+            if (d.link_name) {
+                detailMap[d.link_name] = simplifyAssocation(d)
+            }
+        }
+
+        const values = headers.map(h => {
+            if (detailKeys.includes(h)) {
+                // Dynamic detail column
+                return detailMap[h] ?? ''
+            }
+
+            const value = a[h]
+            if (h === 'images' && value) {
+                return (value as FauxImageReference[]).map(i => i.url).join(';')
+            }
+            if (Array.isArray(value)) {
+                return value.join(';')
+            }
+            return value ?? ''
+        })
+
+        return values.join('\t')
+    })
+
+    return [headerRow, ...dataRows].join('\n')
+}
+
+

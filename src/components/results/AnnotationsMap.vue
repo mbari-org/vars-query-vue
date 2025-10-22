@@ -12,7 +12,7 @@ import {
     geoQueryResultsViewBounds,
     type MapViewBounds
 } from '@/assets/ts/annosaurus/QueryResults'
-import AnnotationsMapPopup from '@/components/query/AnnotationsMapPopup.vue'
+import AnnotationsMapPopup from '@/components/results/AnnotationsMapPopup.vue'
 
 
 const selectedAnnotation = ref<null | FauxAnnotation>(null)

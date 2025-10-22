@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed } from 'vue'
-import { depthHistogram } from '@/assets/ts/util'
+import { depthHistogram, yearHistogram } from '@/assets/ts/util'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations = queryResultsStore.annotations
 
-const depths = computed(() => allAnnotations.map(a => a.depth_meters ?? NaN).filter(d => !isNaN(d)))
+const depths = computed(() =>
+    allAnnotations.map(a => a.depth_meters ?? NaN).filter(d => !isNaN(d)),
+)
+const years = computed(() =>
+    allAnnotations
+        .map(a => {
+            if (a.index_recorded_timestamp) {
+                return new Date(a.index_recorded_timestamp)
+            }
+            return null
+        })
+        .filter(y => y !== null),
+)
 
 const depthChart = computed(() => {
     const data = depthHistogram(depths.value)
@@ -19,7 +31,7 @@ const depthChart = computed(() => {
         ],
         options: {
             dataLabels: {
-                enabled: true
+                enabled: true,
             },
             plotOptions: {
                 bar: {
@@ -27,31 +39,78 @@ const depthChart = computed(() => {
                 },
             },
             xaxis: {
-                categories: data.map(d => `${d.min.toFixed(0)}-${d.max.toFixed(0)}m`),
+                categories: data.map(
+                    d => `${d.min.toFixed(0)}-${d.max.toFixed(0)}m`,
+                ),
                 lines: {
-                    show: true
+                    show: true,
                 },
                 title: {
-                    text: "Count"
-                }
+                    text: 'Count',
+                },
             },
             yaxis: {
                 lines: {
-                    show: true
+                    show: true,
                 },
                 title: {
-                    text: "Depth (m)"
-                }
+                    text: 'Depth (m)',
+                },
             },
             tooltip: {
                 enabled: false,
-            }
+            },
+        },
+    }
+})
+
+const yearChart = computed(() => {
+    const data = yearHistogram(years.value)
+    return {
+        series: [
+            {
+                name: 'Year',
+                data: data.map(d => d.count),
+            },
+        ],
+        options: {
+            dataLabels: {
+                enabled: true,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                },
+            },
+            xaxis: {
+                categories: data.map(
+                    d => `${d.min}`,
+                ),
+                lines: {
+                    show: true,
+                },
+                title: {
+                    text: 'Count',
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+                title: {
+                    text: 'Year',
+                },
+            },
+            tooltip: {
+                enabled: false,
+            },
         },
     }
 })
 
 const temperatureSalinityChart = computed(() => {
-    const data = allAnnotations.filter(a => a.temperature_celsius && a.salinity)
+    const data = allAnnotations
+        .filter(a => a.temperature_celsius && a.salinity)
         .map(a => [a.salinity, a.temperature_celsius])
     // console.log(data)
     return {
@@ -65,82 +124,103 @@ const temperatureSalinityChart = computed(() => {
             grid: {
                 xaxis: {
                     lines: {
-                        show: true
+                        show: true,
                     },
-                    type: 'numeric'
+                    type: 'numeric',
                 },
                 yaxis: {
                     lines: {
-                        show: true
-                    }
-                }
+                        show: true,
+                    },
+                },
             },
             xaxis: {
                 // categories: data.map(d => `${d.min.toFixed(0)}-${d.max.toFixed(0)}m`),
                 lines: {
-                    show: true
+                    show: true,
                 },
                 max: 35.5,
                 min: 32.5,
                 labels: {
-                    formatter: (value: number) => value.toFixed(1)
+                    formatter: (value: number) => value.toFixed(1),
                 },
                 tickAmount: 10,
                 title: {
-                    text: "Salinity (psu)"
-                }
+                    text: 'Salinity (psu)',
+                },
             },
             yaxis: {
                 min: 0,
                 max: 24,
                 labels: {
-                    formatter: (value: number) => value.toFixed(1)
+                    formatter: (value: number) => value.toFixed(1),
                 },
                 lines: {
-                    show: true
+                    show: true,
                 },
                 tickAmount: 10,
                 title: {
-                    text: "Temperature (C)"
-                }
+                    text: 'Temperature (C)',
+                },
             },
             tooltip: {
                 enabled: false,
                 x: {
-                    formatter: (value: number) => value.toFixed(1)
+                    formatter: (value: number) => value.toFixed(1),
                 },
                 y: {
-                    formatter: (value: number) => value.toFixed(1)
-                }
-            }
+                    formatter: (value: number) => value.toFixed(1),
+                },
+            },
         },
     }
 })
-
 </script>
 
 <template>
     <v-row>
         <v-col>
             <router-link to="/results-table-view"
-            >Back to results table</router-link
+                >Back to results table</router-link
             >
         </v-col>
     </v-row>
 
-     <div>
-         <!-- https://apexcharts.com/javascript-chart-demos/bar-charts/basic/ -->
-         <h2>Depth Histogram</h2>
-         <apexchart :series="depthChart.series" :options="depthChart.options" type="bar" height="700"></apexchart>
-     </div>
+    <div>
+        <!-- https://apexcharts.com/javascript-chart-demos/bar-charts/basic/ -->
+        <h2>Depth Histogram</h2>
+        <apexchart
+            :series="depthChart.series"
+            :options="depthChart.options"
+            type="bar"
+            height="700"
+        ></apexchart>
+    </div>
+    <div>
+        <!-- https://apexcharts.com/javascript-chart-demos/bar-charts/basic/ -->
+        <h2>Year Histogram</h2>
+        <apexchart
+            :series="yearChart.series"
+            :options="yearChart.options"
+            type="bar"
+            height="700"
+        ></apexchart>
+    </div>
     <div>
         <!-- https://apexcharts.com/javascript-chart-demos/bar-charts/basic/ -->
         <h2>T-S Diagram</h2>
-        <apexchart v-if="temperatureSalinityChart.series[0].data.length > 0" :series="temperatureSalinityChart.series" :options="temperatureSalinityChart.options" type="scatter" height="700"></apexchart>
-        <div v-else>No data. To view this plot, return temperature and salinity data in your query</div>
+        <apexchart
+            v-if="temperatureSalinityChart.series[0].data.length > 0"
+            :series="temperatureSalinityChart.series"
+            :options="temperatureSalinityChart.options"
+            type="scatter"
+            height="700"
+        ></apexchart>
+        <div v-else>
+            No data. To view this plot, return temperature and salinity data in
+            your query
+        </div>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -74,26 +74,11 @@ function runQuery() {
                 // Check size of results. If too large, alert user and do not navigate, immmediately
                 // download the results.
                 // IMPORTANT: this is a hack to prevent the table view from being displayed above 5000 rows
-                if (queryResultsStore.queryResults.length > 5000) {
+                if (queryResultsStore.queryResults.length > 10000) {
                     alert(
-                        'Too many results to display. Downloading the results instead.'
+                        'You requested a very large data set. Some data viewing functions will be disabled to prevent browser performance issues. You will be redirected to the large results view where you can download the results.',
                     )
-                    const data = queryResultsStore.queryResults
-                    const json = JSON.stringify(data, null, 2)
-                    const blob = new Blob([json], {
-                        type: 'application/json',
-                    })
-                    const url = URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = 'vars-results.json'
-                    document.body.appendChild(a)
-                    a.click()
-                    setTimeout(function() {
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }, 0);
-                    queryResultsStore.reset()
+                    router.push({name: 'large-results-view'})
 
                 } else {
                     router.push({ name: 'results-table-view' })

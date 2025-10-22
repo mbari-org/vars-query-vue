@@ -35,7 +35,7 @@ const decoratorsStore = useDecoratorsStore()
                         <v-chip
                             v-bind="props"
                             color="secondary"
-                            :text="item.raw.name"
+                            :text="item.raw"
                         ></v-chip>
                     </template>
                 </v-autocomplete>
@@ -53,7 +53,7 @@ const decoratorsStore = useDecoratorsStore()
                         <v-chip
                             v-bind="props"
                             color="secondary"
-                            :text="item.raw.name"
+                            :text="item.raw"
                         ></v-chip>
                     </template>
                 </v-autocomplete>
@@ -71,7 +71,7 @@ const decoratorsStore = useDecoratorsStore()
                         <v-chip
                             v-bind="props"
                             color="secondary"
-                            :text="item.raw.name"
+                            :text="item.raw"
                         ></v-chip>
                     </template>
                 </v-autocomplete>
@@ -89,7 +89,7 @@ const decoratorsStore = useDecoratorsStore()
                         <v-chip
                             v-bind="props"
                             color="secondary"
-                            :text="item.raw.name"
+                            :text="item.raw"
                         ></v-chip>
                     </template>
                 </v-autocomplete>
