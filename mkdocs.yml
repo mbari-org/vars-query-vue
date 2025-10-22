@@ -1,0 +1,38 @@
+site_name: "VARS Query"
+repo_url: https://github.com/mbari-org/vars-query-vue
+repo_name: "vars-query-vue"
+site_description: "VARS Query is a web application for querying and visualizing data from the VARS (Video Annotation and Reference System) database."
+site_author: "MBARI"
+nav:
+  - Home: index.md
+  - MBARI Docs: "https://docs.mbari.org"
+markdown_extensions:
+  - admonition
+  - footnotes
+  - tables
+  - toc:
+      permalink: True
+plugins:
+  - search
+  - mermaid2
+  - tags
+theme:
+    name: 'material'
+    logo: https://docs.mbari.org/imgs/mbari-logo.png
+    icon:
+      repo: material/github
+    features:
+      - navigation.instant
+      - navigation.indexes
+      - navigation.sections
+      - navigation.tabs
+      - navigation.top
+      - navigation.tracking
+extra_css:
+    - https://docs.mbari.org/css/mbari.css
+    - assets/css/extra.css
+
+
+
+
+

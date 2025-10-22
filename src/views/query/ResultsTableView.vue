@@ -235,7 +235,7 @@ const rowProps = computed(() => {
                         </v-container>
                     </template>
 
-                    <v-data-table-virtual
+                    <v-data-table
                         :items="viewedAnnotations"
                         :search="search"
                         :custom-filter="nestedFilter"
@@ -279,7 +279,7 @@ const rowProps = computed(() => {
                                 </v-chip>
                             </div>
                         </template>
-                    </v-data-table-virtual>
+                    </v-data-table>
                 </v-card>
             </v-col>
         </v-row>
