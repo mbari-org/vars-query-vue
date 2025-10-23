@@ -74,7 +74,7 @@ function runQuery() {
                 // Check size of results. If too large, alert user and do not navigate, immmediately
                 // download the results.
                 // IMPORTANT: this is a hack to prevent the table view from being displayed above 5000 rows
-                if (queryResultsStore.queryResults.length > 10000) {
+                if (queryResultsStore.annotations.length > 15000) {
                     alert(
                         'You requested a very large data set. Some data viewing functions will be disabled to prevent browser performance issues. You will be redirected to the large results view where you can download the results.',
                     )
