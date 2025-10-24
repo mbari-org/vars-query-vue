@@ -46,7 +46,8 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                         autocomplete: 'off',
                         autocorrect: 'off',
                         autocapitalize: 'off',
-                        spellcheck: 'false'
+                        spellcheck: 'false',
+                        inputmode: 'text'
                       }">
                 </v-autocomplete>
             </v-col>
