@@ -18,6 +18,7 @@ import { useQueryResultsStore } from '@/stores/query-results'
 import RecordedTimeConstraint from '@/components/query/RecordedTimeConstraint.vue'
 import ObservationTimeConstraint from '@/components/query/ObservationTimeConstraint.vue'
 import { MAX_NUMBER_OF_ANNOTATIONS } from '@/assets/ts/constants'
+import StandardDetails from '@/components/shared/StandardDetails.vue'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(
@@ -138,11 +139,10 @@ function runQuery() {
             </v-container>
         </v-toolbar>
 
-        <details>
-            <summary>About</summary>
-            <div>The VARS Query can be used retrieve annotations from MBARI's Video Annotation and Reference System (VARS). Use the fields below to build your search query and select the columns you want to see in the results. When you are satisfied with your query, click the search button to run the query.
+        <standard-details summary="About">
+            <div>The VARS Query retrieves annotations from MBARI's Video Annotation and Reference System (VARS). Use the fields below to select the parameters for your search and to select the fields you want returned. After you have set your constraints, click the search button to run your query.
             </div>
-        </details>
+        </standard-details>
 
         <h2>Annotation and Deployment</h2>
         <v-divider> </v-divider>
@@ -212,55 +212,4 @@ function runQuery() {
     font-size: 3.5em;
 }
 
-summary::marker {
-    color: #29B6F6;
-}
-
-/* Light styling for presentation */
-details {
-    border-block-end: 1px solid #000;
-    margin-block: .5rem;
-    padding-block: .5rem;
-}
-
-summary {
-    color: #FFCA28;
-    /* Pin the custom marker to the container */
-    position: relative;
-    /* Register summary as an anchor element */
-    anchor-name: --summary;
-
-    &::marker {
-        content: "";
-    }
-
-    &::before,
-    &::after {
-        /* Custom marker dimensions */
-        content: "";
-        border-block-start: 3px solid #FFCA28;
-        height: 0;
-        width: 1rem;
-
-        /* Positions the lines */
-        inset-block-start: 50%;
-        inset-inline-end: 0;
-
-        /* Anchor the shape to the summary */
-        position: absolute;
-        position-anchor: --summary;
-        position-area: top end;
-    }
-
-    /* Rotate just the ::after line to create a "+"" shape */
-    &::after {
-        transform: rotate(90deg);
-        transform-origin: 50%;
-    }
-}
-
-/* Rotate the line when open */
-details[open] summary::after {
-    transform: rotate(0deg);
-}
 </style>

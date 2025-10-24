@@ -164,15 +164,13 @@ const rowProps = computed(() => {
 <template>
     <v-container fluid style="width:100%">
         <v-row>
-            <!--<v-col>-->
+            <v-col>
             <router-link to="results-image-grid-view" class="view-link">View image grid</router-link>
-            <!--</v-col>-->
-            |
-            <!--<v-col>-->
+            <span class="divider">|</span>
             <router-link to="results-summary-view" class="view-link">View summary</router-link>
-            <!--</v-col>-->
-            |
+            <span class="divider">|</span>
             <router-link to="large-results-view" class="view-link">View "big data" table</router-link>
+            </v-col>
         </v-row>
         <v-row>
             <v-col>
@@ -307,6 +305,12 @@ const rowProps = computed(() => {
     color: #484848;
 }
 
+.divider {
+    margin: 0 10px;
+    vertical-align: top ;
+    color: #666;
+}
+
 .fixed {
     position: fixed;
     top: 5%; /* Adjust as needed */
@@ -356,5 +360,6 @@ const rowProps = computed(() => {
 .map-video-content .v-col {
     height: 100%;
 }
+
 </style>
 
