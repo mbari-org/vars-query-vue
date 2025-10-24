@@ -50,7 +50,7 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
             <v-col cols="2">
                 <v-btn @click=addConcept icon="mdi-plus" size="x-large" variant="tonal" color="primary">
                     <v-icon icon="mdi-plus"></v-icon>
-                    <v-tooltip activator="parent" location="bottom">Add concepts to search constraints</v-tooltip>
+                    <v-tooltip activator="parent" location="bottom">Search by the selected concept (e.g. taxa)</v-tooltip>
                 </v-btn>
             </v-col>
         </v-row>

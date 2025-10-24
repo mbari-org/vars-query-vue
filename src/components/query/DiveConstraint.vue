@@ -46,7 +46,7 @@ function addItem(event: Event) {
             <v-col cols="2">
                 <v-btn @click=addItem icon="mdi-plus" size="x-large" variant="tonal" color="primary">
                     <v-icon icon="mdi-plus"></v-icon>
-                    <v-tooltip activator="parent" location="bottom">Constrain by deployments OR camera platforms</v-tooltip>
+                    <v-tooltip activator="parent" location="bottom">Search by deployments OR camera platforms</v-tooltip>
                 </v-btn>
             </v-col>
         </v-row>

@@ -3,19 +3,21 @@ This page provides a form for the user to enter constraints for a query.
 -->
 
 <script setup lang="ts">
-import ConceptConstraint from '@/components/query/ConceptConstraint.vue'
 import AssociationConstraint from '@/components/query/AssociationConstraint.vue'
-import { resetStores, useSelectedColumnsStore } from '@/stores/query-params'
+import ConceptConstraint from '@/components/query/ConceptConstraint.vue'
 import DiveConstraint from '@/components/query/DiveConstraint.vue'
 import FieldConstraints from '@/components/query/FieldConstraints.vue'
+import Selections from '@/components/query/Selections.vue'
 import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
 import TimeConstraint from '@/components/query/TimeConstraint.vue'
-import { useAnnosaurusStore } from '@/stores/annosaurus'
-import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
-import Selections from '@/components/query/Selections.vue'
-import { computed, ref } from 'vue'
 import router from '@/router'
+import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
+import { computed, ref } from 'vue'
+import { resetStores, useSelectedColumnsStore } from '@/stores/query-params'
+import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { useQueryResultsStore } from '@/stores/query-results'
+import RecordedTimeConstraint from '@/components/query/RecordedTimeConstraint.vue'
+import ObservationTimeConstraint from '@/components/query/ObservationTimeConstraint.vue'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(
@@ -24,11 +26,9 @@ const enableSearch = computed(
 const queryIsRunning = ref(false)
 const progress = ref(0)
 
-// watch(progress, (value) => {
-//     console.log('Progress', value)
-// })
 
-const timeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
+const recordedTimeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
+const observationTimeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
 
 const progressBarText = computed(() => {
     if (progress.value === 0) {
@@ -43,7 +43,7 @@ const indeterminate = computed(() => progress.value === 0)
 
 function reset() {
     resetStores()
-    timeConstraintRef.value?.reset()
+    recordedTimeConstraintRef.value?.reset()
 }
 
 function resetOnlyReturns() {
@@ -61,7 +61,7 @@ function runQuery() {
             x => {
                 progress.value = x
             },
-            () => alert('No query constraints were added'),
+            () => alert('What are you searching for? Try adding some constraints using the `+` buttons.'),
             () =>
                 alert(
                     'Query timed out. Try adding more constraints or reducing the time range.',
@@ -138,16 +138,29 @@ function runQuery() {
             </v-container>
         </v-toolbar>
 
+        <details>
+            <summary>About</summary>
+            <div>The VARS Query can be used retrieve annotations from MBARI's Video Annotation and Reference System (VARS). Use the fields below to build your search query and select the columns you want to see in the results. When you are satisfied with your query, click the search button to run the query.
+            </div>
+        </details>
+
+        <h2>Annotation and Deployment</h2>
+        <v-divider> </v-divider>
         <concept-constraint></concept-constraint>
-        <v-divider></v-divider>
         <association-constraint></association-constraint>
-        <v-divider></v-divider>
         <dive-constraint></dive-constraint>
-        <v-divider></v-divider>
+
+        <h2>Location and Time</h2>
+        <v-divider> </v-divider>
         <space-constraint></space-constraint>
-        <time-constraint ref="timeConstraintRef"></time-constraint>
+        <recorded-time-constraint ref="recordedTimeConstraintRef"></recorded-time-constraint>
+
+        <h2>Miscellaneous</h2>
         <v-divider></v-divider>
+        <observation-time-constraint ref="observationTimeConstraintRef"></observation-time-constraint>
         <field-constraints></field-constraints>
+
+        <h2>Selections</h2>
         <v-divider></v-divider>
         <v-row align="center">
             <v-col>
@@ -183,7 +196,6 @@ function runQuery() {
             ></v-progress-circular>
         </v-overlay>
 
-        <!--        <chip-test></chip-test>-->
     </div>
 </template>
 
@@ -198,5 +210,57 @@ function runQuery() {
 
 .big-font {
     font-size: 3.5em;
+}
+
+summary::marker {
+    color: #29B6F6;
+}
+
+/* Light styling for presentation */
+details {
+    border-block-end: 1px solid #000;
+    margin-block: .5rem;
+    padding-block: .5rem;
+}
+
+summary {
+    color: #FFCA28;
+    /* Pin the custom marker to the container */
+    position: relative;
+    /* Register summary as an anchor element */
+    anchor-name: --summary;
+
+    &::marker {
+        content: "";
+    }
+
+    &::before,
+    &::after {
+        /* Custom marker dimensions */
+        content: "";
+        border-block-start: 3px solid #FFCA28;
+        height: 0;
+        width: 1rem;
+
+        /* Positions the lines */
+        inset-block-start: 50%;
+        inset-inline-end: 0;
+
+        /* Anchor the shape to the summary */
+        position: absolute;
+        position-anchor: --summary;
+        position-area: top end;
+    }
+
+    /* Rotate just the ::after line to create a "+"" shape */
+    &::after {
+        transform: rotate(90deg);
+        transform-origin: 50%;
+    }
+}
+
+/* Rotate the line when open */
+details[open] summary::after {
+    transform: rotate(0deg);
 }
 </style>

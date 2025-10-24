@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useOniStore } from '@/stores/oni'
 import type { Region } from '@/assets/ts/fathomnet/Region'
@@ -27,7 +27,8 @@ export function buildColumnConstraints(): Array<ColumnConstraint> {
     const observers = useObserversStore().buildColumnConstraints()
     const chiefScientists = useChiefScientistsStore().buildColumnConstraints()
     const region = useRegionStore().buildColumnConstraints()
-    const time = useTimeStore().buildColumnConstraints()
+    const recordedTime = useTimeStore().buildColumnConstraints()
+    const observationsTime = useObservationTimeStore().buildColumnConstraints()
     const imagesOnly = useDecoratorsStore().buildColumnConstraints()
 
     constraints.push(...selectedConcepts)
@@ -39,7 +40,8 @@ export function buildColumnConstraints(): Array<ColumnConstraint> {
     constraints.push(...observers)
     constraints.push(...chiefScientists)
     constraints.push(...region)
-    constraints.push(...time)
+    constraints.push(...recordedTime)
+    constraints.push(...observationsTime)
     constraints.push(...imagesOnly)
 
     return constraints
@@ -59,6 +61,7 @@ export function resetStores() {
     useRegionStore().reset()
     useSelectedConceptsStore().reset()
     useTimeStore().reset()
+    useObservationTimeStore().reset()
     useVideoSequenceNameStore().reset()
     useSelectedColumnsStore().reset()
     useDecoratorsStore().reset()
@@ -427,6 +430,50 @@ export const useTimeStore = defineStore('time', () => {
 
     return { bounds, setStartTimestamp, setEndTimestamp, reset, buildColumnConstraints }
 })
+
+export const useObservationTimeStore = defineStore('observationTime', () => {
+    const bounds = ref({
+        startTimestamp: null,
+        endTimestamp:  null
+    } as TimeBounds)
+
+    function reset() {
+        bounds.value = {
+            startTimestamp: null,
+            endTimestamp: null
+        }
+    }
+
+    function setStartTimestamp(startTimestamp: Date | null) {
+        bounds.value.startTimestamp = startTimestamp
+    }
+
+    function setEndTimestamp(endTimestamp: Date | null) {
+        bounds.value.endTimestamp = endTimestamp
+    }
+
+    function buildColumnConstraints(): Array<ColumnConstraint> {
+
+        let startTimestamp = bounds.value.startTimestamp
+        let endTimestamp = bounds.value.endTimestamp
+        if (startTimestamp === null && endTimestamp === null) {
+            return []
+        }
+        if (!startTimestamp) {
+            startTimestamp = new Date("1900-01-01T00:00:00Z")
+        }
+        if (!endTimestamp) {
+            endTimestamp = new Date(Date.now())
+        }
+        return [{
+            column: 'observation_timestamp',
+            between: [startTimestamp.toISOString(), endTimestamp.toISOString()]
+        }]
+    }
+
+    return { bounds, setStartTimestamp, setEndTimestamp, reset, buildColumnConstraints }
+})
+
 
 export const useSelectedColumnsStore = defineStore('selectedColumns', () => {
 

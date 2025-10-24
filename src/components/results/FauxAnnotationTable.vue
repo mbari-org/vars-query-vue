@@ -26,10 +26,11 @@ const viewableAnnotations = computed(() =>{
 
 // Annotations to show based on a combination of the search filter and images only filter
 const shownAnnotations = computed(() => {
-    if (search.value.trim() === '') {
+    if (search.value?.trim() === '') {
         return viewableAnnotations.value
     } else {
-        const lowerSearch = search.value.toLowerCase()
+        const lowerSearch = search.value?.toLowerCase()
+        if (!lowerSearch) return viewableAnnotations.value
         return viewableAnnotations.value.filter((a) => {
             return (
                 (a.concept && a.concept.toLowerCase().includes(lowerSearch)) ||

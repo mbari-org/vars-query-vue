@@ -14,7 +14,7 @@ function updateStartTime(event: Date) {
 }
 
 function updateEndTime(event: Date) {
-    console.log("updateEndTime", event)
+    // console.log("updateEndTime", event)
     timeStore.setEndTimestamp(event)
 }
 
@@ -24,7 +24,7 @@ function reset() {
 }
 
 function onClearStart() {
-    console.log("onClearStart")
+    // console.log("onClearStart")
     timeStore.setStartTimestamp(null)
 }
 
@@ -55,7 +55,7 @@ onMounted(() => {
             <v-col>
                 <date-time-picker
                     ref="startDateRef"
-                    picker-title="Start date"
+                    picker-title="Start recorded date"
                     time="00:00"
                     @update="updateStartTime"
                     @click:clear="onClearStart"> </date-time-picker>
@@ -66,7 +66,7 @@ onMounted(() => {
             <v-col>
                 <date-time-picker
                     ref="endDateRef"
-                    picker-title="End date"
+                    picker-title="End recorded date"
                     time="23:59"
                     @update="updateEndTime"
                     @click:clear="onClearEnd"> </date-time-picker>

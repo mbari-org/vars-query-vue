@@ -71,12 +71,10 @@ function addAssociation(event: Event) {
                             v-if="associationsStore.exactMatch"
                             activator="parent"
                             location="bottom"
-                            >Constrain by details/associations that match this
-                            link name</v-tooltip
+                            >Search details/associations that match this link name (e.g. eating, comment, bounding box, surface-color, etc.)</v-tooltip
                         >
                         <v-tooltip v-else activator="parent" location="bottom"
-                            >Constrain by details/associations that include this
-                            term</v-tooltip
+                            >Search for details/associations that contain this text</v-tooltip
                         >
                     </v-btn>
                 </v-col>
