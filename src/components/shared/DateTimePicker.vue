@@ -153,7 +153,7 @@ watch(selectedDateTime, value => {
             <v-col cols="2">
                 <v-btn @click="dateDialog = true" icon="mdi-calendar" variant="tonal" color="primary">
                     <v-icon icon="mdi-calendar"></v-icon>
-                    <v-tooltip activator="parent" location="top">Select {{pickerTitle}}</v-tooltip>
+                    <v-tooltip activator="parent" location="top">Select {{pickerTitle.toLowerCase()}}</v-tooltip>
                 </v-btn>
             </v-col>
 

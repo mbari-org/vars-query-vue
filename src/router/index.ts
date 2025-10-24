@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useQueryResultsStore } from '@/stores/query-results'
+import { MAX_NUMBER_OF_ANNOTATIONS } from '@/assets/ts/constants'
+
+// const queryResultsStore = useQueryResultsStore()
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +51,16 @@ const router = createRouter({
             name: 'large-results-view',
             component: () => import('../views/query/LargeResultsView.vue'),
         },
+        // {
+        //     path: '/smart-results-view',
+        //     name: 'smart-results-view',
+        //     component: () => {
+        //         if (queryResultsStore.queryResults?.length > MAX_NUMBER_OF_ANNOTATIONS) {
+        //             return import('../views/query/LargeResultsView.vue')
+        //         }
+        //         return  import('../views/query/ResultsTableView.vue')
+        //     }
+        // },
         {
             path: '/deployment/:name',
             name: 'deployment',

@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import type { FauxAnnotation, FauxImageReference } from '@/assets/ts/annosaurus/QueryResults'
 import { useVampireSquidStore } from '@/stores/vampire-squid'
 import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
+import { MAX_NUMBER_OF_ANNOTATIONS } from '@/assets/ts/constants'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations =  queryResultsStore.annotations
@@ -70,14 +71,17 @@ function openVideo(a: FauxAnnotation) {
     }
 }
 
+function isBigData(): boolean {
+    return queryResultsStore.queryResults?.length > MAX_NUMBER_OF_ANNOTATIONS
+}
+
 </script>
 
 <template>
     <v-row>
         <v-col>
-            <router-link to="/results-table-view"
-                >Back to results table</router-link
-            >
+            <router-link v-if="isBigData()" to="/large-results-view">Back to results table</router-link>
+            <router-link v-else to="/results-table-view">Back to results table</router-link>
         </v-col>
 <!--        <v-col cols="2">-->
 <!--            <v-btn>Save Images</v-btn>-->

@@ -2,6 +2,7 @@
 import { useQueryResultsStore } from '@/stores/query-results'
 import { computed } from 'vue'
 import { depthHistogram, yearHistogram } from '@/assets/ts/util'
+import { MAX_NUMBER_OF_ANNOTATIONS } from '@/assets/ts/constants'
 
 const queryResultsStore = useQueryResultsStore()
 const allAnnotations = queryResultsStore.annotations
@@ -175,14 +176,17 @@ const temperatureSalinityChart = computed(() => {
         },
     }
 })
+
+function isBigData(): boolean {
+    return queryResultsStore.queryResults?.length > MAX_NUMBER_OF_ANNOTATIONS
+}
 </script>
 
 <template>
     <v-row>
         <v-col>
-            <router-link to="/results-table-view"
-                >Back to results table</router-link
-            >
+            <router-link v-if="isBigData()" to="large-results-view">Back to results table</router-link>
+            <router-link v-else to="/results-table-view">Back to results table</router-link>
         </v-col>
     </v-row>
 

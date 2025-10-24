@@ -172,7 +172,7 @@ const rowProps = computed(() => {
             <router-link to="results-summary-view" class="view-link">View summary</router-link>
             <!--</v-col>-->
             |
-            <router-link to="large-results-view" class="view-link">View alternate table</router-link>
+            <router-link to="large-results-view" class="view-link">View "big data" table</router-link>
         </v-row>
         <v-row>
             <v-col>

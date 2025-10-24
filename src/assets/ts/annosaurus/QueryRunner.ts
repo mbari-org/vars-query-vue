@@ -6,6 +6,7 @@ import {
 } from '@/stores/query-params'
 import type { Query } from '@/assets/ts/annosaurus/Query'
 import { useQueryResultsStore } from '@/stores/query-results'
+import { QUERY_TIMEOUT_MILLISECONDS } from '@/assets/ts/constants'
 
 export class QueryRunner {
     api: AnnosaurusApi
@@ -26,7 +27,7 @@ export class QueryRunner {
             notifyOnAbortCallback()
             return false
         }
-        console.log(queries)
+        // console.log(queries)
         const queryResultsStore = useQueryResultsStore()
         queryResultsStore.reset()
         let i = 0
@@ -36,7 +37,7 @@ export class QueryRunner {
                 500000,
                 progressCallback,
                 notifyOnTimeoutCallback,
-                25000).then((response) => {
+                QUERY_TIMEOUT_MILLISECONDS).then((response) => {
                 // only use the header row for the first query
                 if (i === 0) {
                     queryResultsStore.appendRawQueryResults(response)

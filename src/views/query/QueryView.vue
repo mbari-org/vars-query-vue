@@ -17,6 +17,7 @@ import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { useQueryResultsStore } from '@/stores/query-results'
 import RecordedTimeConstraint from '@/components/query/RecordedTimeConstraint.vue'
 import ObservationTimeConstraint from '@/components/query/ObservationTimeConstraint.vue'
+import { MAX_NUMBER_OF_ANNOTATIONS } from '@/assets/ts/constants'
 
 const selectedColumnsStore = useSelectedColumnsStore()
 const enableSearch = computed(
@@ -73,7 +74,7 @@ function runQuery() {
                 // Check size of results. If too large, alert user and do not navigate, immmediately
                 // download the results.
                 // IMPORTANT: this is a hack to prevent the table view from being displayed above 5000 rows
-                if (queryResultsStore.annotations.length > 15000) {
+                if (queryResultsStore.annotations.length > MAX_NUMBER_OF_ANNOTATIONS) {
                     alert(
                         'You requested a very large data set. Some data viewing functions will be disabled to prevent browser performance issues. You will be redirected to the large results view where you can download the results.',
                     )

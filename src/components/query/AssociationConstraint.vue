@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useAssociationsStore } from '@/stores/query-params'
 import { useOniStore } from '@/stores/oni'
-import { computed, ref } from 'vue'
-import { computedAsync } from '@vueuse/core'
+import { ref } from 'vue'
 
 const associationsStore = useAssociationsStore()
 const oniStore = useOniStore()
@@ -47,9 +46,7 @@ function addAssociation(event: Event) {
                         v-model="associationsStore.exactMatch"
                     >
                         <v-tooltip activator="parent"
-                            >true=find link name that matches. false=find
-                            association that contains.
-                        </v-tooltip>
+                            >Exact matches search by the exact link name in an annotation detail. The default is to search for text in the details/associations.</v-tooltip>
                     </v-checkbox>
                 </v-col>
                 <v-col>
