@@ -41,7 +41,13 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                     label="Concepts"
                     v-model="selectedConceptInAutocomplete"
                     :items=oniStore.concepts
-                    auto-select-first>
+                    auto-select-first
+                    :input-attrs="{
+                        autocomplete: 'off',
+                        autocorrect: 'off',
+                        autocapitalize: 'off',
+                        spellcheck: 'false'
+                      }">
                 </v-autocomplete>
             </v-col>
             <v-col cols="4">
