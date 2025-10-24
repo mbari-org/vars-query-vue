@@ -9,7 +9,6 @@ import DiveConstraint from '@/components/query/DiveConstraint.vue'
 import FieldConstraints from '@/components/query/FieldConstraints.vue'
 import Selections from '@/components/query/Selections.vue'
 import SpaceConstraint from '@/components/query/SpaceConstraint.vue'
-import TimeConstraint from '@/components/query/TimeConstraint.vue'
 import router from '@/router'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import { computed, ref } from 'vue'
@@ -27,8 +26,8 @@ const queryIsRunning = ref(false)
 const progress = ref(0)
 
 
-const recordedTimeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
-const observationTimeConstraintRef = ref<InstanceType<typeof TimeConstraint> | null>(null)
+const recordedTimeConstraintRef = ref<InstanceType<typeof RecordedTimeConstraint> | null>(null)
+const observationTimeConstraintRef = ref<InstanceType<typeof ObservationTimeConstraint> | null>(null)
 
 const progressBarText = computed(() => {
     if (progress.value === 0) {
