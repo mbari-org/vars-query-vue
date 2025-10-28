@@ -63,12 +63,18 @@ theme:
   icon:
     repo: material/github
   features:
+    - navigation.expand
     - navigation.instant
+    - navigation.instant.progress
     - navigation.indexes
+    - navigation.path
     - navigation.sections
     - navigation.tabs
     - navigation.top
+    - navigation.tabs.sticky
     - navigation.tracking
+    - toc.follow
+    - toc.integrate
 # extra_css:
 #     - https://docs.mbari.org/css/mbari.css
 #     - assets/css/extra.css
