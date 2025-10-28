@@ -1,5 +1,8 @@
 # Appendix A - Knowledgebase Concepts
 
+!!! note "Live Data"
+    This data is fetched _live_ from MBARI's VARS Knowledgebase
+
 <ul id="json-list"></ul>
 
 <script>
