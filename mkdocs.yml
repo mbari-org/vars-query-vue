@@ -10,7 +10,8 @@ nav:
   - User Guide: 
     - Introduction: doc_general_info.md
     - Getting Started: doc_getting_started.md
-  - Appendix: appendix_1.md
+  - Appendix: 
+    - Knowledgbase concepts: appendix_a.md
   - MBARI Docs: "https://docs.mbari.org"
   
 markdown_extensions:
