@@ -1,3 +1,27 @@
 .md-grid {
     max-width: none;
 }
+
+/* Change link colors in the right-hand table of contents */
+.md-nav--secondary .md-nav__link {
+  color: #0066cc; /* your desired color */
+}
+
+/* Hover and active states */
+.md-nav--secondary .md-nav__link:hover,
+.md-nav--secondary .md-nav__link--active {
+  color: #004999;
+}
+
+
+/* Change link colors in the main navigation */
+.md-nav--primary .md-nav__link {
+  color: #0066cc;
+}
+
+/* Hover and active states */
+.md-nav--primary .md-nav__link:hover,
+.md-nav--primary .md-nav__link--active {
+  color: #004999;
+}
+

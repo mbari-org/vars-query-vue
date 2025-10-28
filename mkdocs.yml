@@ -5,6 +5,11 @@ site_description: "VARS Query is a web application for querying and visualizing 
 site_author: "MBARI"
 nav:
   - Home: index.md
+  - Quickstart: quickstart.md
+  - User Guide: 
+    - Introduction: doc_general_info.md
+    - Getting Started: doc_getting_started.md
+  - Appendix: appendix_1.md
   - MBARI Docs: "https://docs.mbari.org"
 markdown_extensions:
   - admonition
@@ -13,7 +18,7 @@ markdown_extensions:
   - footnotes
   - tables
   - toc:
-      permalink: True
+      permalink: true
 plugins:
   - search
   - mermaid2
@@ -22,14 +27,44 @@ theme:
     name: 'material'
     logo: https://docs.mbari.org/imgs/mbari-logo.png
     icon:
-      repo: material/github
+      repo: fontawesome/brands/github
     features:
+      - navigation.expand
       - navigation.instant
+      - navigation.instant.progress
       - navigation.indexes
+      - navigation.path
       - navigation.sections
       - navigation.tabs
+      - navigation.tabs.sticky
       - navigation.top
       - navigation.tracking
+      - toc.follow
+      - toc.integrate
+    palette:
+      # Palette toggle for automatic mode
+      - media: "(prefers-color-scheme)"
+        toggle:
+          icon: material/brightness-auto
+          name: Switch to light mode
+      
+      # Palette toggle for light mode
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+        primary: blue
+        accent: indigo
+        toggle:
+          icon: material/weather-sunny
+          name: Switch to light mode
+
+      # Palette toggle for dark mode
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        primary: indigo
+        accent: light green
+        toggle:
+          icon: material/weather-night
+          name: Switch to light mode
 extra_css:
     - https://docs.mbari.org/css/mbari.css
     - assets/css/extra.css

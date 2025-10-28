@@ -1,4 +1,4 @@
-# VARS Query
+# Video Annotation and Reference System (VARS) Query
 
 ![MBARI logo](assets/images/mbari-logo.png)
 
