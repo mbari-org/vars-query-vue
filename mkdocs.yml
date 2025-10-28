@@ -14,61 +14,63 @@ nav:
   - MBARI Docs: "https://docs.mbari.org"
   
 markdown_extensions:
+  - meta
   - admonition
   - pymdownx.details
   - pymdownx.superfences
-  - footnotes
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
   - tables
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
       permalink: true
+
 plugins:
   - search
   - mermaid2
   - tags
 theme:
-    name: 'material'
-    logo: https://docs.mbari.org/imgs/mbari-logo.png
-    icon:
-      repo: fontawesome/brands/github
-    features:
-      - navigation.expand
-      - navigation.instant
-      - navigation.instant.progress
-      - navigation.indexes
-      - navigation.path
-      - navigation.sections
-      - navigation.tabs
-      - navigation.tabs.sticky
-      - navigation.top
-      - navigation.tracking
-      - toc.follow
-      - toc.integrate
-    palette:
-      # Palette toggle for automatic mode
-      - media: "(prefers-color-scheme)"
-        toggle:
-          icon: material/brightness-auto
-          name: Switch to light mode
-      
-      # Palette toggle for light mode
-      - media: "(prefers-color-scheme: light)"
-        scheme: default
-        primary: blue
-        accent: indigo
-        toggle:
-          icon: material/weather-sunny
-          name: Switch to light mode
-
-      # Palette toggle for dark mode
-      - media: "(prefers-color-scheme: dark)"
-        scheme: slate
-        primary: indigo
-        accent: light green
-        toggle:
-          icon: material/weather-night
-          name: Switch to light mode
-extra_css:
-    - https://docs.mbari.org/css/mbari.css
-    - assets/css/extra.css
+  name: material
+  logo: https://docs.mbari.org/imgs/mbari-logo.png
+  palette:
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: material/link
+      name: System theme
+  - scheme: slate
+    media: "(prefers-color-scheme: dark)"
+    primary: black
+    toggle:
+      icon: material/weather-night
+      name: Dark mode
+  - scheme: light
+    media: "(prefers-color-scheme: light)"
+    primary: blue grey
+    toggle:
+      icon: material/weather-sunny
+      name: Light mode
+  icon:
+    repo: material/github
+  features:
+    - navigation.instant
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+# extra_css:
+#     - https://docs.mbari.org/css/mbari.css
+#     - assets/css/extra.css
 
 
