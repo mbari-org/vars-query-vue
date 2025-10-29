@@ -48,7 +48,7 @@ theme:
   palette:
   - media: "(prefers-color-scheme)"
     toggle:
-      icon: material/link
+      icon: material/brightness-auto
       name: System theme
   - scheme: slate
     media: "(prefers-color-scheme: dark)"
