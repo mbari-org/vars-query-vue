@@ -8,7 +8,7 @@ nav:
   - Home: index.md
   - Quickstart: quickstart.md
   - User Guide: 
-    - Introduction: doc_general_info.md
+    - Introduction: doc_01_general_info.md
     - Getting Started: doc_getting_started.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
