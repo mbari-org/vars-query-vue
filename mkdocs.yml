@@ -11,8 +11,8 @@ nav:
     - Introduction: doc_general_info.md
     - Getting Started: doc_getting_started.md
   - Appendix: 
-    - Knowledgbase Concepts: appendix_a.md
-    - Knowledgbase Associations: appendix_b.md
+    - Knowledgebase Concepts: appendix_a.md
+    - Knowledgebase Associations: appendix_b.md
   - MBARI Docs: "https://docs.mbari.org"
   
 markdown_extensions:
