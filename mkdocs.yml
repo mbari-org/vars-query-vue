@@ -9,7 +9,7 @@ nav:
   - Quickstart: 
     - Search by Concept:  quickstart_search_concept.md
   - User Guide: 
-    - Introduction: doc_general_info.md
+    - Introduction: doc_01_general_info.md
     - Getting Started: doc_getting_started.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
@@ -49,7 +49,7 @@ theme:
   palette:
   - media: "(prefers-color-scheme)"
     toggle:
-      icon: material/link
+      icon: material/brightness-auto
       name: System theme
   - scheme: slate
     media: "(prefers-color-scheme: dark)"
