@@ -6,7 +6,8 @@ site_author: "MBARI"
 
 nav:
   - Home: index.md
-  - Quickstart: quickstart.md
+  - Quickstart: 
+    - Search by Concept:  quickstart_search_concept.md
   - User Guide: 
     - Introduction: doc_general_info.md
     - Getting Started: doc_getting_started.md
