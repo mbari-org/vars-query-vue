@@ -8,6 +8,7 @@ nav:
   - Home: index.md
   - Quickstart: 
     - Search by Concept:  quickstart_search_concept.md
+    - Search by Dive: quickstart_search_dive.md
   - User Guide: 
     - Introduction: doc_01_general_info.md
     - Getting Started: doc_getting_started.md
@@ -16,7 +17,7 @@ nav:
     - Knowledgebase Associations: appendix_b.md
   - MBARI Docs: "https://docs.mbari.org"
   
-  
+
 markdown_extensions:
   - meta
   - admonition
