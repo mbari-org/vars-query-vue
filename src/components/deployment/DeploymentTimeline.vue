@@ -32,7 +32,7 @@ const videos = computed(() => {
                         v-for="(videoReference, j) in video.video_references"
                         :key="j"
                     >
-                        MOV
+                        {{videoReference.container}} {{videoReference.width}} x {{videoReference.height}}
                     </v-btn>
                 </v-card-text>
             </v-card>
