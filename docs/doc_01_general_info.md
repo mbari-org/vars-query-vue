@@ -8,4 +8,4 @@ The **VARS Knowledgebase** is an extensible database of biological, geological, 
 
 A **concept** is the name of the physical object in an observation.
  
-An **association** is a descriptor for a concept being observed. Each descriptor must be connected to a concept observation. Multiple associations may be used to describe one observation. A concept can have multiple associations to describe the observation. 
+An **association** is a descriptor for a concept being observed. Each descriptor must be connected to a concept observation. Multiple associations may be used to describe one observation. A concept can have multiple associations to describe the observation.
