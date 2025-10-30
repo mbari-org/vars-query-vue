@@ -1,4 +1,4 @@
-# Search by Concept
+# **Search by Concept**
 
 Before you begin searching with the query tool, make sure your system is properly configured. Please follow instructions on the [Getting Started](doc_getting_started.md) page to ensure your settings are correctly set up.
 
@@ -13,7 +13,7 @@ Concepts are selected from a database of all formal and common taxonomic, geolog
 
 ## *Selecting a Concept* ##
 
-Once a concept is selected, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. <span style="color:#F5c639;">(Step 2 in image below)</span>  The concept should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Hovering over the colored chip shows all the concepts that will be added to the query. Concepts can be removed from a search by clicking the **“x”** located on each chip. Multiple concepts can be added to the query by repeating this process.
+Once a concept is selected, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. <span style="color:#F5c639;">(Step 2 in image below)</span>  The concept should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Hovering over the <span style="color:#60aaa8;">colored chip</span> shows all the concepts that will be added to the query. Concepts can be removed from a search by clicking the **“x”** located on each chip. Multiple concepts can be added to the query by repeating this process. For more information on the "extend to" definitions, go to the [Selecting a Concept](doc_selecting_concept.md) page.
 
 Once all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. <span style="color:#F5c639;">(Step 3 in image below)</span>
 
