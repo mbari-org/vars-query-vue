@@ -12,7 +12,8 @@ There are multiple ways to constrain search results of a query by descriptive te
 
 ![Configuration](assets/images/associations_exactmatch.png)
 
-
+ 
+ 
 Once a detail or link value is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the “x” located on each chip.
 
 ![Configuration](assets/images/associations_generalsearch.png)
