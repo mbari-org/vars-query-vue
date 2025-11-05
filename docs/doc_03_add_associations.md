@@ -9,8 +9,8 @@ There are multiple ways to constrain search results of a query by descriptive te
 
 !!! note "Link Name and Link Value Definitions"
     
-   *   The **Link Name** is the the type or description of an attribute added to an association or concept (e.g. population-density). 
-   *   The **Link Value** is the valie of the attribute if the Link Name is not a self-contained descriptor (e.g. dense for the Link Name population-density).
+    *   The **Link Name** is the the type or description of an attribute added to an association or concept (e.g. population-density). 
+    *   The **Link Value** is the valie of the attribute if the Link Name is not a self-contained descriptor (e.g. dense for the Link Name population-density).
 
 ![Configuration](assets/images/associations_exactmatch.png)
 
