@@ -8,12 +8,14 @@
 
 
 -   **ROV Deployments** can be searched by the ROV Name and dive number (these also need to be  4-digit numbers), e.g. Doc Ricketts 0013
-Other platforms use labels based on the original operator’s naming convention. Available ROVs to search are below:
+Other platforms use labels based on the original operator’s naming convention. 
 
-    - Doc Ricketts
-    - Mini ROV
-    - Tiburon
-    - Ventana
+??? note "Available ROVs to search"
+
+     *   Doc Ricketts
+     *   Mini ROV
+     *   Tiburon
+     *   Ventana
  
 
 

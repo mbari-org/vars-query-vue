@@ -1,5 +1,4 @@
 ## *Adding Details and Associations* ##
-
 There are multiple ways to constrain search results of a query by descriptive terms that have been added to an annotation. 
  
 **General Search** allows users a quick way to open type a term that would constrain the query. This method pulls any annotations tagged with that term in it, including manually entered comments. For example, a search for the term “red” includes the color red, but also could include other terms that contain “red” such as altered or fractured. 
