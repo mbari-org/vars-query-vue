@@ -14,7 +14,7 @@ Once a concept is selected, add the term to the current query by pressing the <s
 ![Configuration](assets/images/concept_withguides.png)
 
 
-## *Extending a Concept Name* ## 
+## *Extending a Concept Name* ##
 
 Beyond selection of the primary concept name, the constraints can be extended to any level that exists in the VARS knowledgebase by selecting from the drop-down menu to the right of the “Concepts” search box (parent, children, siblings, and descendants). Definitions of each option are below.
 
