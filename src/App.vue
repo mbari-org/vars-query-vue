@@ -45,6 +45,7 @@ const configIsOk = computedAsync(() => {
                     <div class="wrapper">
                         <nav>
                             <RouterLink v-if="configIsOk" to="/query">Query</RouterLink>
+                            <RouterLink v-if="configIsOk" to="/deployment-videos">Deployment</RouterLink>
                             <RouterLink to="/config">Configuration</RouterLink>
                         </nav>
                     </div>

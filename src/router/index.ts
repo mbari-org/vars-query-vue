@@ -27,6 +27,11 @@ const router = createRouter({
             component: () => import('../views/query/ConfigurationVue.vue'),
         },
         {
+            path: '/deployment-videos',
+            name: 'deployment-videos',
+            component: () => import('../views/deployment/DeploymentVideosView.vue')
+        },
+        {
             path: '/query',
             name: 'query',
             component: () => import('../views/query/QueryView.vue'),

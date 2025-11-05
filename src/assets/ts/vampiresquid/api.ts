@@ -3,6 +3,7 @@ import type { Video } from "@/assets/ts/vampiresquid/Video";
 import type { PreviewMedia } from '@/assets/ts/vampiresquid/PreviewMedia'
 import { da } from "vuetify/locale";
 import { dateStringToCompactString } from "../util";
+import type { VideoSequence } from '@/assets/ts/vampiresquid/VideoSequence'
 
 
 export class VampireSquidApi {
@@ -103,6 +104,13 @@ export class VampireSquidApi {
 
     listCameraPlatforms(): Promise<string[]> {
         const url = `${this.url}/videosequences/cameras`
+        return fetch(url, {
+            mode: "cors",
+        }).then((r) => r.json());
+    }
+
+    findVideoSequenceByName(videoSequenceName: string): Promise<VideoSequence> {
+        const url = `${this.url}/videosequences/name/${encodeURIComponent(videoSequenceName)}`
         return fetch(url, {
             mode: "cors",
         }).then((r) => r.json());
