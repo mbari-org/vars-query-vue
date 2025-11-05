@@ -10,7 +10,7 @@
 -   **ROV Deployments** can be searched by the ROV Name and dive number (these also need to be  4-digit numbers), e.g. Doc Ricketts 0013
 Other platforms use labels based on the original operator’s naming convention. 
 
-??? note "Available ROVs to search"
+??? note "Registered ROVs in VARS"
 
      *   Doc Ricketts
      *   Mini ROV
@@ -19,14 +19,16 @@ Other platforms use labels based on the original operator’s naming convention.
  
 
 
--   **AUV Deployments** are categorized by name of the platform and date (YYYYMMDD). The exception in this style of identification is the Galene Optim, which is in order of deployment. The deployment number must be a 4-digit number (such as 0013). The current list of registered AUVs are below (as of November 2025)
+-   **AUV Deployments** are categorized by name of the platform and date (YYYYMMDD). The exception in this style of identification is the Galene Optim, which is in order of deployment.  
 
-    - Ahi (1, 2)
-    - Daphne (1, 2)
-    - Galene Optim
-    - Makai (1, 2, aft, forward)
-    - Pontus (1, 2)
-    - Triton 47
+??? note "Registered AUVs in VARS"
+
+     *   Ahi (1, 2)
+     *   Daphne (1, 2)
+     *   Galene Optim
+     *   Makai (1, 2, aft, forward)
+     *   Pontus (1, 2)
+     *   Triton 47
 
 
 -   **Other Deployments** include equipment specific to particular labs  that use labels based on their internal naming convention.
