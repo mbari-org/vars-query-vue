@@ -1,12 +1,12 @@
 # Appendix B - Knowledgebase Associations
 
 !!! note "Live Data"
-This data is fetched _live_ from MBARI's VARS Knowledgebase
+    This data is fetched _live_ from MBARI's VARS Knowledgebase
 
 <input
 type="text"
 id="filter-box"
-placeholder="Filter by linkName or linkValue (e.g., contains depth)..."
+placeholder="Filter by linkName or linkValue..."
 style="width:100%;max-width:400px;padding:6px;margin-bottom:0.5em;"
 />
 <div id="filter-count" style="margin-bottom:1em;font-size:0.9em;color:#555;"></div>
@@ -58,57 +58,49 @@ style="width:100%;max-width:400px;padding:6px;margin-bottom:0.5em;"
     // Helper: escape regex special chars
     const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    // Multi-term filter + highlight logic
-    filterBox.addEventListener('input', () => {
-      const terms = filterBox.value
-        .toLowerCase()
-        .split(/\s+/)
-        .filter(Boolean); // remove empty terms
-      let visibleCount = 0;
-
-      const rows = tbody.getElementsByTagName('tr');
-      for (const row of rows) {
-        const linkNameCell = row.querySelector('.linkName');
-        const linkValueCell = row.querySelector('.linkValue');
-        const linkName = linkNameCell?.textContent.toLowerCase() ?? '';
-        const linkValue = linkValueCell?.textContent.toLowerCase() ?? '';
-        const combined = `${linkName} ${linkValue}`;
-
-        const match = terms.every(term => combined.includes(term));
-        row.style.display = match ? '' : 'none';
-        if (!match) continue;
-        visibleCount++;
-
-        // Restore original text (remove old highlights)
-        linkNameCell.innerHTML = itemSafeHTML(linkNameCell.textContent);
-        linkValueCell.innerHTML = itemSafeHTML(linkValueCell.textContent);
-
-        // Apply highlights if any terms
-        if (terms.length > 0) {
-          for (const term of terms) {
-            const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
-            linkNameCell.innerHTML = linkNameCell.innerHTML.replace(
-              regex,
-              '<mark style="background:silver;font-weight:bold;">$1</mark>'
-            );
-            linkValueCell.innerHTML = linkValueCell.innerHTML.replace(
-              regex,
-              '<mark style="background:grey;font-weight:bold;">$1</mark>'
-            );
-          }
-        }
-      }
-
-      countDiv.textContent = `Showing ${visibleCount} of ${total} associations`;
-    });
-
-    // Helper: safely encode text for HTML
-    function itemSafeHTML(str) {
+    // Safely encode text
+    function safeHTML(str) {
       return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
     }
+
+    // Single-term filter + highlight
+    filterBox.addEventListener('input', () => {
+      const term = filterBox.value.trim().toLowerCase();
+      const rows = tbody.getElementsByTagName('tr');
+      let visibleCount = 0;
+
+      for (const row of rows) {
+        const linkNameCell = row.querySelector('.linkName');
+        const linkValueCell = row.querySelector('.linkValue');
+        const linkName = linkNameCell?.textContent.toLowerCase() ?? '';
+        const linkValue = linkValueCell?.textContent.toLowerCase() ?? '';
+
+        const match =
+          term === '' ||
+          linkName.includes(term) ||
+          linkValue.includes(term);
+
+        row.style.display = match ? '' : 'none';
+        if (!match) continue;
+        visibleCount++;
+
+        // Reset text before re-highlighting
+        linkNameCell.innerHTML = safeHTML(linkNameCell.textContent);
+        linkValueCell.innerHTML = safeHTML(linkValueCell.textContent);
+
+        if (term) {
+          const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
+          const highlight = '<mark style="background:gray;font-weight:bold;">$1</mark>';
+          linkNameCell.innerHTML = linkNameCell.innerHTML.replace(regex, highlight);
+          linkValueCell.innerHTML = linkValueCell.innerHTML.replace(regex, highlight);
+        }
+      }
+
+      countDiv.textContent = `Showing ${visibleCount} of ${total} associations`;
+    });
   } catch (err) {
     console.error('Failed to fetch JSON:', err);
     document.querySelector('#json-table tbody').innerHTML =
