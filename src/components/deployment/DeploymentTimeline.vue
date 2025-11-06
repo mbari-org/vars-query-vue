@@ -5,13 +5,13 @@ import type { VideoSequence } from '@/assets/ts/vampiresquid/VideoSequence'
 import { computed } from 'vue'
 
 interface Props {
-    videoSequence: VideoSequence
+    videoSequence: VideoSequence | null
 }
 
 const props = defineProps<Props>()
 
 const videos = computed(() => {
-    const xs =  props.videoSequence?.videos || []
+    const xs =  props?.videoSequence?.videos || []
     return xs?.sort((a, b) => a.start_timestamp.localeCompare(b.start_timestamp))
 })
 

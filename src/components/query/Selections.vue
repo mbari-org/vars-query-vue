@@ -12,6 +12,7 @@ const selectableColumnsStore = useSelectedColumnsStore()
             <v-col cols="12">
                 <v-autocomplete
                     clearable
+                    closable-chips
                     chips
                     label="Return the following data"
                     v-model=selectableColumnsStore.selectableColumns

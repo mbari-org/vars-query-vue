@@ -48,6 +48,14 @@ plugins:
   - search
   - mermaid2
   - tags
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      width: 100%
+      height: auto
+      auto_themed: true
+      auto_caption: true
 theme:
   name: material
   logo: https://docs.mbari.org/imgs/mbari-logo.png

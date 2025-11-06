@@ -26,6 +26,7 @@ const decoratorsStore = useDecoratorsStore()
                 <v-autocomplete
                     clearable
                     chips
+                    closable-chips
                     label="Activites"
                     v-model=activitiesStore.activities
                     :items=annosaurusStore.activities
@@ -44,6 +45,7 @@ const decoratorsStore = useDecoratorsStore()
                 <v-autocomplete
                     clearable
                     chips
+                    closable-chips
                     label="Groups"
                     v-model=groupsStore.groups
                     :items=annosaurusStore.groups
@@ -62,6 +64,7 @@ const decoratorsStore = useDecoratorsStore()
                 <v-autocomplete
                     clearable
                     chips
+                    closable-chips
                     label="Observers"
                     v-model=observersStore.observers
                     :items=annosaurusStore.observers
@@ -80,6 +83,7 @@ const decoratorsStore = useDecoratorsStore()
                 <v-autocomplete
                     clearable
                     chips
+                    closable-chips
                     label="Chief Scientists"
                     v-model=chiefScientistsStore.chiefScientists
                     :items=annosaurusStore.chiefScientists
