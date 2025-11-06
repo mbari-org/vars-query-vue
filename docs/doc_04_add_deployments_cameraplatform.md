@@ -49,3 +49,11 @@ Once a deployment is entered, add the term to the current query by pressing the 
 ### *Camera Platforms* ###
 
 A **Camera Platforms** specifies the platform a camera was deployed on while recording the selected observations.
+
+??? note "Currently Registered Camera Platforms in VARS"
+
+     *   *ArcticAUV:* Ahi(1,2), Daphne, Galene Optim, i2MAP, Makai(1,2), Piscivore, Pontus(1,2)Rays
+     *   *Benthic Rover II*
+     *   *ROV:* Doc Ricketts, Mini ROV, Tiburon, Ventana
+     *   *Tripod Camera:* Coral Observatory, Macro Coral Cam, Station M Tripod
+     *.  *TopoCam*
