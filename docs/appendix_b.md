@@ -89,11 +89,11 @@ style="width:100%;max-width:400px;padding:6px;margin-bottom:0.5em;"
             const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
             linkNameCell.innerHTML = linkNameCell.innerHTML.replace(
               regex,
-              '<mark style="background:yellow;font-weight:bold;">$1</mark>'
+              '<mark style="background:silver;font-weight:bold;">$1</mark>'
             );
             linkValueCell.innerHTML = linkValueCell.innerHTML.replace(
               regex,
-              '<mark style="background:yellow;font-weight:bold;">$1</mark>'
+              '<mark style="background:grey;font-weight:bold;">$1</mark>'
             );
           }
         }
