@@ -32,10 +32,13 @@ Other platforms use labels based on the original operator’s naming convention.
 
 
 -   **Other Deployments** include equipment specific to particular labs  that use labels based on their internal naming convention.
-    - ArcticRays
-    - Coral Observatory
-    - Macro Coral Cam
-    - Station M Tripod
+
+??? note "Other Registered Platforms in VARS"
+
+     *   ArcticRays
+     *   Coral Observatory
+     *   Macro Coral Cam
+     *   Station M Tripod
 
 
 

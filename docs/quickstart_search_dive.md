@@ -21,4 +21,4 @@ Once all constraints have been specified, press the <span style="color:#2095f2;"
 
 ![Configuration](assets/images/Quickstart_bydeployment.png)
 
-For more information on additional search parameters, go to the User Guide.
+For more information on additional search parameters, go to the [User Guide](https://docs.mbari.org/internal/vars-query-vue/doc_01_general_info/.).
