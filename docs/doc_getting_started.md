@@ -18,8 +18,8 @@ The VARS query interface uses a series of parameter fields to easily search spec
 ![Configuration](assets/images/query_orientation.png)
 
 <span style="color:#F5c639;">1</span> VARS Query Floating Toolbar
-   - The <span style="color:#2095f2;">**blue **SEARCH** button**</span> executes the search once all desired parameters are added.
-   - The <span style="color:#B7606c;">**red **RESET** button**</span> will remove all parameters entered for a query.
+    - The <span style="color:#2095f2;">**blue **SEARCH** button**</span> executes the search once all desired parameters are added.
+    - The <span style="color:#B7606c;">**red **RESET** button**</span> will remove all parameters entered for a query.
 
 <span style="color:#F5c639;">2</span> Annotation and Deployment Parameter Fields
    - [Concepts](doc_02_selecting_concept.md) 
