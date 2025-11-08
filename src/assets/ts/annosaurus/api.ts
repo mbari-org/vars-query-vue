@@ -6,10 +6,6 @@ import type {
     DepthHistogram,
     GeoRange,
     QueryResponse,
-    QueryResponseAnno,
-    QueryResponseCount,
-    QueryResponseGeoRange,
-    StringHistogram,
     TimeHistogram,
 } from './QueryResponse'
 import type { Query } from '@/assets/ts/annosaurus/Query'
