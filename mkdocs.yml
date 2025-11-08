@@ -11,9 +11,10 @@ nav:
     - Search by Dive: quickstart_search_dive.md
   - User Guide: 
     - Introduction: doc_01_general_info.md
-    - Selecting Concepts: doc_02_selecting_concept.md
-    - Adding Associations: doc_03_add_associations.md
-    - Adding Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
+    - Getting Started: doc_getting_started.md
+    - Concepts: doc_02_selecting_concept.md
+    - Associations: doc_03_add_associations.md
+    - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md
