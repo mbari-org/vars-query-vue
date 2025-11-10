@@ -24,9 +24,11 @@ A ***concept*** is the name of the physical object in an observation.
 
 A ***deployment*** refers to a specific ROV dive, AUV or instrument deployments where data and imagery were collected. 
 
+A ***group*** indicates additional information to categorize annotations within the VARS database. The groups are linked to a camera platform. Additional information can include project-based efforts or machine learning aspects used to distinguish the annotations from standard core data.
+
 An ***observation date*** is the date the observation was annotated.  Sometimes this is the same as the recorded date from observations made at sea.
 
-An ***observer*** is the name od ther person who did the annotation
+An ***observer*** is the name of the person who created the annotation.
 
 The ***recorded date*** is the date the imagery was collected.
 
