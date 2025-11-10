@@ -22,9 +22,10 @@ The VARS query interface uses a series of parameter fields to easily search spec
     * The <span style="color:#B7606c;">**red **RESET** button**</span> will remove all parameters entered for a query.
 
 <span style="color:#F5c639;">2</span> Annotation and Deployment Parameter Fields
-    * [Concepts](doc_02_selecting_concept.md) 
-    * [Associations](doc_03_add_associations.md)
-    * [Deployments and Camera Platforms](doc_04_add_deployments_cameraplatform.md)
+<ol>
+  <li>[Concepts](doc_02_selecting_concept.md)</li> 
+  <li>[Associations](doc_03_add_associations.md)</li>
+  </li>[Deployments and Camera Platforms](doc_04_add_deployments_cameraplatform.md)</li>
   
 
 <span style="color:#F5c639;">3</span> Location and Time Parameter Fields
