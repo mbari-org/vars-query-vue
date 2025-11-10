@@ -3,7 +3,8 @@
 ## *Adding Deployments or Camera Platforms* ##
 
   **Deployments** refer to specific ROV dives or instrument deployments where data and imagery were collected. Deployments that have been registered in the VARS database can be used to constrain a query.
- 
+
+![Configuration](assets/images/deployments_general.png) 
 ### *Deployment Identification Numbers* ###
 
 
@@ -51,6 +52,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 
 A **Camera Platforms** specifies the platform a camera was deployed on while recording the selected observations. 
 
+![Configuration](assets/images/deployments_general.png) 
 ??? note "Currently Registered Camera Platforms in VARS"
 
      *   *AUV:* Ahi(1,2), Daphne, Galene Optim, i2MAP, Makai(1,2), Piscivore, Pontus(1,2)Rays
