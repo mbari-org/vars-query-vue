@@ -19,7 +19,12 @@ nav:
     - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
     - Location: doc_05_locations.md
     - Depth: doc_06_depth.md
-    - Date: doc_07_recordeddate.md
+    - Recorded Date: doc_07_recordeddate.md
+    - Observation Date: doc_08_observation_date
+    - Activities: doc_09_activities.md
+    - Groups: doc_10_groups.md
+    - Observers: doc_11_observers.md
+    - Chief Scientists: doc_12_chief_scientists.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md

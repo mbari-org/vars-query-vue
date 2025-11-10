@@ -35,15 +35,15 @@ The VARS query interface uses a series of parameter fields to easily search spec
 
 - [Location](doc_05_locations.md)
 - [Depth](doc_06_depth.md)
-- Recorded Date
+- [Recorded Date](doc_07_recordeddate.md)
 
 <span style="color:#F5c639;">4</span> Miscellaneous Parameter Fields
 
-- Observation Date
-- Activities
--  Groups
-- Observers
-- Chief Scientists
+- [Observation Date](doc_observation_date.md)
+- [Activities](doc_activities.md)
+- [Groups](doc_groups.md)
+- [Observers](doc_observers.md)
+- [Chief Scientists](doc_chief_scientists.md)
 
 <span style="color:#F5c639;">5</span> Additional Constraint Selections
 
