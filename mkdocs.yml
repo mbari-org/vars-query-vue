@@ -7,6 +7,7 @@ site_author: "MBARI"
 nav:
   - Home: index.md
   - Data Use: 
+    - Data Use Policy: data_use_policy.md
   - Quickstart: 
     - Search by Concept:  quickstart_search_concept.md
     - Search by Dive: quickstart_search_dive.md
