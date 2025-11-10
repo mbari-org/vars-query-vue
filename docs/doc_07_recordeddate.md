@@ -1,4 +1,4 @@
-A query can be constrained by the date a deployment began. A start and/or end recorded dates can be entered manually in a YYY-MM-DD format. 
+A query can be constrained by the date a deployment began. The *recorded date* is the date the data/imagery was collected. A start and/or end recorded dates can be entered manually in a YYY-MM-DD format. All dates and times are in UTC. 
 
  ![Configuration](assets/images/recorded_date.png)
 
