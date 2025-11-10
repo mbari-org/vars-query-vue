@@ -5,6 +5,7 @@
 ## *Definitions*
  
  ### General ###
+ 
 **VARS** (Video Annotation and Reference System) is a software interface and database system that provides tools for describing, cataloging, retrieving, and viewing the visual, descriptive, and quantitative data associated with MBARI’s deep-sea video archives.
 
 The **VARS Knowledgebase** is an extensible database of biological, geological, and technical terms used to describe deep-sea research conducted by the institute.  This database is composed of identifiable objects called *concepts* (e.g. organisms, equipment, sediment types, etc.). The knowledgebase also contains *associations* which serve as descriptors that can be connected with the objects being annotated (e.g. colors, size, behaviors). 
