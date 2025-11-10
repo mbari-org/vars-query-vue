@@ -9,12 +9,11 @@
 
 The **VARS Knowledgebase** is an extensible database of biological, geological, and technical terms used to describe deep-sea research conducted by the institute.  This database is composed of identifiable objects called *concepts* (e.g. organisms, equipment, sediment types, etc.). The knowledgebase also contains *associations* which serve as descriptors that can be connected with the objects being annotated (e.g. colors, size, behaviors). 
 
-An **annotation** is an observation made at a specific date and time of MBARI's imagery archive.  Each annotation captures details such as the identity of the observed organism or object (*concept*), its behavior, habitat, or other relevant features </a>(*association*)</p>
-<a name="L17"></a>.
+An **annotation** is an observation made at a specific date and time of MBARI's imagery archive.  Each annotation captures details such as the identity of the observed organism or object (*concept*), its behavior, habitat, or other relevant features [^association] *association*.]
 
 ### Query Specific ###
 
-An *association* descriptors to be added to a concept to provide more detail about that annotation (behavior, color, posture, sample information, etc.) Each descriptor must be connected to a concept observation. Multiple associations may be used to describe one observation. A concept can have multiple associations to describe the observation.
+An [^association]:*association*  descriptors to be added to a concept to provide more detail about that annotation (behavior, color, posture, sample information, etc.) Each descriptor must be connected to a concept observation. Multiple associations may be used to describe one observation. A concept can have multiple associations to describe the observation.
 
 An *activity* includes the direction or movement of the camera or the intended activity associated with a particular annotation.
 
@@ -29,4 +28,6 @@ An *observation date* is the date the observation was annotated.  Sometimes this
 An *observer* is the name od ther person who did the annotation
 
 The *recorded date* is the date the imagery was collected.
+
+
 
