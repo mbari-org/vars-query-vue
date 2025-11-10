@@ -50,7 +50,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 
 ### *Camera Platforms* ###
 
-A **Camera Platforms** specifies the platform a camera was deployed on while recording the selected observations. 
+A **Camera Platform** specifies the platform a camera was deployed on while recording the selected observations. 
 
 ![Configuration](assets/images/deployments_general.png) 
 ??? note "Currently Registered Camera Platforms in VARS"
