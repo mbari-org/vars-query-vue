@@ -1,16 +1,14 @@
 
 
-## *Location* ##
-
 
 A query can be constrained to a specific geographic region using two methods.
 
-### *Regions*
+## *Regions*
   **Regions** allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the coorisp
 
   ![Configuration](assets/images/regions.png)
 
-  ??? note "Available Preset Regions"
+??? note "Available Preset Regions"
 
      *   California Borderlands (32.58N, -122.70W; 37.60N, -117.20W)
      *   Davidson Seamount (35.50N, -122.90W; 35.90N, -122.50W)
@@ -31,7 +29,7 @@ A query can be constrained to a specific geographic region using two methods.
 
 
  
-### ***Coordinates***
+## ***Coordinates***
 
 Coordinates (latitude and longitude) can be manually to define a custom search area. Minimum and maximum coordinates should be entered in *decimal degrees*. For a single point, enter the same value for the minimum and maximum values for each latitude and longitude.
 
