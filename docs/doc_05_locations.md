@@ -34,7 +34,7 @@ Coordinates (latitude and longitude) can be manually to define a custom search a
 
 ![Configuration](assets/images/coordinates.png)
 
-Region, and coordinate entries are automatically added to the query once added in its respective entry field. Each field can be removed by clicking the “x” that appears when hovering over this field.
+Region, and coordinate entries are automatically added to the query once added in its respective entry field. Each field can be removed by clicking the **“x”** that appears when hovering over this field.
 
 ![Configuration](assets/images/locations_example.png)
 
