@@ -20,6 +20,8 @@ An ***activity*** includes the direction or movement of the camera or the intend
 
 A ***camera platform*** specifies the platform a camera was deployed on while recording the selected observations.
 
+A ***chief scientist*** is the MBARI scientist or collaborator that conducted the mission in which data was collected.
+
 A ***concept*** is the name of the physical object in an observation.
 
 A ***deployment*** refers to a specific ROV dive, AUV or instrument deployments where data and imagery were collected. 

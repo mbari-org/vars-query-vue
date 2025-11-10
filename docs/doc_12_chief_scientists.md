@@ -1,0 +1,1 @@
+A *chief scientist* can be selected to constrain your search for dives led by a particular scientist (e.g. Jim Barry).  Chief scientists can be selected from a drop-down menu of MBARI scientists and their collaborators.

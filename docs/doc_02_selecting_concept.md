@@ -2,7 +2,7 @@
 
 Concepts are selected from a database of all formal and common taxonomic, geologic, and technical names. Begin typing a name in the *Concepts* search box under the **Annotation and Deployment** section of the query. The selection options update as you type. A full list of concepts is located in [Appendix A](appendix_a.md). Alternatively, you can scroll through a drop-down list of available concepts in alphabetical order. Click on a name to select it. 
 
-!!! note
+!!! warning "Note"
     If your search is returning a large amount of results, some data viewing functions will be disabled to prevent browser performance issues.  You will still be able to download the entire results.
 
 In the example below, the concept *Gersemia* has been selected.
