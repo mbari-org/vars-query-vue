@@ -51,13 +51,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 ## *Camera Platforms* ###
 
 
-??? info inline end "Currently Registered Camera Platforms in VARS"
 
-     *   *AUV:* Ahi(1,2), Daphne, Galene Optim, i2MAP, Makai(1,2), Piscivore, Pontus(1,2)Rays
-     *   *Benthic Rover II*
-     *   *ROV:* Doc Ricketts, Mini ROV, Tiburon, Ventana
-     *   *Tripod Camera:* Coral Observatory, Macro Coral Cam, Station M Tripod
-     *.  *TopoCam*
 
 
 A Camera Platform specifies the platform a camera was deployed on while recording the selected observations. 
@@ -65,6 +59,14 @@ A Camera Platform specifies the platform a camera was deployed on while recordin
 
 ![Configuration](assets/images/deployments_general.png) 
 
+??? info "Currently Registered Camera Platforms in VARS"
+
+     *   *AUV:* Ahi(1,2), Daphne, Galene Optim, i2MAP, Makai(1,2), Piscivore, Pontus(1,2)Rays
+     *   *Benthic Rover II*
+     *   *ROV:* Doc Ricketts, Mini ROV, Tiburon, Ventana
+     *   *Tripod Camera:* Coral Observatory, Macro Coral Cam, Station M Tripod
+     *.  *TopoCam*
+     
  Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
  ![Configuration](assets/images/cameraplatform.png)

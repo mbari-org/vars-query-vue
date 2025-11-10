@@ -8,7 +8,7 @@ A query can be constrained to a specific geographic region using two methods.
 
   ![Configuration](assets/images/regions.png)
 
-??? note "Available Preset Regions"
+??? info "Available Preset Regions"
 
      *   California Borderlands (32.58N, -122.70W; 37.60N, -117.20W)
      *   Davidson Seamount (35.50N, -122.90W; 35.90N, -122.50W)
