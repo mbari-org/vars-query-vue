@@ -18,26 +18,26 @@ The VARS query interface uses a series of parameter fields to easily search spec
 ![Configuration](assets/images/query_orientation.png)
 
 <span style="color:#F5c639;">1</span> VARS Query Floating Toolbar
-- The <span style="color:#2095f2;">**blue **SEARCH** button**</span> executes the search once all desired parameters are added.
-- The <span style="color:#B7606c;">**red **RESET** button**</span> will remove all parameters entered for a query.
+    * The <span style="color:#2095f2;">**blue **SEARCH** button**</span> executes the search once all desired parameters are added.
+    * The <span style="color:#B7606c;">**red **RESET** button**</span> will remove all parameters entered for a query.
 
 <span style="color:#F5c639;">2</span> Annotation and Deployment Parameter Fields
--    [Concepts](doc_02_selecting_concept.md) 
--    [Associations](doc_03_add_associations.md)
--    [Deployments and Camera Platforms](doc_04_add_deployments_cameraplatform.md)
+    * [Concepts](doc_02_selecting_concept.md) 
+    * [Associations](doc_03_add_associations.md)
+    * [Deployments and Camera Platforms](doc_04_add_deployments_cameraplatform.md)
   
 
 <span style="color:#F5c639;">3</span> Location and Time Parameter Fields
--    [Location](doc_05_locations.md)
--    [Depth](doc_06_depth.md)
--    Recorded Date
+    * [Location](doc_05_locations.md)
+    * [Depth](doc_06_depth.md)
+    * Recorded Date
 
 <span style="color:#F5c639;">4</span> Miscellaneous Parameter Fields
--    Observation Date
--    Activities
--    Groups
--    Observers
--    Chief Scientists
+    * Observation Date
+    * Activities
+    * Groups
+    * Observers
+    * Chief Scientists
 
 <span style="color:#F5c639;">5</span> Additional Constraint Selections
 
