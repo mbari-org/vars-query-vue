@@ -1,6 +1,6 @@
 
 
-## *Adding Deployments* ##
+## *Adding Deployments or Camera Platforms* ##
 
   **Deployments** refer to specific ROV dives or instrument deployments where data and imagery were collected. Deployments that have been registered in the VARS database can be used to constrain a query.
  
