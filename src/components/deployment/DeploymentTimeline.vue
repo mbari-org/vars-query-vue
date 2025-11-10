@@ -15,8 +15,6 @@ const videos = computed(() => {
     return xs?.sort((a, b) => a.start_timestamp.localeCompare(b.start_timestamp))
 })
 
-
-
 </script>
 
 <template>
