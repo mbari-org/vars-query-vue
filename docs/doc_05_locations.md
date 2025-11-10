@@ -4,7 +4,7 @@
 A query can be constrained to a specific geographic region using two methods.
 
 ## *Regions*
-  **Regions** allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the corresponding coordinates populate in the latitude and longitude fields. 
+  Regions allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the corresponding coordinates populate in the latitude and longitude fields. 
 
   ![Configuration](assets/images/regions.png)
 
@@ -38,4 +38,6 @@ Region, and coordinate entries are automatically added to the query once added i
 
 ![Configuration](assets/images/locations_example.png)
 
+If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 
+![Configuration](assets/images/search_button.png)

@@ -19,6 +19,7 @@ nav:
     - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
     - Location: doc_05_locations.md
     - Depth: doc_06_depth.md
+    - Date: doc_07_recordeddate.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md

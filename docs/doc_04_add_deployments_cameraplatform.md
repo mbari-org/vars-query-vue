@@ -2,7 +2,7 @@
 
 ## *Deployments* ##
 
-  **Deployments** refer to specific ROV dives or instrument deployments where data and imagery were collected. Deployments that have been registered in the VARS database can be used to constrain a query.
+  Deployments refer to specific ROV dives or instrument deployments where data and imagery were collected. Deployments that have been registered in the VARS database can be used to constrain a query.
 
 ![Configuration](assets/images/deployments_general.png) 
 ### *Deployment Identification Numbers* ###
@@ -50,7 +50,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 
 ## *Camera Platforms* ###
 
-A **Camera Platform** specifies the platform a camera was deployed on while recording the selected observations. 
+A Camera Platform specifies the platform a camera was deployed on while recording the selected observations. 
 
 ![Configuration](assets/images/deployments_general.png) 
 ??? note "Currently Registered Camera Platforms in VARS"
@@ -65,3 +65,7 @@ A **Camera Platform** specifies the platform a camera was deployed on while reco
  Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
  ![Configuration](assets/images/cameraplatform.png)
+
+ If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
+
+![Configuration](assets/images/search_button.png)
