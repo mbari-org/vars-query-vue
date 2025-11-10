@@ -4,7 +4,7 @@
 A query can be constrained to a specific geographic region using two methods.
 
 ## *Regions*
-  **Regions** allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the coorisp
+  **Regions** allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the corresponding coordinates populate in the latitude and longitude fields. 
 
   ![Configuration](assets/images/regions.png)
 
@@ -27,7 +27,6 @@ A query can be constrained to a specific geographic region using two methods.
      *   Vance Seamounts (45.155 N, -131.00W; 45.76N, -130.21W)
 
 
-
  
 ## ***Coordinates***
 
@@ -37,6 +36,6 @@ Coordinates (latitude and longitude) can be manually to define a custom search a
 
 Region, and coordinate entries are automatically added to the query once added in its respective entry field. Each field can be removed by clicking the “x” that appears when hovering over this field.
 
-
+![Configuration](assets/images/locations_example.png)
 
 

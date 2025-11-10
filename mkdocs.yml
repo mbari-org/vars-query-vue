@@ -14,11 +14,11 @@ nav:
   - User Guide: 
     - Introduction: doc_01_general_info.md
     - Getting Started: doc_getting_started.md
-    - Annotation and Deployment:
-      - Concepts: doc_02_selecting_concept.md
-      - Associations: doc_03_add_associations.md
-      - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
+    - Concepts: doc_02_selecting_concept.md
+    - Associations: doc_03_add_associations.md
+    - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
     - Location: doc_05_locations.md
+    -Depth: doc_06_depth.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md

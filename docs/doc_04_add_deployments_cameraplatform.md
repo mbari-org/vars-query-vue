@@ -1,6 +1,6 @@
 
 
-## *Adding Deployments or Camera Platforms* ##
+## *Deployments* ##
 
   **Deployments** refer to specific ROV dives or instrument deployments where data and imagery were collected. Deployments that have been registered in the VARS database can be used to constrain a query.
 
@@ -48,7 +48,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 
 ![Configuration](assets/images/deployments.png)
 
-### *Camera Platforms* ###
+## *Camera Platforms* ###
 
 A **Camera Platform** specifies the platform a camera was deployed on while recording the selected observations. 
 
