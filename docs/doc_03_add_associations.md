@@ -7,7 +7,7 @@ There are multiple ways to constrain search results of a query by descriptive te
  
 **Exact Match** constrains the search by specific associations from the knowledgebase. Once the **Exact Match** box is selected, an alphabetical list becomes available with *Link Name* values from the database. A full list of associations can be found in [Appendix B.](appendix_b.md)
 
-!!! note "Link Name and Link Value Definitions"
+!!! info "Link Name and Link Value Definitions"
     
     *   The **Link Name** is the the type or description of an attribute added to an association or concept (e.g. population-density). 
     *   The **Link Value** is the valie of the attribute if the Link Name is not a self-contained descriptor (e.g. dense for the Link Name population-density).

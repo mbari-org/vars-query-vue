@@ -11,7 +11,7 @@
 -   **ROV Deployments** can be searched by the ROV Name and dive number (these also need to be  4-digit numbers, e.g. Doc Ricketts 0013).
 
 
-??? note "Registered ROVs in VARS"
+??? info "Registered ROVs in VARS"
 
      *   Doc Ricketts
      *   Mini ROV
@@ -22,7 +22,7 @@
 
 -   **AUV Deployments** are categorized by name of the platform and date (YYYYMMDD). The exception in this style of identification is the Galene Optim, which is in order of deployment.  
 
-??? note "Registered AUVs in VARS"
+??? info "Registered AUVs in VARS"
 
      *   Ahi (1, 2)
      *   Daphne (1, 2)
@@ -35,7 +35,7 @@
 
 -   **Other Deployments** include equipment specific to particular labs  that use labels based on their internal naming convention.
 
-??? note "Other Registered Platforms in VARS"
+??? info "Other Registered Platforms in VARS"
 
      *   ArcticRays
      *   Coral Observatory
@@ -53,7 +53,7 @@ Once a deployment is entered, add the term to the current query by pressing the 
 A Camera Platform specifies the platform a camera was deployed on while recording the selected observations. 
 
 ![Configuration](assets/images/deployments_general.png) 
-??? note "Currently Registered Camera Platforms in VARS"
+??? info inline start "Currently Registered Camera Platforms in VARS"
 
      *   *AUV:* Ahi(1,2), Daphne, Galene Optim, i2MAP, Makai(1,2), Piscivore, Pontus(1,2)Rays
      *   *Benthic Rover II*
