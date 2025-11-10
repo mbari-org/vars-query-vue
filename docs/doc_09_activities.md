@@ -1,0 +1,2 @@
+
+An *activity* includes the direction or movement of the camera or the intended activity associated with a particular annotation. You can constrain your search by an activity selected from the drop-down menu.
