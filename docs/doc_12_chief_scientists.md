@@ -2,15 +2,10 @@ A *chief scientist* can be selected to constrain your search for dives led by a 
 
 ![Configuration](assets/images/chief_scientist.png)
 
-<br>
-<br>
-
 Chief scientist entries are automatically added to the query once selected (a check mark) within the drop down menu. Each chief scientist should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *chief scientists* search field. Individual chief scientists can be removed from a search by clicking the <span style="color:#60aaa8;">**“x”**</span> located on each chip.  The entire field can be reset by clicking the white **"x"** on the right that becomes visible when hovering over the field.
  
 ![Configuration](assets/images/chief_scientist_example.png)
 
-<br>
-<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

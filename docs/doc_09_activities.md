@@ -23,12 +23,13 @@ An *activity* includes the direction or movement of the camera or the intended a
      *   transect-like
      *   unspecified
 
+<br>
 
- ![Configuration](assets/images/activity.png)
+![Configuration](assets/images/activity.png)
 
- Activities are automatically added to the query once selected within the drop down menu. Each activity should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *activities* search field. Individual activities can be removed from a search by clicking the <span style="color:#60aaa8;">**“x”**</span> located on each chip.  The entire field can be reset by clicking the white **"x"** on the right that becomes visible when hovering over the field.
+Activities are automatically added to the query once selected within the drop down menu. Each activity should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *activities* search field. Individual activities can be removed from a search by clicking the <span style="color:#60aaa8;">**“x”**</span> located on each chip.  The entire field can be reset by clicking the white **"x"** on the right that becomes visible when hovering over the field.
 
-  ![Configuration](assets/images/activity_example.png)
+![Configuration](assets/images/activity_example.png)
 
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 

@@ -12,17 +12,15 @@ There are multiple ways to constrain search results of a query by descriptive te
     *   The **Link Name** is the the type or description of an attribute added to an association or concept (e.g. population-density). 
     *   The **Link Value** is the valie of the attribute if the Link Name is not a self-contained descriptor (e.g. dense for the Link Name population-density).
 
+<br>
+
 ![Configuration](assets/images/associations_exactmatch.png)
 
-<br>
-<br>
- 
+
 Once a detail or link value is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
 ![Configuration](assets/images/associations_generalsearch.png)
 
-<br>
-<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

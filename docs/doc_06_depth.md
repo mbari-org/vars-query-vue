@@ -2,15 +2,11 @@ A query can be constrained by **depth** ranges. A minimum and/or maximum depth c
 
 ![Configuration](assets/images/depth.png)
 
-<br>
-<br>
  
 Minimum and Maximum depth entries are automatically added to the query once added in their entry fields. Depths can be removed by clicking the **“x”** that becomes visible when hovering over this field.
 
 ![Configuration](assets/images/depth_example.png)
 
-<br>
-<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

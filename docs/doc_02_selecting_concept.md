@@ -35,7 +35,6 @@ If the concept is a geologic or technical object, the same logic follows. For ex
 ![Configuration](assets/images/concept_extended.png)
 
 <br>
-<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

@@ -6,7 +6,7 @@ An *observer* can be added to constrain your search by a particular annotator (e
 
     VARS observers are all users that have a VARS login. A new user login can be created through the [VARS Annotation Interface.](https://docs.mbari.org/vars-annotation/) 
       
-
+<br>
 
 ![Configuration](assets/images/observers.png)
 

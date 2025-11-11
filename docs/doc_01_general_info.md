@@ -15,8 +15,6 @@ The ***VARS Knowledgebase*** is an extensible database of biological, geological
 
 An ***annotation*** is an observation made at a specific date and time of MBARI's imagery archive.  Each annotation captures details such as the identity of the observed organism or object (*concept*), its behavior, habitat, or other relevant features *association*.
 
-<br>
-
 ### <span style="color:#2095f2;">Query Specific<span> ###
 
 An ***association***  descriptors to be added to a concept to provide more detail about that annotation (behavior, color, posture, sample information, etc.) Each descriptor must be connected to a concept observation. Multiple associations may be used to describe one observation. A concept can have multiple associations to describe the observation.

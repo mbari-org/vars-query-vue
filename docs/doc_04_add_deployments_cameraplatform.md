@@ -45,7 +45,6 @@
      *   Station M Tripod
 
 <br>
-<br>
 
 Once a deployment is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The selection should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
@@ -73,8 +72,7 @@ Once a camera platform is entered, add the term to the current query by pressing
 
 ![Configuration](assets/images/cameraplatform.png)
 
-<br>
-<br>
+
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

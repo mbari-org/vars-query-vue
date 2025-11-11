@@ -9,8 +9,6 @@ Regions allow users to select from a list of predefined regions commonly used in
 
 ![Configuration](assets/images/regions.png)
 
-<br>
-<br>
 
 ??? info "Available Preset Regions"
 
@@ -38,15 +36,12 @@ Coordinates (latitude and longitude) can be manually to define a custom search a
 
 ![Configuration](assets/images/coordinates.png)
 
-<br>
-<br>
+
 
 Region, and coordinate entries are automatically added to the query once added in its respective entry field. Each field can be removed by clicking the **“x”** that appears when hovering over this field.
 
 ![Configuration](assets/images/locations_example.png)
 
-<br>
-<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 
