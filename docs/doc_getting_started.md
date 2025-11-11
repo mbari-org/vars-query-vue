@@ -19,8 +19,8 @@ The VARS query interface uses a series of parameter fields to easily search spec
 
 <span style="color:#F5c639;">1</span> VARS Query Floating Toolbar
 
-- The <span style="color:#2095f2;"> blue :material-search-web:</span> executes the search once all desired parameters are added.
-- The <span style="color:#B7606c;"> red :fontawesome-solid-undo:</span> will remove all parameters entered for a query.
+- The <span style="color:#2095f2;"> blue SEARCH :material-search-web:</span> executes the search once all desired parameters are added.
+- The <span style="color:#B7606c;"> red RESET :fontawesome-solid-undo:</span> will remove all parameters entered for a query.
 
 <span style="color:#F5c639;">2</span> Annotation and Deployment Parameter Fields
 
