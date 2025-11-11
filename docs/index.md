@@ -2,9 +2,25 @@
 
 ![MBARI logo](assets/images/mbari-logo.png)
 
-## User Documentation
 
-User documentation currently lives in [Google Docs](https://docs.google.com/document/d/1hHT1YbmYWuMEJpkdcynPLwgvcsfMIMz4G1dpefKMUDs/edit?tab=t.0)
+The **VARS Query** is a MBARI tool designed to search, filter, and explore observations collected from ROV dives and other deployments.  This version was released in November 2025 for internal use for staff.
 
-!!! warning "In Development"
-    This documentation is in alpha and will be subject to frequent changes through November 2025
+We encourage users to explore the interface, try different query options, and share suggestions or issues you encounter. Your feedback will help refine and improve functionality, usability, and performance ahead of the development of an external VARS Query beginning development in 2026. Feedback may be submitted through our [VARS Query Feedback Form]().
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

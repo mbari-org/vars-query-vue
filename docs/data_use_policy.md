@@ -1,4 +1,3 @@
-
 ## *Data use* ##
 
 Please be aware that the data you are accessing are intended for internal research purposes only. The video assets and related annotation data contain information that may be embargoed or confidential (e.g., data may be the subject of current research, show proprietary content, contain confidential audio recordings) and lack the necessary copyright markings. As such, these data should not be distributed to external colleagues, collaborators, contractors, or other requestors as is. Please contact the Video Lab (videolabadmin@mbari.org) to discuss how to best fulfill external requests.
