@@ -2,8 +2,13 @@
 
 Concepts are selected from a database of all formal and common taxonomic, geologic, and technical names. Begin typing a name in the *Concepts* search box under the **Annotation and Deployment** section of the query. The selection options update as you type. A full list of concepts is located in [Appendix A](appendix_a.md). Alternatively, you can scroll through a drop-down list of available concepts in alphabetical order. Click on a name to select it. 
 
+<br>
+
 !!! warning "Note"
     If your search is returning a large amount of results, some data viewing functions will be disabled to prevent browser performance issues.  You will still be able to download the entire results.
+
+
+<br>
 
 In the example below, the concept *Gersemia* has been selected.
 
@@ -28,6 +33,9 @@ Beyond selection of the primary concept name, the constraints can be extended to
 If the concept is a geologic or technical object, the same logic follows. For example, selection of the concept manipulator extended to “children” broadens the search to all types of manipulators (e.g. Kraft raptor, dongo, schilling arm, etc).
 
 ![Configuration](assets/images/concept_extended.png)
+
+<br>
+<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 

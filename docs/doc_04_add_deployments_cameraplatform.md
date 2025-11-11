@@ -19,6 +19,7 @@
      *   Ventana
  
 
+<br>
 
 -   **AUV Deployments** are categorized by name of the platform and date (YYYYMMDD). The exception in this style of identification is the Galene Optim, which is in order of deployment.  
 
@@ -32,6 +33,7 @@
      *   Pontus (1, 2)
      *   Triton 47
 
+<br>
 
 -   **Other Deployments** include equipment specific to particular labs  that use labels based on their internal naming convention.
 
@@ -42,16 +44,14 @@
      *   Macro Coral Cam
      *   Station M Tripod
 
-
+<br>
+<br>
 
 Once a deployment is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The selection should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
 ![Configuration](assets/images/deployments.png)
 
 ## *Camera Platforms* ###
-
-
-
 
 
 A Camera Platform specifies the platform a camera was deployed on while recording the selected observations. 
@@ -66,11 +66,16 @@ A Camera Platform specifies the platform a camera was deployed on while recordin
      *   *ROV:* Doc Ricketts, Mini ROV, Tiburon, Ventana
      *   *Tripod Camera:* Coral Observatory, Macro Coral Cam, Station M Tripod
      *.  *TopoCam*
-     
- Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
 
- ![Configuration](assets/images/cameraplatform.png)
+<br>
 
- If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
+Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
+
+![Configuration](assets/images/cameraplatform.png)
+
+<br>
+<br>
+
+If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)

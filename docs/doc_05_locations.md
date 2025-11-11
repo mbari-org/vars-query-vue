@@ -3,10 +3,14 @@
 
 A query can be constrained to a specific geographic region using two methods.
 
-## *Regions*
-  Regions allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the corresponding coordinates populate in the latitude and longitude fields. 
+## *Regions* ##
 
-  ![Configuration](assets/images/regions.png)
+Regions allow users to select from a list of predefined regions commonly used in MBARI research. These preset options allow you to quickly focus your query on well-known areas of study without needing to enter coordinates manually. When a region is selected, the corresponding coordinates populate in the latitude and longitude fields. 
+
+![Configuration](assets/images/regions.png)
+
+<br>
+<br>
 
 ??? info "Available Preset Regions"
 
@@ -26,7 +30,7 @@ A query can be constrained to a specific geographic region using two methods.
      *   Taney Seamounts (36.50N, -124.945W; 36.95N, -124.745W)
      *   Vance Seamounts (45.155 N, -131.00W; 45.76N, -130.21W)
 
-
+<br>
  
 ## ***Coordinates***
 
@@ -34,9 +38,15 @@ Coordinates (latitude and longitude) can be manually to define a custom search a
 
 ![Configuration](assets/images/coordinates.png)
 
+<br>
+<br>
+
 Region, and coordinate entries are automatically added to the query once added in its respective entry field. Each field can be removed by clicking the **“x”** that appears when hovering over this field.
 
 ![Configuration](assets/images/locations_example.png)
+
+<br>
+<br>
 
 If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
 
