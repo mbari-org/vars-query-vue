@@ -10,7 +10,7 @@ An *observer* can be added to constrain your search by a particular annotator (e
 
 ![Configuration](assets/images/observers.png)
 
-Observer entries are automatically added to the query once selected (a check mark) within the drop down menu. Each observer should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *observers* search field. Individual groups can be removed from a search by clicking the <span style="color:#60aaa8;">**“x”**</span> located on each chip.  The entire field can be reset by clicking the white **"x"** on the right that becomes visible when hovering over the field.
+Observer entries are automatically added to the query once selected (a check mark) within the drop down menu. Each observer should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *observers* search field. Individual groups can be removed from a search by clicking the <span style="color:#60aaa8;">:octicons-x-circle-16:</span> located on each chip.  The entire field can be reset by clicking the white :octicons-x-circle-16: on the right that becomes visible when hovering over the field.
  
 ![Configuration](assets/images/observers_example.png)
 

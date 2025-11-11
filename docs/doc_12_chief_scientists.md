@@ -2,7 +2,7 @@ A *chief scientist* can be selected to constrain your search for dives led by a 
 
 ![Configuration](assets/images/chief_scientist.png)
 
-Chief scientist entries are automatically added to the query once selected (a check mark) within the drop down menu. Each chief scientist should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *chief scientists* search field. Individual chief scientists can be removed from a search by clicking the <span style="color:#60aaa8;">**“x”**</span> located on each chip.  The entire field can be reset by clicking the white **"x"** on the right that becomes visible when hovering over the field.
+Chief scientist entries are automatically added to the query once selected (a check mark) within the drop down menu. Each chief scientist should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> within the *chief scientists* search field. Individual chief scientists can be removed from a search by clicking the <span style="color:#60aaa8;">:octicons-x-circle-16:</span> located on each chip.  The entire field can be reset by clicking the white:octicons-x-circle-16: on the right that becomes visible when hovering over the field.
  
 ![Configuration](assets/images/chief_scientist_example.png)
 

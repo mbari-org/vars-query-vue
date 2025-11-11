@@ -46,7 +46,7 @@
 
 <br>
 
-Once a deployment is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The selection should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
+Once a deployment is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The selection should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the <span style="color:#60aaa8;">:octicons-x-circle-16:</span> located on each chip.
 
 ![Configuration](assets/images/deployments.png)
 
@@ -68,7 +68,7 @@ A Camera Platform specifies the platform a camera was deployed on while recordin
 
 <br>
 
-Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the **“x”** located on each chip.
+Once a camera platform is entered, add the term to the current query by pressing the <span style="color:#4488ed;">**blue** :material-plus-circle:</span> on the right. The term should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Details can be removed from a search by clicking the <span style="color:#60aaa8;">:octicons-x-circle-16:</span> located on each chip.
 
 ![Configuration](assets/images/cameraplatform.png)
 

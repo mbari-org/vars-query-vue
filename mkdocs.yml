@@ -5,16 +5,16 @@ site_description: "VARS Query is a web application for querying and visualizing 
 site_author: "MBARI"
 
 nav:
-  - Home: index.md
-  - Data Use: 
+  - <span style="color:#4488ed;">Home</span>: index.md
+  - <span style="color:#4488ed;">Data Use</span>: 
     - Data Use Policy: data_use_policy.md
-  - Quickstart: 
-    - Search by Concept:  quickstart_search_concept.md
+  - <span style="color:#4488ed;">Quickstart</span>: quickstart_search.md
+    - Search by Concept: quickstart_search_concept.md
     - Search by Dive: quickstart_search_dive.md
-  - <span style="color:#4488ed;">User Guide<span>: 
+  - <span style="color:#4488ed;">User Guide</span>: 
       - Introduction: doc_01_general_info.md
       - Getting Started: doc_getting_started.md
-      - <span style="color:#4488ed;">Query Parameters<span>:
+      - <span style="color:#4488ed;">Query Parameters</span>:
         - Concepts: doc_02_selecting_concept.md
         - Associations: doc_03_add_associations.md
         - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
@@ -28,9 +28,9 @@ nav:
         - Chief Scientists: doc_12_chief_scientists.md
         - Additional Data Returns: doc_13_additional_returns.md
         - Ancillary Data Returns: doc_14_ancillary_data_returns.md
-      - <span style="color:#4488ed;">Query Results<span>:
+      - <span style="color:#4488ed;">Query Results</span>:
         - Annotation Results: doc_15_annotation_results.md
-  - Appendix: 
+  - <span style="color:#4488ed;">Appendix</span>: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md
   - MBARI Docs: "https://docs.mbari.org"

@@ -14,7 +14,7 @@ In the example below, the concept *Gersemia* has been selected.
 
 ![Configuration](assets/images/concept_general_select_dropdown.png)
 
-Once a concept is selected, add the term to the current query by pressing the <span style="color:#4488ed;">**blue **+** button**</span> on the right. The concept should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Hovering over the <span style="color:#60aaa8;">**colored chip**</span> shows all the concepts that will be added to the query. Concepts can be removed from a search by clicking the **“x”** located on each chip. Multiple concepts can be added to the query by repeating this process. 
+Once a concept is selected, add the term to the current query by pressing the <span style="color:#4488ed;">**blue** :material-plus-circle:</span> on the right. The concept should be visible in a <span style="color:#60aaa8;">**colored search chip**</span> below the search box. Hovering over the <span style="color:#60aaa8;">**colored chip**</span> shows all the concepts that will be added to the query. Concepts can be removed from a search by clicking the <span style="color:#60aaa8;">:octicons-x-circle-16:</span> located on each chip. Multiple concepts can be added to the query by repeating this process. 
 
 ![Configuration](assets/images/concept_withguides.png)
 

@@ -71,8 +71,9 @@ The bottom of the query page lists the ancillary data returned with each associa
      *   y
      *   z
 
+<br>
 
-Data parameters are automatically added to the query returns once selected (a check mark) from the drop-down menu. Each parameter can be removed by clicking the **“x”** located on each chip. The entire field can be reset to the default ancillary data by clicking the <span style="color:#B7606c;"> red :fontawesome-solid-undo:</span> on the right of the search field.
+Data parameters are automatically added to the query returns once selected (a check mark) from the drop-down menu. Each parameter can be removed by clicking the white :octicons-x-circle-16: located on each chip. The entire field can be reset to the default ancillary data by clicking the <span style="color:#B7606c;"> red :fontawesome-solid-undo:</span> on the right of the search field.
 
 ![Configuration](assets/images/ancillary_data_example.png)
 
