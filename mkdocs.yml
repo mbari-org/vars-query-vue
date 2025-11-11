@@ -30,8 +30,9 @@ nav:
         - Ancillary Data Returns: doc_14_ancillary_data_returns.md
       - <span style="color:#4488ed;">Query Results</span>:
         - Annotation Results: doc_15_annotation_results.md
-        - Data View Selection: doc_16_data_views.md
-        - Query Map: doc_17_query_map.md
+        - Annotation Map: doc_17_query_map.md
+        - Observation Video Player: doc_18_video_player.md
+        - Additional Data Views: doc_16_data_views.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md

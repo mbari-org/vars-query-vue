@@ -16,7 +16,7 @@ Once a concept is selected, add the term to the current query by pressing the <s
 
 Beyond selection of the primary concept name, the constraints can be extended to any level that exists in the VARS knowledgebase by selecting from the drop-down menu to the right of the “Concepts” search box (parent, children, siblings, and descendants). For more information on the "extend to" definitions, go to the [Selecting a Concept](doc_02_selecting_concept.md) page.
 
-Once all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. <span style="color:#F5c639;">(Step 3 in image below)</span>
+Once all constraints have been specified, press the <span style="color:#2095f2;"> blue SEARCH :material-search-web:</span> on the floating banner to run your query. <span style="color:#F5c639;">(Step 3 in image below)</span>
 
 
 In the example below, the concept <span style="color:#60aaa8;">*Gersemia juliepackardae*</span> has been entered.
