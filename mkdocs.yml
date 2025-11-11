@@ -8,7 +8,8 @@ nav:
   - <span style="color:#4488ed;">Home</span>: index.md
   - <span style="color:#4488ed;">Data Use</span>: 
     - Data Use Policy: data_use_policy.md
-  - <span style="color:#4488ed;">Quickstart</span>: quickstart_search.md
+  - <span style="color:#4488ed;">Quickstart</span>: 
+    - Quickstart: quickstart_search.md
     - Search by Concept: quickstart_search_concept.md
     - Search by Dive: quickstart_search_dive.md
   - <span style="color:#4488ed;">User Guide</span>: 
