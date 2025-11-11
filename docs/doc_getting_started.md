@@ -12,7 +12,7 @@ Enter the URL for your VARS configuration server (At MBARI: <https://m3.shore.mb
 
 ## *Query Interface Orientation*
 
-The VARS query interface uses a series of parameter fields to easily search specific onbservation.  An overall layout detailed below. For more detailed information on each search parameters, go to the [User Guide](https://docs.mbari.org/internal/vars-query-vue/doc_01_general_info/.) or the links below.
+The VARS query interface uses a series of parameter fields to easily search specific onbservation.  An overall layout detailed below. For more detailed information on each search parameters, go to the Query Parameters section [User Guide](https://docs.mbari.org/internal/vars-query-vue/doc_01_general_info/.) or the links below.
 
 
 ![Configuration](assets/images/query_orientation.png)
@@ -51,4 +51,29 @@ The VARS query interface uses a series of parameter fields to easily search spec
 <span style="color:#F5c639;">6</span> [Ancillary Data Returns](doc_14_ancillary_data_returns.md)
   
   
+## *Results Interface Orientation*
 
+The results interface defaults to a summary view of returned annotations. An overall layout detailed below. For more detailed information on each function, go to the Query Results section of the [User Guide](https://docs.mbari.org/internal/vars-query-vue/doc_01_general_info/) or the links below.
+
+![Configuration](assets/images/query_results_orientation.png)
+
+<span style="color:#F5c639;">1</span> Data View Selection
+
+- [View image grid]()
+- [View summary]()
+- [View "big data" view]()
+
+<span style="color:#F5c639;">2</span> [Query Map]
+
+
+
+<span style="color:#F5c639;">3</span> [Observation Video Player]
+
+
+<span style="color:#F5c639;">4</span> [Annotation Results Table]
+
+
+<span style="color:#F5c639;">5</span> [Pagination Toolbar]
+
+
+<span style="color:#F5c639;">6</span> [Save Results]

@@ -5,13 +5,13 @@ site_description: "VARS Query is a web application for querying and visualizing 
 site_author: "MBARI"
 
 nav:
-  - <span style="color:#4488ed;">Home</span>: index.md
-  - <span style="color:#4488ed;">Data Use</span>: 
+  - Home: index.md
+  - Data Use: 
     - Data Use Policy: data_use_policy.md
-  - <span style="color:#4488ed;">Quickstart</span>: 
+  - Quickstart: 
     - Search by Concept: quickstart_search_concept.md
     - Search by Dive: quickstart_search_dive.md
-  - <span style="color:#4488ed;">User Guide</span>: 
+  - User Guide: 
       - Introduction: doc_01_general_info.md
       - Getting Started: doc_getting_started.md
       - <span style="color:#4488ed;">Query Parameters</span>:
@@ -30,7 +30,7 @@ nav:
         - Ancillary Data Returns: doc_14_ancillary_data_returns.md
       - <span style="color:#4488ed;">Query Results</span>:
         - Annotation Results: doc_15_annotation_results.md
-  - <span style="color:#4488ed;">Appendix</span>: 
+  - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md
   - MBARI Docs: "https://docs.mbari.org"
