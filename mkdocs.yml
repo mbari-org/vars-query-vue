@@ -14,7 +14,7 @@ nav:
   - <span style="color:#4488ed;">User Guide<span>: 
       - Introduction: doc_01_general_info.md
       - Getting Started: doc_getting_started.md
-      - <span style=""color:#4488ed;">Query<span>:
+      - <span style="color:#4488ed;">Query<span>:
         - Concepts: doc_02_selecting_concept.md
         - Associations: doc_03_add_associations.md
         - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
@@ -28,7 +28,7 @@ nav:
         - Chief Scientists: doc_12_chief_scientists.md
         - Additional Data Return Parameters: doc_13_additional_returns.md
         - Ancillary Data Return Parameters: doc_14_ancillary_data_returns.md
-      - <span style=""color:#4488ed;">Query Results<span>:
+      - <span style="color:#4488ed;">Query Results<span>:
         - Annotation Results: doc_15_annotation_results.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
