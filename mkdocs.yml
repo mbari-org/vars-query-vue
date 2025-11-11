@@ -14,7 +14,7 @@ nav:
   - User Guide: 
       - Introduction: doc_01_general_info.md
       - Getting Started: doc_getting_started.md
-      - Query:
+      - <span style="color:#2095f2;">Query<span>:
         - Concepts: doc_02_selecting_concept.md
         - Associations: doc_03_add_associations.md
         - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
