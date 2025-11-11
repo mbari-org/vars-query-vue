@@ -1,7 +1,7 @@
 The bottom of the query page lists the ancillary data returned with each association by default. Additional data can be added to your results by selecting checkboxes from a drop-down menu. 
 
 !!! warning "Note"
-    The <span style="color:#B7606c;">red reset button</span> will reset to the default ancillary data parameters. This does not reset the entire query.
+    The <span style="color:#B7606c;"> red :fontawesome-solid-undo:</span> will reset to the default ancillary data parameters. This does not reset the entire query.
 
 <br>
 
