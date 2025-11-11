@@ -45,10 +45,10 @@ The VARS query interface uses a series of parameter fields to easily search spec
 - [Observers](doc_11_observers.md)
 - [Chief Scientists](doc_12_chief_scientists.md)
 
-<span style="color:#F5c639;">5</span> Additional Constraint Selections
+<span style="color:#F5c639;">5</span> [Additional Data Return Parameters](doc_13_additional_returns.md)
 
 
-<span style="color:#F5c639;">6</span> Additional Ancillary Data Returns
+<span style="color:#F5c639;">6</span> [Ancillary Data Return Parameters](doc_14_ancillary_data_returns.md)
   
   
 

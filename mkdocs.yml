@@ -12,22 +12,22 @@ nav:
     - Search by Concept:  quickstart_search_concept.md
     - Search by Dive: quickstart_search_dive.md
   - User Guide: 
-    - Introduction: doc_01_general_info.md
-    - Getting Started: doc_getting_started.md
-    - Query:
-      - Concepts: doc_02_selecting_concept.md
-      - Associations: doc_03_add_associations.md
-      - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
-      - Location: doc_05_locations.md
-      - Depth: doc_06_depth.md
-      - Recorded Date: doc_07_recordeddate.md
-      - Observation Date: doc_08_observation_date.md
-      - Activities: doc_09_activities.md
-      - Groups: doc_10_groups.md
-      - Observers: doc_11_observers.md
-      - Chief Scientists: doc_12_chief_scientists.md
-      - Additional Constraints: doc_13_additional_constraints.md
-      - Ancillary Data Returns: doc_14_ancillary_data_returns.md
+      - Introduction: doc_01_general_info.md
+      - Getting Started: doc_getting_started.md
+      - Query:
+        - Concepts: doc_02_selecting_concept.md
+        - Associations: doc_03_add_associations.md
+        - Deployments and Camera Platforms: doc_04_add_deployments_cameraplatform.md
+        - Location: doc_05_locations.md
+        - Depth: doc_06_depth.md
+        - Recorded Date: doc_07_recordeddate.md
+        - Observation Date: doc_08_observation_date.md
+        - Activities: doc_09_activities.md
+        - Groups: doc_10_groups.md
+        - Observers: doc_11_observers.md
+        - Chief Scientists: doc_12_chief_scientists.md
+        - Additional Data Return Parameters: doc_13_additional_returns.md
+        - Ancillary Data Return Parameters: doc_14_ancillary_data_returns.md
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md
