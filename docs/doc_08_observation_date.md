@@ -7,6 +7,6 @@ Observation dates can  also be seleted using the calendar function on the right 
 
   ![Configuration](assets/images/observation_date_calendar.png)
 
-If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
+If all constraints have been specified, press the <span style="color:#2095f2;"> blue :material-search-web:</span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)

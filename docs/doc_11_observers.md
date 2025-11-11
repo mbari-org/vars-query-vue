@@ -15,6 +15,6 @@ Observer entries are automatically added to the query once selected (a check mar
 ![Configuration](assets/images/observers_example.png)
 
 
-If all constraints have been specified, press the <span style="color:#2095f2;">**blue search button**</span> on the floating banner to run your query. 
+If all constraints have been specified, press the <span style="color:#2095f2;"> blue :material-search-web:</span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)
