@@ -1,13 +1,14 @@
 Query results are displayed in a table. Clicking on an annotation row will display that annotation on the map and queue up the video player to that observation. 
 
 
-## *Data Columns* ##
+## *Data Columns* 
 
 Each column represents a data field (e.g. concept, depth, details). Annotations can be sorted by each of the columns using arrows that appear to the right of each column title.
 
 ![Configuration](assets/images/annotation_table_sorting.png)
  
-## *Annotation Rows* ## 
+## *Annotation Rows* 
+
 Each row is a unique annotation that meets the query parameters. 
   
 ## *Images* 
