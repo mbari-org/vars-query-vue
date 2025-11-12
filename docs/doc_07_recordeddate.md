@@ -10,6 +10,6 @@ Dates can  also be seleted using the calendar function on the right side of the 
 Recorded dates are automatically added to the query once added in their respective entry fields. Each field can be removed by clicking the white **“x”** that appears when hovering over this field.  
 
 
-If all constraints have been specified, press the <span style="color:#2095f2;"> blue :material-search-web:</span> on the floating banner to run your query. 
+If all constraints have been specified, press the <span style="color:#2095f2;"> **blue SEARCH** :material-search-web:</span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)

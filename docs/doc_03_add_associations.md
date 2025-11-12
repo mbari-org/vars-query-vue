@@ -22,6 +22,6 @@ Once a detail or link value is entered, add the term to the current query by pre
 ![Configuration](assets/images/associations_generalsearch.png)
 
 
-If all constraints have been specified, press the <span style="color:#2095f2;"> blue :material-search-web:</span> on the floating banner to run your query. 
+If all constraints have been specified, press the <span style="color:#2095f2;"> **blue SEARCH** :material-search-web:</span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)

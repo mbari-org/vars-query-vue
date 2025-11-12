@@ -1,7 +1,5 @@
 There are multiple options to download both the specified query parameters and the query results.
 
-![Configuration](assets/images/save_results.png)
-
 !!! info "Options for Saving Data"
 
      *   **Save queries**: saves the constraints used to generate the annnotation results in a JSON file.
@@ -12,6 +10,5 @@ There are multiple options to download both the specified query parameters and t
      *   **Save as JSON**: saves query results as JSON. *This is best for importing into other applications or python.*
       
 
-
-
+![Configuration](assets/images/save_results.png)
 
