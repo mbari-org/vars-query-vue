@@ -26,7 +26,7 @@ Beyond selection of the primary concept name, the constraints can be extended to
 
 -   **Parent** extends the search up one level in the hierarchy of the knowledgebase for the concept name selected (e.g. from genus level up to family level).
 -   **Siblings** extends the database search to all in the same taxonomic level (e.g. allgenera found in the same family).
--   **Children** extends the query to one level below in hierarchy of the selectd concept (e.g. species level from the level of the genus).
+-   **Children** extends the query to one level below in hierarchy of the selected concept (e.g. species level from the level of the genus).
 -   **Descendants** extends the query to all the levels below the selected concept name (e.g. family all the way to species levels).
 
 
