@@ -1,7 +1,7 @@
 # Getting Started
  
 ## *Query Configuration*
-The VARS Query is a web-based application found here: <https://m3.shore.mbari.org/query/>
+The VARS Query is a web-based application found here: [VARS Query](https://mww.mbari.org/itd/video/query/varsquery.html_)
   
 Click on the “Configuration” tab in the top header. When selected, the text will turn white.
  
