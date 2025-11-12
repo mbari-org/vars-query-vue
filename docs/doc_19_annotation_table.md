@@ -10,17 +10,17 @@ Each column represents a data field (e.g. concept, depth, details). Annotations 
 ## *Annotation Rows* ## 
 Each row is a unique annotation that meets the query parameters. 
   
-## *Images* ## 
+## *Images* 
 
 If an annotation includes an image, it will be displayed in the corresponding row. Clicking on the image will open it full size in a separate browser window. Under each image there is a video camera icon (:material-video:) that will open the video in a new window.
 
-## *Additional Filtering Post Query* ##  
+## *Additional Filtering Post Query* 
 
 Additional filtering can be made using the search bar at the top of the query table (e.g. typing good in the searcg box will filter only annotations that have good in the details column). 
 
 ![Configuration](assets/images/annotation_table_filters.png)
 
-## *Pagination Toolbar* ##  
+## *Pagination Toolbar*  
 
 The table defaults to showing 10 annotations per page. The number of annotations displayed can be changed to 25, 50, 100, or All using the drop-down menu at the bottom of the page. NOTE: Large queries may have decreased performance if all annotations are selected.
 
