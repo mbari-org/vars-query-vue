@@ -9,6 +9,7 @@ There are multiple options to download both the specified query parameters and t
      *   **Save as TSV**: saves query results as tab seperated values. *This is great for importing into Excel.*
      *   **Save as JSON**: saves query results as JSON. *This is best for importing into other applications or python.*
       
+<br> 
 
 ![Configuration](assets/images/save_results.png)
 
