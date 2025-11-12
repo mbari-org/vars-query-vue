@@ -63,17 +63,17 @@ The results interface defaults to a summary view of returned annotations. An ove
 - [View summary]()
 - [View "big data" view]()
 
-<span style="color:#F5c639;">2</span> [Query Map]
+<span style="color:#F5c639;">2</span> [Query Map](doc_17_query_map.md)
 
 
 
-<span style="color:#F5c639;">3</span> [Observation Video Player]
+<span style="color:#F5c639;">3</span> [Observation Video Player](doc_18_video_player.md) 
 
 
-<span style="color:#F5c639;">4</span> [Annotation Table]
+<span style="color:#F5c639;">4</span> [Annotation Table](doc_19_annotation_table.md)
 
 
-<span style="color:#F5c639;">5</span> [Pagination Toolbar]
+<span style="color:#F5c639;">5</span> [Pagination Toolbar](https://docs.mbari.org/internal/vars-query-vue/doc_19_annotation_table/#pagination-toolbar)
 
 
-<span style="color:#F5c639;">6</span> [Save Results]
+<span style="color:#F5c639;">6</span> [Save Results](doc_20_save_results.md)

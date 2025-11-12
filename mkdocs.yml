@@ -32,8 +32,10 @@ nav:
         - Annotation Results: doc_15_annotation_results.md
         - Annotation Map: doc_17_query_map.md
         - Observation Video Player: doc_18_video_player.md
-        - Annotation Table: doc_19_annotation_table.md
+        - Annotation Table: doc_19_annotation_table.md 
+        - Saving Data: doc_20_save_results.md
         - Additional Data Views: doc_16_data_views.md
+       
   - Appendix: 
     - Knowledgebase Concepts: appendix_a.md
     - Knowledgebase Associations: appendix_b.md
