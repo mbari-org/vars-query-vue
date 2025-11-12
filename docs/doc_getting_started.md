@@ -59,7 +59,7 @@ The results interface defaults to a summary view of returned annotations. An ove
 
 <span style="color:#F5c639;">1</span> Data View Selection
 
-- [View image grid]()
+- [View image grid](https://docs.mbari.org/internal/vars-query-vue/doc_16_data_views/#image-grid-view-for-annotation-results)
 - [View summary]()
 - [View "big data" view]()
 

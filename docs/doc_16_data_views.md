@@ -1,6 +1,6 @@
 
 
-## *Image Grid View for Annotation Results* 
+## *Image Grid View* 
 
 Query results can also be viewed in an image grid layout by clicking the top left link labeled “View image grid.” This format is useful for a quick visual review of datasets.
 
