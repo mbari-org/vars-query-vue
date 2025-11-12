@@ -24,8 +24,8 @@ Once a concept is selected, add the term to the current query by pressing the <s
 Beyond selection of the primary concept name, the constraints can be extended to any level that exists in the VARS knowledgebase by selecting from the drop-down menu to the right of the “Concepts” search box (parent, children, siblings, and descendants). Definitions of each option are below.
 
 
--   **Parent** extends the search up one level in the hierarchy of the knowledgebase for the concept name selected (e.g., from genus level up to family level).
--   **Siblings** extends the database search to all genera found in the same family.
+-   **Parent** extends the search up one level in the hierarchy of the knowledgebase for the concept name selected (e.g. from genus level up to family level).
+-   **Siblings** extends the database search to all in the same taxonomic level (e.g. allgenera found in the same family).
 -   **Children** extends the query to one level below in hierarchy of the selectd concept (e.g. species level from the level of the genus).
 -   **Descendants** extends the query to all the levels below the selected concept name (e.g. family all the way to species levels).
 

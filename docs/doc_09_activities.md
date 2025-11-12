@@ -32,7 +32,7 @@ Activities are automatically added to the query once selected within the drop do
 ![Configuration](assets/images/activity_example.png)
 
 
-If all constraints have been specified, press the <span style="color:#2095f2;"> **blue SEARCH** :material-search-web:</span> on the floating banner to run your query. 
+If all constraints have been specified, press the <span style="color:#2095f2;"> **blue SEARCH** :material-search-web: </span> on the floating banner to run your query. 
 
 ![Configuration](assets/images/search_button.png)
 

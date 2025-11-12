@@ -10,7 +10,7 @@ Once configuration is complete, this section will guide you through the basic st
 Users can search the VARS database by deployment, or dive, to view all observations annotated during a specific deployment. Begin typing the deployment ID in the “Deployment” search box under the **Annotation and Deployment** section of the query. The selection options update as you type. Click on a name to select it. <span style="color:#F5c639;">(Step 1 in image below)</span>
 
 !!! note "Deployment Identification Numbers"
-    - ROV deployments can be searched by the ROV name and dive number. These need to be in 4-digit numbers (e.g. Doc Ricketts 1429). 
+    - ROV deployments can be searched by the ROV name and dive number. These need to be in 4-digit numbers (e.g. Doc Ricketts 1429 or Ventana 0952). 
     - AUV deployments can be searched by name of the platform and date (e.g. Daphne 2 20240318).
     - Other platforms use labels based on the specific projects (e.g. Coral Observatory 202106).
 

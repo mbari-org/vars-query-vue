@@ -1,9 +1,9 @@
-A query can be constrained by the date an observation date. An *observation date* is the date the annotation itself was made. This is different from the recorded date. Dates and times are in UTC. 
+A query can be constrained by the date for an observation. An *observation date* is the date the annotation itself was made. This is different from the recorded date. Dates and times are in UTC. 
 
  ![Configuration](assets/images/observation_date.png)
 
 
-Observation dates can  also be seleted using the calendar function on the right side of the entry field. Dates can be entered as a range or a singular date. To constrain to one day, choose the same date for the start and the end of the date range. 
+Observation dates can  also be selected using the calendar function on the right side of the entry field. Dates can be entered as a range or a singular date. To constrain to one day, choose the same date for the start and the end of the date range. 
 
   ![Configuration](assets/images/observation_date_calendar.png)
 

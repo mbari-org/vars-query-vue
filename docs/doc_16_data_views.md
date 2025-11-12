@@ -13,7 +13,7 @@ The image grid can be adjusted to show 1 to 6 images per row. Each image will en
 
 ## *Summary View* 
 
-The summary view of the query results shows a depth histogram, a year histogram and temperature-talinity (T-S) diagram.  
+The summary view of the query results shows a depth histogram, a year histogram and temperature-salinity (T-S) diagram.  
 
 
 ![Configuration](assets/images/data_view_summary_toolbar.png)

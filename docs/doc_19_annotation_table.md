@@ -17,7 +17,7 @@ If an annotation includes an image, it will be displayed in the corresponding ro
 
 ## *Additional Filtering Post Query* 
 
-Additional filtering can be made using the search bar at the top of the query table (e.g. typing good in the searcg box will filter only annotations that have good in the details column). 
+Additional filtering can be made using the search bar at the top of the query table (e.g. typing "good" in the search box will filter only annotations that have good in the details column). 
 
 ![Configuration](assets/images/annotation_table_filters.png)
 
