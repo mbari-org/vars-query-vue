@@ -70,7 +70,7 @@ The results interface defaults to a summary view of returned annotations. An ove
 <span style="color:#F5c639;">3</span> [Observation Video Player]
 
 
-<span style="color:#F5c639;">4</span> [Annotation Results Table]
+<span style="color:#F5c639;">4</span> [Annotation Table]
 
 
 <span style="color:#F5c639;">5</span> [Pagination Toolbar]
