@@ -452,16 +452,21 @@ export function fauxAnnotationsToTsvSeparateAssociations(annotations: FauxAnnota
         return ''
     }
 
-    // Collect all unique link_names from all annotations' details arrays
-    const detailKeys = Array.from(
-        new Set(
-            annotations
-                .flatMap(a => (a.details ?? []).map(d => d.link_name).filter((n): n is string => !!n))
-        )
-    )
-
-    // Base headers, excluding 'details' itself
-    const baseHeaders = Object.keys(annotations[0]).filter(h => h !== 'details')
+    // Collect base headers and detail link_names in a single pass
+    const baseHeaderSet = new Set<string>()
+    const detailKeySet = new Set<string>()
+    for (const a of annotations) {
+        for (const k of Object.keys(a)) {
+            if (k !== 'details') baseHeaderSet.add(k)
+        }
+        if (a.details) {
+            for (const d of a.details) {
+                if (d.link_name) detailKeySet.add(d.link_name)
+            }
+        }
+    }
+    const baseHeaders = Array.from(baseHeaderSet)
+    const detailKeys = Array.from(detailKeySet)
 
     // Combine base headers + dynamic detail columns
     const headers = [...baseHeaders, ...detailKeys]
