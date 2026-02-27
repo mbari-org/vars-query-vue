@@ -17,6 +17,23 @@ import type { Annotation } from '@/assets/ts/annosaurus/QueryResponse'
 import _, { isString } from 'lodash'
 import { extractJpgOrFirstUrl, groupBy } from '@/assets/ts/util'
 
+/**
+ * This file defines the FauxAnnotation type, which is a simplified version of the
+ * Annotation type returned by the AnnoSaurus API. FauxAnnotation is designed to be
+ * a more convenient format for use in the frontend, with images and associations
+ * grouped together in arrays. This file also includes utility functions for working
+ * with FauxAnnotations, such as converting query results to FauxAnnotations and
+ * extracting representative images.
+ *
+ * The FauxAnnotation type is a flexible structure that can accommodate a wide range
+ * of annotation data, while also providing convenient access to related images and
+ * associations. The utility functions in this file help to bridge the gap between
+ * the raw query results from the API and the structured FauxAnnotation format used
+ * in the frontend.
+ *
+ * @author Brian Schlining
+ * @since 2017-08-01
+ */
 export class GeoFauxAnnotation {
     annotation: FauxAnnotation
 
@@ -106,6 +123,15 @@ export function formatBoundsForLeaflet(bounds: MapViewBounds, defaultViewBounds:
     return formatBoundsForLeaflet(defaultViewBounds, defaultViewBounds)
 }
 
+/** ****************************************************************************
+ * Convert raw query results into FauxAnnotations by grouping on observation_uuid and
+ * combining image and association information into arrays. This allows us to work with
+ * a more convenient data structure in the frontend, where each FauxAnnotation represents
+ *  a single observation with its related images and associations.
+ *
+ * @param queryResults
+ * @returns {FauxAnnotation[]}
+ */
 export function crushQueryResultToAnnotations(queryResults: QueryResult[]): FauxAnnotation[] {
     // const grouped = _.groupBy(queryResults, 'observation_uuid')
     // const grouped = Map.groupBy(queryResults, (a: FauxAnnotation) => a.observation_uuid)
@@ -189,7 +215,12 @@ export function crushQueryResultToAnnotations(queryResults: QueryResult[]): Faux
 
 }
 
-/*
+/** ****************************************************************************
+ * A FauxAssociation represents a simplified association extracted from the raw query results.
+ * It includes the link_name, link_value, and to_concept fields, which are commonly used in
+ * associations. The media_type field is included to capture the MIME type of any associated
+ * media. The uuid field can be used to track the original association if needed.
+
     link_name
     link_value
     to_concept
@@ -202,6 +233,13 @@ export interface FauxAssociation {
     media_type?: string
 }
 
+/**
+ * Converts a FauxAssociation object into a string representation.
+ * The format is "link_name | to_concept | link_value".
+ *
+ * @param association The FauxAssociation object to convert.
+ * @returns A string representation of the FauxAssociation.
+ */
 export function fauxAssociationToString(association: FauxAssociation): string {
     const a = association.link_name ?? ''
     const b = association.to_concept ?? ''
@@ -209,6 +247,14 @@ export function fauxAssociationToString(association: FauxAssociation): string {
     return `${a} | ${b} | ${c}`
 }
 
+/**
+ * Converts a FauxAssociation object into a string representation and trims it to the specified length.
+ * The format is "link_name | to_concept | link_value".
+ *
+ * @param association The FauxAssociation object to convert.
+ * @param length The maximum length of the resulting string.
+ * @returns A string representation of the FauxAssociation, trimmed to the specified length if necessary.
+ */
 export function fauxAssociationToStringTrimmed(association: FauxAssociation, length: number): string {
     const s = fauxAssociationToString(association)
     return s.length > length ? s.substring(0, length) + "..." : s
@@ -219,13 +265,17 @@ function isFauxAssociationValid(link: FauxAssociation): boolean {
     return !!(link.link_name?.trim() || link.to_concept?.trim() || link.link_value?.trim());
 }
 
-/*
-    image_description
-    image_format
-    image_height
-    image_reference_uuid
-    image_url
-    image_width
+/** *
+ * A FauxImageReference represents a simplified image reference extracted from the raw query results.
+ * It includes the description, format, height, width, and URL of the image. The uuid field can be used
+ * to track the original image reference if needed.
+ *
+ * image_description
+ * image_format
+ * image_height
+ * image_reference_uuid
+ * image_url
+ * image_width
  */
 export interface FauxImageReference {
     uuid?: string
@@ -240,6 +290,14 @@ function isFaustImageReferenceValid(image: FauxImageReference): boolean {
     return !!(image.url?.trim());
 }
 
+/**
+ * Extracts the representative image URL from a FauxAnnotation object.
+ * The representative image is determined by selecting a jpeg or
+ * the first valid image URL if no jpeg is found. If no valid images are found, null is returned.
+ *
+ * @param annotation The FauxAnnotation object containing image references.
+ * @returns The URL of the representative image, or null if no valid image is found.
+ */
 export function extractRepresentativeImage(annotation: FauxAnnotation): string | null {
     const urls = annotation.images?.map(i => i.url ?? '')
     // console.log(this.annotation, this.annotation.images, urls)
@@ -290,6 +348,10 @@ export function parseFauxAnnotation(data: { [key: string]: any }): FauxAnnotatio
     return fauxAnnotation;
 }
 
+/** ******************************************************************************
+ * The FauxAnnotation type is a flexible structure that can accommodate a wide range
+ * of properties, including strings, numbers, arrays, and synthetic associations and images.
+ */
 export interface FauxAnnotation {
 
     // Need to SaveOptions.vue saveTab method to use properties as keys
@@ -352,8 +414,13 @@ export interface FauxAnnotation {
     z?: number
     preview_media_uri?: string
     preview_media_index_seconds?: number
+    hierarchy?: string // A comma separated list of taxonomic concepts associated with this annotation. In top down order.
 }
 
+/** ******************************************************************************
+ * The QueryResult type represents the raw structure of the data returned by the AnnoSaurus API.
+ *
+ */
 export interface QueryResult extends FauxAnnotation {
     image_description?: string
     image_format?: string
@@ -366,12 +433,26 @@ export interface QueryResult extends FauxAnnotation {
     to_concept?: string
 }
 
+/** ******************************************************************************
+ * Utility function to extract unique link names from an array of FauxAnnotations.
+ * This can be useful for dynamically generating columns in a spreadsheet or for
+ * analyzing the types of associations present in the data.
+ */
 export function extractLinkNames(annotations: FauxAnnotation[]): string[] {
     const linkNames = _.uniq(annotations.flatMap(a => a.details?.map(d => d.link_name) ?? []))
     return linkNames as string[]
 }
 
-/**
+/** ******************************************************************************
+ * Utility function to extract unique concepts from an array of FauxAnnotations.
+ * This can be useful for generating lists of observed concepts or for filtering data.
+ */
+export function extractConcepts(annotations: FauxAnnotation[]): string[] {
+    const concepts = _.uniq(annotations.map(a => a.concept).filter(isString))
+    return concepts as string[]
+}
+
+/** ******************************************************************************
  * Convert FauxAnnotations to TSV format. Associations are represented
  * as semi-colon separated strings in the 'details' column.
  * @param annotations
@@ -405,7 +486,7 @@ export function fauxAnnotationsToTsv(annotations: FauxAnnotation[]): string {
 }
 
 
-/**
+/** ******************************************************************************
  * When we write association fields, we want to simplify it for import into
  * spreadsheets. This allows us to skip 'self' and 'nil' values which might be
  * just noise
@@ -419,7 +500,7 @@ function isWritableAssociationFieldValue(value: string): boolean {
     return false
 }
 
-/**
+/** ******************************************************************************
  * Simplify an association into a string for TSV export. We're separating associations
  * into columns by link_name. Often, either to_concept or link_value may be 'self' or 'nil',
  * which is not useful in a spreadsheet context. This function omits those values when possible.
@@ -442,7 +523,7 @@ function simplifyAssocation(association: FauxAssociation): string {
     }
 }
 
-/**
+/** ******************************************************************************
  * Convert FauxAnnotations to TSV format, separating associations into their own columns
  * by link_name.
  * @param annotations

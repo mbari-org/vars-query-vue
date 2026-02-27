@@ -5,16 +5,21 @@ import {
     generateZipDownloadFromAnnotations,
 } from '@/assets/ts/util'
 import {
+    extractConcepts,
     fauxAnnotationsToTsv,
     fauxAnnotationsToTsvSeparateAssociations,
+    type FauxAnnotation,
 } from '@/assets/ts/annosaurus/QueryResults'
 import { useAnnosaurusStore } from '@/stores/annosaurus'
 import { QueryRunner } from '@/assets/ts/annosaurus/QueryRunner'
 import { computed, ref } from 'vue'
 import { useVampireSquidStore } from '@/stores/vampire-squid'
+import { useOniStore } from '@/stores/oni'
+import { TreeExt, type TaxaNode } from '@/assets/ts/oni/ConceptTree'
 
 const queryResultsStore = useQueryResultsStore()
 const vampreSquidStore = useVampireSquidStore()
+const oniStore = useOniStore()
 
 const saveQueries = () => {
     const api = useAnnosaurusStore().api
@@ -29,6 +34,8 @@ const numberOfResults = computed(() => queryResultsStore.annotations.length)
 
 const includePreviewMedia = ref(false)
 const okToIncludePreviewMedia = computed(() => numberOfResults.value < 1000)
+
+const addTaxonomyHierarchy = ref(false)
 
 const saveIsRunning = ref(false)
 
@@ -53,6 +60,7 @@ function saveRawJson() {
 async function saveJson() {
     saveIsRunning.value = true
     await addPreviewMediaToAnnotations()
+    await addTaxonomyTreesToAnnotations(queryResultsStore.annotations)
     const filename = `vars-${nowAsCompactString()}.json`
     const data = queryResultsStore.annotations
     const json = JSON.stringify(data, null, 2)
@@ -76,6 +84,7 @@ async function saveTab() {
     // Values in same column are separated by semicolon
     saveIsRunning.value = true
     await addPreviewMediaToAnnotations()
+    await addTaxonomyTreesToAnnotations(queryResultsStore.annotations)
     const filename = `vars-${nowAsCompactString()}.tsv`
     const data = queryResultsStore.annotations
     // const tsvData = fauxAnnotationsToTsv(data)
@@ -127,11 +136,67 @@ async function addPreviewMediaToAnnotations() {
         await Promise.all(promises)
     }
 }
+
+/** ******************************************************************************
+ * This function collects unique concepts from the annotations and retrieves their
+ * taxonomy trees from the Oni API. The trees are then extended to ensure they have
+ * synthetic ranks added to each level if the rank is missing.
+ *
+ */
+async function fetchTaxonomyTrees(annotations: FauxAnnotation[]): Promise<Map<string, TreeExt>> {
+    const concepts = extractConcepts(annotations)
+    const oniApi = oniStore.api
+    const promises = concepts.map(async c => {
+        if (c) {
+            const tree =
+                await oniApi.treeUp(c)
+            const ext = new TreeExt(tree)
+            ext.addSyntheticRanksIfMissing()
+            return {concept: c, tree: ext}
+        }
+        else return null
+    })
+    const results = await Promise.all(promises)
+    const map = new Map<string, TreeExt>()
+    results.forEach(r => {
+        if (r) {
+            map.set(r.concept, r.tree)
+        }
+    })
+    return map
+}
+
+async function addTaxonomyTreesToAnnotations(annotations: FauxAnnotation[]) {
+    if (addTaxonomyHierarchy.value) {
+
+        const trees = await fetchTaxonomyTrees(annotations)
+        annotations.forEach(a => {
+            if (a.concept) {
+                const tree = trees.get(a.concept)
+                if (tree) {
+                    a.hierarchy = tree.flatten().map(n => n.name).join(',')
+                }
+            }
+        })
+    }
+
+}
 </script>
 
 <template>
     <v-container>
         <v-row justify="end">
+            <v-col align-self="center">
+                <v-checkbox
+                    label="Add concept hierarchy"
+                    v-model="addTaxonomyHierarchy"
+                >
+                    <v-tooltip activator="parent"
+                        >Add a column with the concept hierarchy for each
+                        annotation.</v-tooltip
+                    >
+                </v-checkbox>
+            </v-col>
             <v-col align-self="center">
                 <v-checkbox
                     :disabled="!okToIncludePreviewMedia"

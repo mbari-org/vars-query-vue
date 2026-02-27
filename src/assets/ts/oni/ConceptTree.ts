@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 export interface Taxa {
-  name: string;
-  rank?: string;
+    name: string;
+    rank?: string;
 }
 
 export interface TaxaNode extends Taxa {
-  alternativeNames?: string[];
-  children?: TaxaNode[];
+    alternativeNames?: string[];
+    children?: TaxaNode[];
 }
 
 export function accumulateNamesFromTaxaNodes(nodes: TaxaNode[]): string[] {
@@ -30,12 +30,12 @@ export function accumulateNamesFromTaxaNodes(nodes: TaxaNode[]): string[] {
 }
 
 export function accumulateNamesFromTaxaNode(node: TaxaNode, names: string[] = []): string[] {
-  names.push(node.name);
-  names.push(...(node.alternativeNames || []));
-  if (node.children) {
-    node.children.forEach((child) => accumulateNamesFromTaxaNode(child, names));
-  }
-  return names;
+    names.push(node.name);
+    names.push(...(node.alternativeNames || []));
+    if (node.children) {
+        node.children.forEach((child) => accumulateNamesFromTaxaNode(child, names));
+    }
+    return names;
 }
 
 
@@ -45,12 +45,12 @@ export function accumulateNamesFromTaxaNode(node: TaxaNode, names: string[] = []
  * @returns {{children}|*}
  */
 function terminalNode(node: TaxaNode): TaxaNode {
-  if (!node.children || node.children.length === 0) {
-    return node;
-  }
-  else {
-    return terminalNode(node.children[0]);
-  }
+    if (!node.children || node.children.length === 0) {
+        return node;
+    }
+    else {
+        return terminalNode(node.children[0]);
+    }
 }
 
 /** ****************************************************************************
@@ -62,16 +62,16 @@ function terminalNode(node: TaxaNode): TaxaNode {
  * @returns {*}
  */
 function trimmer(node: TaxaNode, maxItems: number, queue: TaxaNode[] = []): TaxaNode {
-  queue.push(node);
-  if (queue.length > maxItems) {
-    queue.shift();
-  }
-  if (node && node.children && node.children.length > 0) {
-    return trimmer(node.children[0], maxItems, queue);
-  }
-  else {
-    return queue[0];
-  }
+    queue.push(node);
+    if (queue.length > maxItems) {
+        queue.shift();
+    }
+    if (node && node.children && node.children.length > 0) {
+        return trimmer(node.children[0], maxItems, queue);
+    }
+    else {
+        return queue[0];
+    }
 }
 
 /** ****************************************************************************
@@ -81,35 +81,54 @@ function trimmer(node: TaxaNode, maxItems: number, queue: TaxaNode[] = []): Taxa
  * @returns {*|*[]}
  */
 function flatten(node: TaxaNode, queue: TaxaNode[] = []): TaxaNode[] {
-  queue.push(node);
-  if (node && node.children && node.children.length > 0) {
-    return flatten(node.children[0], queue);
-  }
-  else {
-    return queue;
-  }
+    queue.push(node);
+    if (node && node.children && node.children.length > 0) {
+        return flatten(node.children[0], queue);
+    }
+    else {
+        return queue;
+    }
+}
+
+function addSyntheticRanksIfMissing(node: TaxaNode, rankCounter: number = 1): TaxaNode {
+    if (!node.rank) {
+        node.rank = `hierarchy-level-${rankCounter}`;
+    }
+    if (node.children && node.children.length > 0) {
+        node.children.forEach((child) => addSyntheticRanksIfMissing(child, rankCounter + 1));
+    }
+    return node;
 }
 
 /** ****************************************************************************
  * Extentions methods for a KB taxa tree.
  **************************************************************************** */
- export class TreeExt {
-  tree: TaxaNode;
+export class TreeExt {
+    tree: TaxaNode;
 
-  constructor(tree: TaxaNode) {
-    this.tree = tree;
-  }
+    constructor(tree: TaxaNode) {
+        this.tree = tree;
+    }
 
-  terminal(): TaxaNode {
-    return terminalNode(this.tree);
-  }
+    terminal(): TaxaNode {
+        return terminalNode(this.tree);
+    }
 
-  trim(levelsUp: number): TaxaNode {
-    return trimmer(this.tree, levelsUp);
-  }
+    flatten(): TaxaNode[] {
+        return flatten(this.tree);
+    }
 
-  trimAndFlatten(levelsUp: number): TaxaNode[] {
-    const subtree = this.trim(levelsUp);
-    return flatten(subtree);
-  }
+    trim(levelsUp: number): TaxaNode {
+        return trimmer(this.tree, levelsUp);
+    }
+
+    trimAndFlatten(levelsUp: number): TaxaNode[] {
+        const subtree = this.trim(levelsUp);
+        return flatten(subtree);
+    }
+
+    addSyntheticRanksIfMissing(): TaxaNode {
+        return addSyntheticRanksIfMissing(this.tree);
+    }
+
 }
