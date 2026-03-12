@@ -33,7 +33,9 @@ function addItem(event: Event) {
                                 clearable
                                 label="Deployment"
                                 v-model="selectedVideoSequenceName"
-                                :items="vampireSquidStore.videoSequenceNames"></v-autocomplete>
+                                :items="vampireSquidStore.videoSequenceNames"
+                                :hint="selectedVideoSequenceName ? 'Click + to add this deployment as a constraint' : ''"
+                                persistent-hint></v-autocomplete>
             </v-col>
             <v-col cols="4">
                 <v-autocomplete id="cameraPlatformAutocomplete"
@@ -41,10 +43,19 @@ function addItem(event: Event) {
                                 label="Camera Platform"
                                 v-model="selectedCameraPlatform"
                                 :items="vampireSquidStore.cameraPlatforms"
+                                :hint="selectedCameraPlatform ? 'Click + to add this camera platform as a constraint' : ''"
+                                persistent-hint
                         ></v-autocomplete>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addItem icon="mdi-plus" size="x-large" variant="tonal" color="primary">
+                <v-btn
+                    @click=addItem
+                    icon="mdi-plus"
+                    size="x-large"
+                    variant="tonal"
+                    :color="selectedVideoSequenceName || selectedCameraPlatform ? 'warning' : 'primary'"
+                    :class="{ 'btn-pulse': selectedVideoSequenceName || selectedCameraPlatform }"
+                >
                     <v-icon icon="mdi-plus"></v-icon>
                     <v-tooltip activator="parent" location="bottom">Search by deployments OR camera platforms</v-tooltip>
                 </v-btn>
@@ -75,5 +86,12 @@ function addItem(event: Event) {
 </template>
 
 <style scoped>
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--v-theme-warning), 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(var(--v-theme-warning), 0); }
+}
 
+.btn-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
 </style>

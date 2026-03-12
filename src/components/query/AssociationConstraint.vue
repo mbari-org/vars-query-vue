@@ -14,6 +14,7 @@ function addAssociation(event: Event) {
     const association = selectedLinkNameInAutocomplete.value
     if (association) {
         associationsStore.add(association)
+        selectedLinkNameInAutocomplete.value = ''
     }
 }
 </script>
@@ -30,6 +31,8 @@ function addAssociation(event: Event) {
                         v-model="selectedLinkNameInAutocomplete"
                         clearable
                         label="Details/Associations"
+                        :hint="selectedLinkNameInAutocomplete ? 'Click + to add this as a constraint' : ''"
+                        persistent-hint
                     ></v-text-field>
                     <v-autocomplete
                         v-else
@@ -38,6 +41,8 @@ function addAssociation(event: Event) {
                         clearable
                         label="Link name"
                         :items="oniStore.linkNames"
+                        :hint="selectedLinkNameInAutocomplete ? 'Click + to add this as a constraint' : ''"
+                        persistent-hint
                     ></v-autocomplete>
                 </v-col>
                 <v-col>
@@ -61,7 +66,8 @@ function addAssociation(event: Event) {
                         icon="mdi-plus"
                         size="x-large"
                         variant="tonal"
-                        color="primary"
+                        :color="selectedLinkNameInAutocomplete ? 'warning' : 'primary'"
+                        :class="{ 'btn-pulse': selectedLinkNameInAutocomplete }"
                     >
                         <v-icon icon="mdi-plus"></v-icon>
                         <v-tooltip
@@ -94,4 +100,13 @@ function addAssociation(event: Event) {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--v-theme-warning), 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(var(--v-theme-warning), 0); }
+}
+
+.btn-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+</style>
