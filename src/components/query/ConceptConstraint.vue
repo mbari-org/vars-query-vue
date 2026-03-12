@@ -19,6 +19,7 @@ function addConcept(event: Event) {
     // console.log(concept, extendTo)
     if (concept) {
         selectedConceptsStore.add(concept, extendTo)
+        selectedConceptInAutocomplete.value = ""
     }
 }
 
@@ -42,6 +43,8 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                     v-model="selectedConceptInAutocomplete"
                     :items=oniStore.concepts
                     auto-select-first
+                    :hint="selectedConceptInAutocomplete ? 'Click + to add this concept as a constraint' : ''"
+                    persistent-hint
                     :input-attrs="{
                         autocomplete: 'off',
                         autocorrect: 'off',
@@ -55,7 +58,14 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                 <v-combobox  id="extendToCombobox" clearable label="Extend to" :items=extendTo></v-combobox>
             </v-col>
             <v-col cols="2">
-                <v-btn @click=addConcept icon="mdi-plus" size="x-large" variant="tonal" color="primary">
+                <v-btn
+                    @click=addConcept
+                    icon="mdi-plus"
+                    size="x-large"
+                    variant="tonal"
+                    :color="selectedConceptInAutocomplete ? 'warning' : 'primary'"
+                    :class="{ 'btn-pulse': selectedConceptInAutocomplete }"
+                >
                     <v-icon icon="mdi-plus"></v-icon>
                     <v-tooltip activator="parent" location="bottom">Search by the selected concept (e.g. taxa)</v-tooltip>
                 </v-btn>
@@ -77,5 +87,12 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
 </template>
 
 <style scoped>
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--v-theme-warning), 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(var(--v-theme-warning), 0); }
+}
 
+.btn-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
 </style>
