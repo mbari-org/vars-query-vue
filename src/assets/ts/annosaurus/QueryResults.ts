@@ -415,6 +415,13 @@ export interface FauxAnnotation {
     preview_media_uri?: string
     preview_media_index_seconds?: number
     hierarchy?: string // A comma separated list of taxonomic concepts associated with this annotation. In top down order.
+    kingdom?: string
+    phylum?: string
+    class?: string
+    order?: string
+    family?: string
+    genus?: string
+    species?: string
 }
 
 /** ******************************************************************************

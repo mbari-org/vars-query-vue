@@ -36,6 +36,9 @@ const includePreviewMedia = ref(false)
 const okToIncludePreviewMedia = computed(() => numberOfResults.value < 1000)
 
 const addTaxonomyHierarchy = ref(false)
+const addTaxonomicRanks = ref(false)
+
+const TAXONOMIC_RANKS = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'] as const
 
 const saveIsRunning = ref(false)
 
@@ -167,19 +170,26 @@ async function fetchTaxonomyTrees(annotations: FauxAnnotation[]): Promise<Map<st
 }
 
 async function addTaxonomyTreesToAnnotations(annotations: FauxAnnotation[]) {
-    if (addTaxonomyHierarchy.value) {
+    if (!addTaxonomyHierarchy.value && !addTaxonomicRanks.value) return
 
-        const trees = await fetchTaxonomyTrees(annotations)
-        annotations.forEach(a => {
-            if (a.concept) {
-                const tree = trees.get(a.concept)
-                if (tree) {
-                    a.hierarchy = tree.flatten().map(n => n.name).join(',')
+    const trees = await fetchTaxonomyTrees(annotations)
+    annotations.forEach(a => {
+        if (a.concept) {
+            const tree = trees.get(a.concept)
+            if (tree) {
+                const nodes = tree.flatten()
+                if (addTaxonomyHierarchy.value) {
+                    a.hierarchy = nodes.map(n => n.name).join(',')
+                }
+                if (addTaxonomicRanks.value) {
+                    for (const rank of TAXONOMIC_RANKS) {
+                        const node = nodes.find(n => n.rank?.toLowerCase() === rank)
+                        a[rank] = node?.name
+                    }
                 }
             }
-        })
-    }
-
+        }
+    })
 }
 </script>
 
@@ -194,6 +204,17 @@ async function addTaxonomyTreesToAnnotations(annotations: FauxAnnotation[]) {
                     <v-tooltip activator="parent"
                         >Add a column with the concept hierarchy for each
                         annotation.</v-tooltip
+                    >
+                </v-checkbox>
+            </v-col>
+            <v-col align-self="center">
+                <v-checkbox
+                    label="Add taxonomic ranks"
+                    v-model="addTaxonomicRanks"
+                >
+                    <v-tooltip activator="parent"
+                        >Add columns for kingdom, phylum, class, order, family,
+                        genus, and species for each annotation.</v-tooltip
                     >
                 </v-checkbox>
             </v-col>
