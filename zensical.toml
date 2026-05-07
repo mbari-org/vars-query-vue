@@ -1,0 +1,129 @@
+[project]
+site_name = "VARS Query"
+site_description = "VARS Query is a web application for querying and visualizing data from the VARS (Video Annotation and Reference System) database."
+site_author = "MBARI"
+repo_url = "https://github.com/mbari-org/vars-query-vue"
+repo_name = "vars-query-vue"
+
+nav = [
+  { "Home" = "index.md" },
+  { "Data Use" = [
+    { "Data Use Policy" = "data_use_policy.md" },
+  ]},
+  { "Quickstart" = [
+    { "Search by Concept" = "quickstart_search_concept.md" },
+    { "Search by Dive" = "quickstart_search_dive.md" },
+  ]},
+  { "User Guide" = [
+    { "Introduction" = "doc_01_general_info.md" },
+    { "Getting Started" = "doc_getting_started.md" },
+    { "<span style=\"color:#4488ed;\">Query Parameters</span>" = [
+      { "Concepts" = "doc_02_selecting_concept.md" },
+      { "Associations" = "doc_03_add_associations.md" },
+      { "Deployments and Camera Platforms" = "doc_04_add_deployments_cameraplatform.md" },
+      { "Location" = "doc_05_locations.md" },
+      { "Depth" = "doc_06_depth.md" },
+      { "Recorded Date" = "doc_07_recordeddate.md" },
+      { "Observation Date" = "doc_08_observation_date.md" },
+      { "Activities" = "doc_09_activities.md" },
+      { "Groups" = "doc_10_groups.md" },
+      { "Observers" = "doc_11_observers.md" },
+      { "Chief Scientists" = "doc_12_chief_scientists.md" },
+      { "Additional Data Returns" = "doc_13_additional_returns.md" },
+      { "Ancillary Data Returns" = "doc_14_ancillary_data_returns.md" },
+    ]},
+    { "<span style=\"color:#4488ed;\">Query Results</span>" = [
+      { "Annotation Results" = "doc_15_annotation_results.md" },
+      { "Annotation Map" = "doc_17_query_map.md" },
+      { "Observation Video Player" = "doc_18_video_player.md" },
+      { "Annotation Table" = "doc_19_annotation_table.md" },
+      { "Saving Data" = "doc_20_save_results.md" },
+      { "Additional Data Views" = "doc_16_data_views.md" },
+    ]},
+  ]},
+  { "Appendix" = [
+    { "Knowledgebase Concepts" = "appendix_a.md" },
+    { "Knowledgebase Associations" = "appendix_b.md" },
+  ]},
+  { "MBARI Docs" = "https://docs.mbari.org" },
+]
+
+[project.theme]
+name = "material"
+logo = "https://docs.mbari.org/imgs/mbari-logo.png"
+features = [
+  "navigation.expand",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "navigation.indexes",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.top",
+  "navigation.tabs.sticky",
+  "navigation.tracking",
+  "toc.follow",
+  "toc.integrate",
+]
+
+[project.theme.icon]
+repo = "material/github"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "material/brightness-auto"
+toggle.name = "System theme"
+
+[[project.theme.palette]]
+scheme = "slate"
+media = "(prefers-color-scheme: dark)"
+primary = "black"
+toggle.icon = "material/weather-night"
+toggle.name = "Dark mode"
+
+[[project.theme.palette]]
+scheme = "light"
+media = "(prefers-color-scheme: light)"
+primary = "blue grey"
+toggle.icon = "material/weather-sunny"
+toggle.name = "Light mode"
+
+[project.markdown_extensions.meta]
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.tables]
+[project.markdown_extensions.footnotes]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.details]
+[project.markdown_extensions.pymdownx.superfences]
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.snippets]
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_index = "zensical.extensions.emoji.twemoji"
+emoji_generator = "zensical.extensions.emoji.to_svg"
+
+[project.plugins.search]
+[project.plugins.mermaid2]
+[project.plugins.tags]
+
+[project.plugins.glightbox]
+touchNavigation = true
+loop = false
+effect = "zoom"
+width = "100%"
+height = "auto"
+auto_themed = true
+auto_caption = true
