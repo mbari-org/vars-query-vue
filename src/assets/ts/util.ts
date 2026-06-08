@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import type { FauxAnnotation } from '@/assets/ts/annosaurus/QueryResults'
-import JSZip from 'jszip'
+import { BlobReader, TextReader, Writer, ZipWriter } from '@zip.js/zip.js'
 
 
 export function tabDelimitedToObject(lines: string[]): Record<string, string | null>[] {
@@ -150,38 +150,48 @@ export function yearHistogram(data: Date[]): HistogramBin[] {
     return bins;
 }
 
-// https://www.cjoshmartin.com/blog/creating-zip-files-with-javascript
-export async function generateZipDownloadFromAnnotations(xs: Array<FauxAnnotation>) {
-    const zip = new JSZip();
-    const folder = zip.folder('annotations');
+
+// Adapter so zip.js writes through its own internal WritableStream without ever
+// competing for a lock on the FileSystemWritableFileStream.  Each chunk zip.js
+// produces is forwarded to fileStream.write() sequentially, so by the time
+// zipWriter.close() resolves every byte is staged and a single fileStream.close()
+// flushes everything to disk.
+class FileSystemWriter extends Writer<void> {
+    private readonly fileStream: FileSystemWritableFileStream
+    constructor(fileStream: FileSystemWritableFileStream) {
+        super()
+        this.fileStream = fileStream
+    }
+    async writeUint8Array(array: Uint8Array): Promise<void> {
+        await this.fileStream.write(array)
+    }
+    async getData(): Promise<void> {}
+}
+
+export async function streamZipAnnotationsToFile(
+    fileHandle: FileSystemFileHandle,
+    xs: Array<FauxAnnotation>,
+): Promise<void> {
+    const fileStream = await fileHandle.createWritable()
+    const zipWriter = new ZipWriter(new FileSystemWriter(fileStream))
 
     for (const a of xs) {
-        const filename = `${a.video_sequence_name}-${a.observation_uuid}.json`;
-        const content = JSON.stringify(a, null, 2);
-        folder?.file(filename, content);
+        const base = `annotations/${a.video_sequence_name}-${a.observation_uuid}`
+        await zipWriter.add(`${base}.json`, new TextReader(JSON.stringify(a, null, 2)))
 
-        // fetch image if it exists
         if (a.images) {
             for (const image of a.images) {
-                const url = image.url;
+                const url = image.url
                 if (url) {
-                    const ext = url.split('.').pop();
-                    const file = await fetch(url, {mode: 'cors'}).then(r => r.blob())
-                    folder?.file(`${a.video_sequence_name}-${a.observation_uuid}.${ext}`, file);
+                    const ext = url.split('.').pop()
+                    const blob = await fetch(url, { mode: 'cors' }).then(r => r.blob())
+                    await zipWriter.add(`${base}.${ext}`, new BlobReader(blob))
                 }
             }
         }
-    };
+    }
 
-    return await zip.generateAsync({ type: 'blob', streamFiles: true })
-
-    // zip.generateAsync({ type: 'blob' }).then(content => {
-    //     const url = URL.createObjectURL(content);
-    //     const a = document.createElement('a');
-    //     a.href = url;
-    //     a.download = zipName;
-    //     a.click();
-    // });
-
+    await zipWriter.close()
+    await fileStream.close()
 }
 

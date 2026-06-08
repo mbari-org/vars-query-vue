@@ -2,7 +2,7 @@
 import { useQueryResultsStore } from '@/stores/query-results'
 import {
     nowAsCompactString,
-    generateZipDownloadFromAnnotations,
+    streamZipAnnotationsToFile,
 } from '@/assets/ts/util'
 import {
     extractConcepts,
@@ -60,6 +60,7 @@ function saveRawJson() {
     saveIsRunning.value = false
 }
 
+
 async function saveJson() {
     saveIsRunning.value = true
     await addPreviewMediaToAnnotations()
@@ -71,14 +72,41 @@ async function saveJson() {
     saveIsRunning.value = false
 }
 
+/**
+ * Opens a save-file picker and returns the handle. Call this as the first
+ * await in a click handler so it runs within the browser's user-gesture window.
+ */
+async function pickZipSaveFile(): Promise<FileSystemFileHandle> {
+    return window.showSaveFilePicker({
+        suggestedName: `vars-images-${nowAsCompactString()}.zip`,
+        types: [{ description: 'ZIP archive', accept: { 'application/zip': ['.zip'] } }],
+    })
+}
+
+const supportsFileSystemAccess = (): boolean =>
+    typeof window !== 'undefined' && 'showSaveFilePicker' in window
+
 async function saveImages() {
+    if (!supportsFileSystemAccess()) {
+        alert('Your browser does not support the File System Access API required for streaming large downloads. Please use Chrome or Edge.')
+        return
+    }
+    // pickZipSaveFile must be the first await — browsers require showSaveFilePicker
+    // to fire within the same user-gesture window as the click.
+    let fileHandle: FileSystemFileHandle
+    try {
+        fileHandle = await pickZipSaveFile()
+    } catch {
+        // User cancelled the picker
+        return
+    }
     saveIsRunning.value = true
-    await addPreviewMediaToAnnotations()
-    const filename = `vars-images-${nowAsCompactString()}.zip`
-    const data = queryResultsStore.annotations
-    const zip = await generateZipDownloadFromAnnotations(data)
-    download(zip, filename, 'application/zip')
-    saveIsRunning.value = false
+    try {
+        await addPreviewMediaToAnnotations()
+        await streamZipAnnotationsToFile(fileHandle, queryResultsStore.annotations)
+    } finally {
+        saveIsRunning.value = false
+    }
 }
 
 async function saveTab() {
