@@ -47,7 +47,7 @@ const configIsOk = computedAsync(() => {
                             <RouterLink v-if="configIsOk" to="/query">Query</RouterLink>
 <!--                            <RouterLink v-if="configIsOk" to="/deployment-videos">Deployment</RouterLink>-->
                             <RouterLink to="/config">Configuration</RouterLink>
-                            <a href="https://docs.mbari.org/internal/vars-query-vue/">Documentation</a>
+                            <a href="https://docs.mbari.org/vars-query-vue/">Documentation</a>
                         </nav>
                     </div>
                 </header>
