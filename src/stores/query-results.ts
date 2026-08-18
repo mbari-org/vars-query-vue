@@ -40,7 +40,7 @@ export const useQueryResultsStore = defineStore('query-results', () => {
                 const concept = a['concept']
                 const video_sequence_name = a['video_sequence_name']
                 const index_recorded_timestamp = a['index_recorded_timestamp']
-                const depth_meters = a['depth_meters']
+                const depth_meters = b['depth_meters'] // use parsed value so it stays a number
                 const observer = a['observer']
                 const details = a['details']
                 delete b['concept']

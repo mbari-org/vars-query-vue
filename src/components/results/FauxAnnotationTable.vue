@@ -186,6 +186,8 @@ watch(currentPage, (newVal) => {
                     <th>Video Sequence Name</th>
                     <th>Recorded Timestamp</th>
                     <th>Observer</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                     <th>Depth (m)</th>
                     <th>Details</th>
                 </tr>

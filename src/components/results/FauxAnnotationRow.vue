@@ -15,6 +15,24 @@ const props = defineProps<{
 
 const vampireSquidStore = useVampireSquidStore()
 
+/**
+ * Format a number for display. Missing, blank, or NaN values render as an empty
+ * string rather than "NaN". Values that arrive as strings are coerced first.
+ */
+function formatNumber(
+    value: number | string | undefined | null,
+    fractionDigits: number,
+): string {
+    if (value === null || value === undefined) {
+        return ''
+    }
+    if (typeof value === 'string' && value.trim() === '') {
+        return ''
+    }
+    const n = Number(value)
+    return Number.isNaN(n) ? '' : n.toFixed(fractionDigits)
+}
+
 function openVideo(a: FauxAnnotation) {
     if (a.video_uri && a.index_recorded_timestamp) {
 
@@ -52,9 +70,9 @@ function openVideo(a: FauxAnnotation) {
         <td class="nowrap">{{ annotation.observer }}</td>
 
         <!-- Coordinates (example) -->
-        <!--        <td class="nowrap">{{ annotation.latitude?.toFixed(4) }}</td>-->
-        <!--        <td class="nowrap">{{ annotation.longitude?.toFixed(4) }}</td>-->
-        <td class="nowrap">{{ annotation.depth_meters }}</td>
+        <td class="nowrap">{{ formatNumber(annotation.latitude, 4) }}</td>
+        <td class="nowrap">{{ formatNumber(annotation.longitude, 4) }}</td>
+        <td class="nowrap">{{ formatNumber(annotation.depth_meters, 2) }}</td>
 
         <td class="nowrap">
             <div class="details-column">
