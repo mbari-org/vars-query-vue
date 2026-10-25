@@ -38,6 +38,13 @@ export class VampireSquidApi {
         }).then((r) => r.json());
     }
 
+    findConcurrentMediaAt(videoReferenceUuid: string, timestampstring: string): Promise<Media[]> {
+        const url = `${this.url}/media/concurrent/${encodeURIComponent(videoReferenceUuid)}/${encodeURIComponent(timestampstring)}`
+        return fetch(url, {
+            mode: "cors",
+        }).then((r) => r.json());
+    }
+
     findMediaByUri(uri: string): Promise<Media> {
         const url = `${this.url}/media/uri/${encodeURIComponent(uri)}`
         return fetch(url, {
@@ -70,9 +77,9 @@ export class VampireSquidApi {
     }
 
 
-    findSmallestConcurrentMp4(cameraId: string, timestamp: string): Promise<Media> {
-        console.log("findSmallestConcurrentMp4", cameraId, timestamp)
-        return this.findMediaByCameraIdAndTimestamp(cameraId, timestamp)
+    findSmallestConcurrentMp4(videoReferenceUuid: string, timestamp: string): Promise<Media> {
+        console.log("findSmallestConcurrentMp4", videoReferenceUuid, timestamp)
+        return this.findConcurrentMediaAt(videoReferenceUuid, timestamp)
             .then(xs => {
                 if (xs && xs.length > 0) {
                     return xs
@@ -85,7 +92,7 @@ export class VampireSquidApi {
 
     findPreviewMediaByUriAndTimestamp(mediaUri: string, timestamp: string): Promise<PreviewMedia> {
         return this.findMediaByUri(mediaUri)
-            .then((m: Media) => this.findSmallestConcurrentMp4(m.camera_id, timestamp))
+            .then((m: Media) => this.findSmallestConcurrentMp4(m.video_reference_uuid, timestamp))
             .then((m: Media) => {
                 let seekTimeSeconds = 0
                 if (m && m.start_timestamp && timestamp) {
