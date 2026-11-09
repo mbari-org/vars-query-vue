@@ -45,13 +45,11 @@ function selectedConceptToChipLabel(selectedConcept: SelectedConcept) {
                     auto-select-first
                     :hint="selectedConceptInAutocomplete ? 'Click + to add this concept as a constraint' : ''"
                     persistent-hint
-                    :input-attrs="{
-                        autocomplete: 'off',
-                        autocorrect: 'off',
-                        autocapitalize: 'off',
-                        spellcheck: 'false',
-                        inputmode: 'text'
-                      }">
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    inputmode="text">
                 </v-autocomplete>
             </v-col>
             <v-col cols="4">
